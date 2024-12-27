@@ -1,0 +1,24 @@
+{
+  
+  "scripts": {
+  "server":"npm run dev --prefix backend",
+  "client":"npm run dev --prefix frontend",
+  "dev":"concurrently \"npm run backend\" \"npm run frontend\"",
+  "test": "jest"
+  
+  },
+  
+  "devDependencies": {
+  
+    
+  "jest": "^29.7.0"
+  
+  },
+  
+  "dependencies": {
+  
+    
+  "nodemon": "^3.1.4"
+  
+  }
+}

@@ -1,0 +1,33 @@
+  
+      
+    
+    register
+    //   const {value}=e.target[0];
+    //   // props.onLogin({username:value,secret:value})
+    //   axios.post("http://localhost:3001/authenticate",
+    //   {username:value}
+    //   )
+    //   .then(result=>props.onLogin({...result.data,secret:value}))
+    //   .catch(err=>console.log("Authentication error",err))
+
+     // localStorage.setItem('Users',JSON.stringify('users'))
+
+
+
+
+ 
+     index.js
+// app.post("/authenticate", async (req,res)=>{
+//     const {username}=req.body;
+//     try{
+// const result = await axios.put('https://api.chatengine.io/users/',
+//     {username: username,secret: username,first_name:username},
+//     {headers: {"private-key":"6bb85512-fd93-4f31-b3a6-1db0ee50930b"}
+    
+// })
+// return res.status(result.status).json(result.data)
+//     }
+//     catch(e){
+// return res.status(e.response.status).json(e.redata)
+//     }
+// })

@@ -1,26 +1,73 @@
 const express=require('express')
 const cors=require('cors')
-const axios=require('axios')
+const dotenv=require('dotenv');
+const connectDatabase = require('./config/connect');
+const userRouter=require('./routes/UserRoute');
 const app=express();
+const socket=require('socket.io')
+const WebSocket=require("ws")
+const http=require("http")
+const server=http.createServer(app)
+const multer=require("multer")
+
+
+
+dotenv.config()
+connectDatabase({
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+})
+
 
 app.use(express.json());
-app.use(cors({origin:true}));
+app.use(cors({credentials:true,origin:'http://localhost:5173'}));
+app.use('/api',userRouter)
+app.use('/uploads',express.static('uploads'))
 
-app.post("/authenticate", async (req,res)=>{
-    const {username}=req.body;
-    try{
-const result = await axios.put('https://api.chatengine.io/users/',
-    {username: username,secret: username,first_name:username},
-    {headers: {"private-key":"6bb85512-fd93-4f31-b3a6-1db0ee50930b"}
-    
+
+const PORT=process.env.PORT || 1000;
+
+
+
+
+
+
+
+const io=socket(server, {
+  cors:{
+  origin:'http://localhost:5173'
+  }
 })
-return res.status(result.status).json(result.data)
-    }
-    catch(e){
-return res.status(e.response.status).json(e.redata)
-    }
+
+io.on("connection", function(socket){
+
+    socket.on("message", (data)=>{
+        io.emit("message", data)
+        console.log(data +" has sent")
+        })
+
+// socket.on("logged",(msg)=>{
+//     console.log('username '+ msg+ ' has logged in')
+// })
+// socket.on('typing', (data)=>{
+// console.log("user is typing " + data)
+// })
+let users=[]
+socket.on("join", (data)=>{
+    users.push(data)
+    console.log(data+' joined chat')
 })
-app.listen(3001,()=>{
-    console.log('server is listening on port 3001')
+
+
+socket.on("disconnect", ()=>{
+    console.log("user has disconnected")
 })
-   
+
+})
+
+app.get('/',(req,res)=>{
+    res.send('API is running on this port')
+    })
+
+server.listen(PORT,()=>
+    console.log(`server is listening on port ${PORT}`))
