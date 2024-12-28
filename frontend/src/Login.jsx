@@ -8,7 +8,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {toast, ToastContainer } from "react-toastify";
 import io from "socket.io-client"
 import { IoEllipseSharp } from "react-icons/io5";
-import { userContext } from "./App";
+import { AuthContext } from "./AuthContext";
+// import { userContext } from "./App";
 
 // const socket=io.connect("http://localhost:5000/")
 const Login=()=>{
@@ -19,36 +20,31 @@ const Login=()=>{
     const [logged,setLogged]=useState(false)
     const [hide,setHide]=useState(false)
     const [errors, setErrors]=useState(false)
-     const {setUser}=useContext(userContext)
+    const {setUser}=useContext(AuthContext)
  
 const userInfo=localStorage.getItem('userInfo')
-useEffect(()=>{
-   if(userInfo){
- navigate("/home")
-   } 
-   else{
-    console.log(userInfo)
-   }
-},[userInfo,navigate])
-
+// useEffect(()=>{
+//    if(userInfo){
+//  navigate("/home")
+//    } 
+// },[userInfo,navigate])
+if(logged){
+    navigate('/home')
+}
     const handleSubmit=async (e)=>{
+        e.preventDefault();
         try{
-      const  config={
+const  config={
             headers:{"Content-Type":"application/json"},
         }
-      e.preventDefault();
 
-   const data= await axios.post('http://localhost:5000/api/login',{username,password},config)
+  const data =await axios.post('http://localhost:5000/api/login',{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
   console.log(userInfo)
   setLogged(true)
   const loggedUser={username:username}
-  setUser(loggedUser)
-
-
-   
+  setUser(loggedUser)  
      }
-     
     catch(err){
         console.log(err)
         toast.error(err.name)

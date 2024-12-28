@@ -8,23 +8,25 @@ import Register from './Register';
 import { Route, Routes } from 'react-router-dom';
 import ThemeProvider from './ThemeContext';
 import io from "socket.io-client";
+import AuthProvider from './AuthContext';
 
-export const userContext=createContext()
 
 function App() {
-const [user,setUser]=useState(null)
   return (
-   <userContext.Provider value={{user, setUser}}>
-       <ThemeProvider>
+   <>
+
+       <AuthProvider>
+        <ThemeProvider>  
 <Routes>
-  <Route path='/' Component={Register}/>
+  <Route exact path='/' Component={Register}/>
   <Route path='/login' Component={Login}/>
-  <Route  exact path='/home' Component={Chat}/>
-  <Route  exact path='/home/:id' Component={Chat}/>
+  <Route   path='/home' Component={Chat}/>
+  {/* <Route  exact path='/home/:id' Component={Chat}/> */}
   {/* <Route  path=`/home/:${user._id}` Component={Chat}/> */}
 </Routes>
 </ThemeProvider>
-</userContext.Provider>
+</AuthProvider>
+</>
 
 
 

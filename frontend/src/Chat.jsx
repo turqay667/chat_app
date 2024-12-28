@@ -13,7 +13,6 @@ import io from "socket.io-client"
 import { ThemeContext } from "./ThemeContext";
 import axios from "axios";
 import { Tooltip } from "react-tooltip";
-import { userContext } from "./App";
 import Message from "./Message";
 import Header from "./Header";
 const socket=io.connect("http://localhost:5000/")
@@ -25,60 +24,19 @@ const socket=io.connect("http://localhost:5000/")
   const [attach,setAttach]=useState(null)
   const [image,setImage]=useState()
   const [messages,setMessages]=useState([])
-  const [sentTime,setSentTime]=useState('')
   const [item,setItem]=useState('')
   const [muted,setMuted]=useState(false)
   const [recording,setRecording]=useState(false)
-  const [selectedUser,setSelectedUser]=useState(
-    {
-      "_id": "6762ce638c74bf46248b4d21",
-      "username": "turgay.mammadov",
-      "password": "$2a$10$vR0iafCtu8EPefmtqA6OUu5yJSp1X6rcEZWOwA18SDP6e97S1DDdG",
-      "about": "You",
-      "image": "user-profile.png",
-      "role": "Basic",
-      "isBlocked": false,
-      "createdAt": "2024-12-18T13:30:11.604Z",
-      "updatedAt": "2024-12-18T13:30:11.604Z",
-    "__v": 0
-    }
-  )
+  const [selectedUser,setSelectedUser]=useState(null)
 
   const navigate=useNavigate()
 
  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
- const user=userInfo.data.username
- const token=userInfo.data.token
- console.log(userInfo)
+ const user=userInfo?.data
+ const token=userInfo?.data?.token
+ console.log(userInfo.data._id)
 
-  useEffect(()=>{
-const fetching=async()=>{
-console.log(selectedUser)
-    const response=await fetch(`http://localhost:5000/api/messages/${selectedUser._id}`, {
-      headers:{
-        Authorization:`Bearer ${token}`
-      }
-    })
-    const data=await response.json()
-    setMessages(data)
-    console.log(data)
   
-
-}
-fetching()  
-
-    socket.on("message", (data)=>{     
-      if(data.sender===selectedUser._id){
-      setMessages((prevMessage)=>{
-        if(!prevMessage.some((item)=>item.message===data.message)){
-         return  [...prevMessage,data]
-        }
-           return prevMessage;
-      });
-    }
-    })
-  },[selectedUser])
-
 
 let mediaRecorder=null;
 const handleInput=document.getElementById('msg')
@@ -105,53 +63,41 @@ const handleInput=document.getElementById('msg')
 ]
 
 
-
-const hours=new Date().getHours()
-const hour=hours<10 ? '0'+hours : hours
-const minutes=new Date().getMinutes();
-const minute = minutes<10 ? '0'+ minutes : minutes;
-const am=hours >=12 ? "PM" : "AM"
-const currentTime=hour + ":" + minute + " "+ am 
-
-
-
-
 const handleSubmit= async (event)=>{
-
 event.preventDefault()
 
+if(!item && !image) return;
 console.log(selectedUser)
 const notification=document.getElementById("notification")
 if(muted){
   notification.play()
 }
-const newMessage={message:item, image, sender:user}
-
-if(item || image){
+const newMessage={message:item, image, sender:user._id}
 setMessages((prevMessage)=>[...prevMessage,newMessage])
-}
 socket.emit('message', newMessage)
 
 try{
-  // const response= await axios.get(`http://localhost:5000/api/messages/6762ce638c74bf46248b4d21}`)
-  // console.log(response.data)
-await axios.post(`http://localhost:5000/api/messages/${selectedUser._id}`, newMessage, {
-  headers:{ "Content-Type":"application/json" },
-  withCredentials:true
-})
-  setSentTime(currentTime)
-
+  const response=await axios.post(`http://localhost:5000/api/messages/${selectedUser._id}`, newMessage, {
+    headers:{ 
+      Authorization:`Bearer ${token}`,
+      "Content-Type":"application/json" ,
+          
+    },
+    withCredentials:true
+  })
+  const data= response.data
+  console.log(data)
 }
 catch(err){
-console.log(err)
-}
+  console.log(err)
+}   
+      
 setItem('')
 setImage(null)
 }
 
 const handleEmojis=(e)=>{
   setItem(e.target.value)
-  setSentTime(currentTime)
 }
 
 const handleAttach=(e)=>{
@@ -209,10 +155,15 @@ if(file){
     {videoCalled ?  <VideoCall/>: <></>}
 <div className="chat-row d-flex" style={{backgroundColor: theme==='dark' ? '#303841': "#ffffff", color: theme==='dark' ? 'white': "#212529",}}  >
 
-<Sidebar messages={messages} sentTime={sentTime}  attach={attach} image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+<Sidebar messages={messages} setMessages={setMessages}   attach={attach} image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
         <div className="chat-body" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
- <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser}/>   
-        <div className="conversation-body text-center overflow-auto" >
+           {
+          selectedUser ?   
+          <>
+
+          <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser}/> 
+         
+          <div className="conversation-body text-center overflow-auto" >
     {
   recording ? <div className="lines">
   <div className="line"></div>
@@ -224,10 +175,8 @@ if(file){
   : <></>
 }
 
-
-          
-         
-      <Message messages={messages} user={user} currentTime={currentTime}/>
+<Message messages={messages} user={user} />
+      
 
 </div>
 <div className="msg-body p-3 p-lg-4">
@@ -283,8 +232,13 @@ if(file){
  
    
         </div>
-       
-      
+          </>
+          : <div className="starting">
+            <h2 className="text-center text-white"> Select chat to start conversation</h2>
+   
+            
+            </div>
+         } 
         </div>
       
         </div>

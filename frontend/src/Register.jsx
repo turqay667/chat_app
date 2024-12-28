@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {Link} from "react-router-dom"
 import Login from "./Login";
 import { FaEye } from "react-icons/fa";
@@ -20,11 +20,9 @@ const Register=(props)=>{
     const [success,setSuccess]=useState(false)
     const[hide,setHide]=useState(false)
 
-if(success){
-    navigate("/login")
-}
-   
-
+// if(success){
+//     navigate("/login")
+// }
     const handleSubmit=async (e)=>{
         e.preventDefault();
        try{
@@ -33,13 +31,9 @@ if(success){
             headers:{ "Content-Type":"application/json" },
             withCredentials:true
         })
-        console.log(response.data)
         localStorage.setItem("userInfo", JSON.stringify(response.data))
         toast.success("Successfully registered")
-        console.log(response.data)
         setSuccess(true)   
-        console.log(userInfo)
-        // socket.emit("join", data)
        }
     
         catch(err){
@@ -48,7 +42,11 @@ if(success){
         }
         
     }
-
+useEffect(()=>{
+    if(success){
+        navigate('/login')
+    }
+},[success,navigate])
 
     return (
         <>

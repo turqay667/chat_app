@@ -18,12 +18,12 @@ const handleDelete=()=>{
         <div className="chat-header mb-5 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
         <div className="col-md-4">
         <div className="chat-user">
-        <div className="avatar d-flex justify-content-center align-items-center">
-        <img src='user-profile.png'></img>
+        <div className="d-flex justify-content-center align-items-center">
+        <img src='user-profile.png' className="avatar "></img>
        <span className="status"></span>
     </div>
     <div>
-       <h5>{selectedUser.username}</h5>
+       <h5>{selectedUser?.username}</h5>
       <p>Online</p>
         <div className="text-muted" id="typing"></div>  
           {/* <span className="text-muted">online</span> */}

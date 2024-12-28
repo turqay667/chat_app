@@ -112,3 +112,27 @@ const emojiis=document.createElement('p')
   </div>
 
  } */}
+  // const handleSearch=(e)=>{
+// e.preventDefault()
+// if(search===''){
+//   setFilteredUsers(users)
+// }
+
+// const filterUsers= users.filter((item)=>
+// item.username.toLowerCase().includes(search.toLowerCase())
+// )
+// setFilteredUsers(filterUsers)
+// }
+     
+         {/* {
+          Usermessages.length>0  ?  
+          <>
+          <p>{Usermessages[Usermessages.length-1].message}</p>
+          <div className="notify position-absolute">
+          
+          <p className="text-white msg-count">{messages.length}</p>
+         
+          </div>     
+          
+          </> :<p className="text-muted">What's up</p>
+         }  */}

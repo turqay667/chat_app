@@ -15,12 +15,16 @@ import axios from "axios";
 // import { FontAwesomeIcon } from '@fortawesome/fontawesome-free'
 import { FaPenSquare, FaRegEdit } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
-// const socket=io.connect("http://localhost:5000/")
+const socket=io.connect("http://localhost:5000/")
 
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-const adminn=userInfo.data.username
+let adminn=''
+if(userInfo){
+ adminn =userInfo.data.username
+}
 
-const Sidebar=({messages,sentTime, handleThemes,attach,selectedUser,setSelectedUser})=>{
+
+const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelectedUser})=>{
     const {theme,handleTheme}=useContext(ThemeContext)
     const [users,setUsers]=useState([])
     const [name,setName]=useState('')
@@ -30,22 +34,47 @@ const Sidebar=({messages,sentTime, handleThemes,attach,selectedUser,setSelectedU
     const [saved,setSaved]=useState(false)
     const [image,setImage]=useState(null)
     const [search,setSearch]=useState('')
- 
-    const [filteredUsers,setFilteredUsers]=useState([])
+    
+ const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+ const user=userInfo?.data
+ const token=userInfo?.data?.token
 
     const navigate=useNavigate()
-
-  
     useEffect(()=>{
-        fetch('http://localhost:5000/api/')
-        .then((res)=>res.json())
-        .then((data)=>{
-          setUsers(data) 
-   
-          setFilteredUsers(data)   
-        }
-        )
-          },[])
+      fetch('http://localhost:5000/api/')
+      .then((res)=>res.json())
+      .then((data)=>{
+        setUsers(data)})
+      },[])
+  
+    useEffect(()=>{  
+            if(!selectedUser) return;
+            const fetching=async()=>{           
+                const response=await fetch(`http://localhost:5000/api/messages/${selectedUser._id}`, {
+                  headers:{
+                    Authorization:`Bearer ${token}`
+                  }
+                })
+                const data=await response.json()
+                setMessages(data)
+            }
+            fetching()  
+            
+                socket.on("message", (data)=>{     
+                  if(data.sender===selectedUser._id){
+                  setMessages((prevMessage)=>{
+                    if(!prevMessage.some((item)=>item.message===data.message)){
+                     return  [...prevMessage,data]
+                    }
+                       return prevMessage;
+                  });
+                }
+                })
+                // return()=>{
+                // socket.disconnect()
+                // }
+              },[selectedUser,token])
+            
 
     const handleLogout=()=>{
        localStorage.removeItem("userInfo")
@@ -54,35 +83,18 @@ const Sidebar=({messages,sentTime, handleThemes,attach,selectedUser,setSelectedU
         }
    
 
-// const selected=document.getElementById('selected')
-// if(selected){
-//   selected.addEventListener('click',()=>{
- 
-//     console.log(selectedUser)
-//   })
-// }
 
-const handleSearch=(e)=>{
-e.preventDefault()
-if(search===''){
-  setFilteredUsers(users)
-}
 
-const filterUsers= users.filter((item)=>
-item.username.toLowerCase().includes(search.toLowerCase())
-)
-setFilteredUsers(filterUsers)
-}
 
 const textarea=document.getElementById('about')
+
+
 const handleAbout=(e)=>{
   textarea.focus()
   setSaved(true)
 
 }
-const handleSelect=()=>{
 
-}
 const handleContacts=(e)=>{
   e.preventDefault()
 }
@@ -93,7 +105,7 @@ const handleImage = async (e)=>{
  formData.append('file', image)
 
 try{
- await  axios.put(`http://localhost:5000/api/profile/${userId}`, formData,{
+ await axios.put(`http://localhost:5000/api/profile/${userId}`, formData,{
   headers:{
     "Content-Type":"multipart/form-data"
   }
@@ -101,7 +113,6 @@ try{
  const fileInput=document.getElementById('prof')
  fileInput.addEventListener('submit',(e)=>{
  e.preventDefault()
- console.log('s')
  })
 }
 catch(err){
@@ -111,13 +122,7 @@ catch(err){
 const admin=users.find(item=>item.role==='Admin')
 const userId=admin ? admin._id : null
 
-const Usermessages=Array.isArray(messages)? messages.filter((item)=>item.senderId===userId) : []
-
  
-
-
-
-
     return (
         <>
         <div className="sidebar" style={{backgroundColor: '#36404a'  }}    >
@@ -146,7 +151,7 @@ const Usermessages=Array.isArray(messages)? messages.filter((item)=>item.senderI
                 <div className="mb-4">
                 <h4>Chat</h4>
                 </div>          
-            <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
+            <form className="search-form d-flex align-items-center">
             <input type="text" className="form-control bg-light" placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
@@ -154,41 +159,26 @@ const Usermessages=Array.isArray(messages)? messages.filter((item)=>item.senderI
            <div className="sidebar-body">
            <div className="users">           
            {
-              filteredUsers.map((user)=>{
-return <div key={user._id}>        
-<button className="btn" onClick={()=> {setSelectedUser(user)
-console.log(user._id)
-}} id='selected' key={user._id}>
+              users.map((user)=>{
+return <div>        
+<a className="user-profile" onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex" >
-            <figure className="avatar">
-            {user.username===adminn ? <img src={`http://localhost:5000${admin.image}`}/> :    <img src={user.image}/> }
+      
+            {user.username===adminn ? <img src={`http://localhost:5000${admin.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
               
           <span className="status"></span>
-           </figure>     
+          
               <div className="notifies d-flex flex-column pl-3 justify-content-between">
              {user.username===adminn ?   <h5 className="text-truncate">You</h5> :   <h5 className="text-truncate">{user.username}</h5> }
             
   
-         
-         {
-          Usermessages.length>0  ?  
-          <>
-          <p>{Usermessages[Usermessages.length-1].message}</p>
-          <div className="notify position-absolute">
-          
-          <p className="text-white msg-count">{messages.length}</p>
-          <p className="text-muted">{sentTime }</p>
-         
-          </div>     
-          
-          </> :<p className="text-muted">What's up</p>
-         } 
+    
              
                 </div>     
         
     
             </div>
-       </button>
+       </a>
 </div>
 
 
@@ -239,7 +229,7 @@ console.log(user._id)
 <a className="text-success">Show all</a>
 </div>
 <div className="media-img">
-  {
+  {/* {
     Usermessages.filter((item)=>item.image).map(item=>{
      
      return (
@@ -249,7 +239,7 @@ console.log(user._id)
       )
 
     })
-  }
+  } */}
   
 <div>
 
@@ -284,7 +274,9 @@ console.log(user._id)
   <label>  <input type="file"  name="image" onChange={(e)=>setImage(e.target.files[0])
   
 
-  } /><MdOutlineEdit fontSize={28} />
+  } /><a>
+    <MdOutlineEdit fontSize={28} />
+    </a>
   </label>
 </form>
 
