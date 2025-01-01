@@ -23,7 +23,7 @@ if(userInfo){
  adminn =userInfo.data
 }
 
-console.log(adminn)
+
 const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelectedUser })=>{
     const {theme,handleTheme}=useContext(ThemeContext)
     const [users,setUsers]=useState([])

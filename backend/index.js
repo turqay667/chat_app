@@ -39,7 +39,7 @@ const PORT=process.env.PORT || 1000;
 
 const io=socket(server, {
   cors:{
-  origin:'http://localhost:5173'
+  origin:['http://localhost:5173', 'https://chatapp-mppodtnqj-turqay667s-projects.vercel.app']
   }
 })
 
