@@ -19,8 +19,14 @@ connectDatabase({
 })
 
 
-app.use(express.json());
-app.use(cors({credentials:true,origin:'http://localhost:5173'}));
+app.use(express.json({limit:'10mb'}));
+app.use(cors({credentials:true,
+    origin:'http://localhost:5173',
+    // origin:'https://chatapp-mppodtnqj-turqay667s-projects.vercel.app'
+    
+
+
+}));
 app.use('/api',userRouter)
 app.use('/uploads',express.static('uploads'))
 

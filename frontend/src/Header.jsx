@@ -3,16 +3,34 @@ import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsThreeDots, BsThree
 import { MdCallEnd, MdOutlineClose,MdOutlineDelete, MdOutlineInfo } from "react-icons/md";
 import { GoUnmute,GoMute } from "react-icons/go";
 import { useState } from "react";
-
-const Header=({theme,selectedUser})=>{
+import axios from "axios";
+const Header=({theme,messages,selectedUser,setMessages})=>{
   const msn=document.getElementById('msn')
 const [muted,setMuted]=useState(false)
+const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+const user=userInfo?.data
+const token=userInfo?.data?.token
 const handleMute=()=>{
   setMuted(!muted)
 }
-const handleDelete=()=>{
-  msn.innerHTML=`<div></div>`
-  }
+
+const handleDelete=async()=>{
+  try{
+    await axios.delete('http://localhost:5000/api/messages/675dc4beb4693734af7983db', {
+     headers:{
+       "Content-Type":"application/json",
+       "Authorization":`Bearer ${token}`
+     }
+    })
+   setMessages([])
+   }
+   catch(err){
+     console.log(err)
+   }
+   }
+
+  // msn.innerHTML=`<div></div>`
+  
 
     return (
         <div className="chat-header mb-5 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>

@@ -20,20 +20,21 @@ const socket=io.connect("http://localhost:5000/")
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 let adminn=''
 if(userInfo){
- adminn =userInfo.data.username
+ adminn =userInfo.data
 }
 
-
-const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelectedUser})=>{
+console.log(adminn)
+const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelectedUser })=>{
     const {theme,handleTheme}=useContext(ThemeContext)
     const [users,setUsers]=useState([])
-    const [name,setName]=useState('')
-    const [email,setEmail]=useState('')
+    const [username,setUsername]=useState('turgay')
+    const [password,setPassword]=useState('12345678')
     const [phone,setPhone]=useState('')
     const [about,setAbout]=useState('“When you change your thoughts, remember to also change your world.” —Norman Vincent Peale')
     const [saved,setSaved]=useState(false)
-    const [image,setImage]=useState(null)
+    const [image,setImage]=useState(adminn.image)
     const [search,setSearch]=useState('')
+    const [edit,setEdit]=useState(true)
     
  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
  const user=userInfo?.data
@@ -100,28 +101,52 @@ const handleContacts=(e)=>{
 }
 
 const handleImage = async (e)=>{
-  
- const formData=new FormData()
- formData.append('file', image)
+  const file=e.target.files[0]
+  const reader= new FileReader()
+ 
+reader.onload=async(e)=>{
+  const url=reader.result
+  const updatedUser={...adminn,image:url}
+  localStorage.setItem("userInfo", JSON.stringify({data:updatedUser}))
+   setImage(url)
+
+const formData=new FormData()
+ formData.append('image', file)
 
 try{
- await axios.put(`http://localhost:5000/api/profile/${userId}`, formData,{
+ await axios.put(`http://localhost:5000/api/profile/${userId}`, {image:url}, {
   headers:{
-    "Content-Type":"multipart/form-data"
+     "Content-Type":"application/json",
+     "Authorization":`Bearer ${token}`
   }
- })
- const fileInput=document.getElementById('prof')
- fileInput.addEventListener('submit',(e)=>{
- e.preventDefault()
+  
  })
 }
 catch(err){
   console.log(err)
 }
 }
-const admin=users.find(item=>item.role==='Admin')
-const userId=admin ? admin._id : null
+reader.readAsDataURL(file)
+}
+const handleProfile=async(e)=>{
+  e.preventDefault()
+  setEdit(false)
+ try{
+  await axios.put(`http://localhost:5000/api/profile/${userId}`, {username,password,about},{
+   headers:{
+     "Content-Type":"application/json",
+     "Authorization":`Bearer ${token}`
+   }
+  })
+ }
+ catch(err){
+   console.log(err)
+ }
+ }
 
+// const admin=users.find(item=>item.role==='Admin')
+const userId=adminn ? adminn._id : null
+console.log(user.username)
  
     return (
         <>
@@ -162,9 +187,9 @@ const userId=admin ? admin._id : null
               users.map((user)=>{
 return <div>        
 <a className="user-profile" onClick={()=> setSelectedUser(user)}  key={user._id}>
-            <div className="user position-relative d-flex" >
+            <div className="user position-relative d-flex pb-3" >
       
-            {user.username===adminn ? <img src={`http://localhost:5000${admin.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
+            {user.username===adminn ? <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
               
           <span className="status"></span>
           
@@ -202,12 +227,12 @@ return <div>
 
         <div className="user-profile">
           {
-            admin ?
+            adminn ?
             <>
              <div className="profile-img d-flex justify-content-center mb-3">
-<img src={`http://localhost:5000${admin.image}`} className="rounded-circle avatar"/>
+<img src={image} className="rounded-circle avatar"/>
 </div>
-<h5 className="text-center pb-3">{admin.username}</h5> 
+<h5 className="text-center pb-3">{adminn.username}</h5> 
             </> 
             : <></>
           }
@@ -265,16 +290,14 @@ return <div>
         <div className="user-profile">
           {
          
-            admin ?
+            adminn ?
             
             <>
-             <div className="profile-img d-flex justify-content-center mb-3">
-<img src={`http://localhost:5000${admin.image}`} className="rounded-circle avatar"/>
-<form onSubmit={handleImage} id='prof'>
-  <label>  <input type="file"  name="image" onChange={(e)=>setImage(e.target.files[0])
-  
-
-  } /><a>
+             <div className="profile-img d-flex justify-content-center">
+<img src={image} className="rounded-circle avatar"/>
+<form  id='prof'>
+  <label>  <input type="file"  name="image" onChange={handleImage}/>
+  <a>
     <MdOutlineEdit fontSize={28} />
     </a>
   </label>
@@ -285,22 +308,32 @@ return <div>
 <div className="text-center">
 
 
-<h5 className="pb-3">{admin.username}</h5> 
-<div className="dropdown pb-4">
+<h5 className="pb-3">{adminn.username}</h5> 
+{/* <div className="dropdown pb-4">
 <a className="text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Available</a>
 <ul className="dropdown-menu">
 <li><a className="dropdown-item"> Busy</a></li>
 <li><a className="dropdown-item"> Sleeping</a></li>
 <li><a className="dropdown-item"> Don't disturb</a></li>
 </ul>
-</div>
+</div> */}
 </div>
 <div className="user-content">
+  <form onSubmit={handleProfile}>
+    <label className="text-muted pt-3 pb-3">About</label>
     <textarea className="form-control" id="about" value={about} rows={4}  cols={7} onChange={(e)=>setAbout(e.target.value)} /> 
     <label className="text-muted pt-3 pb-3">Name</label>
-    <input className="form-control" defaultValue={admin.username}/>
-    <label className="text-muted  pt-3 pb-3">Email</label>
-    <input className="form-control font-size-14" defaultValue={admin.email}/>
+    <input className="form-control" value={username} onChange={(e)=>setUsername(e.target.value)}/>
+    <label className="text-muted  pt-3 pb-3">Password</label>
+    <input className="form-control font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
+    <div className="text-center mt-3">
+      {
+        edit?  <button className="btn btn-primary">Edit</button> : <button type="submit" className="btn btn-success">Success</button>
+      }
+    
+    </div>
+   
+    </form>
 </div>
             </> 
             : <></>

@@ -7,6 +7,7 @@ const userSchema=moongose.Schema(
             type:String,
             unique:true,
             maxlength:15,
+            required:false,
         },
         email:{
             type:String,
@@ -21,18 +22,24 @@ const userSchema=moongose.Schema(
             type:String,
             maxlength:30,
             default:'You',
-            requried:false,
+            requried:true,
         },
         image:{
             type:String,
-             default:'user.profile.png',
+            default:'user-profile.png',
             required:false,
         },
         role:{
         type:String,
         default:'Basic',
         required:true,
-        }    ,
+        } ,
+        status:{
+        type:String,
+        default:'Available',
+        required:false
+        },
+    
         isBlocked:{
             type:Boolean,
             default:false

@@ -1,7 +1,7 @@
-const PrivateRouter=()=>{
+const PrivateRouter=(props)=>{
 
     return (
-        <div>ddd</div>
+        <div>{props.children}</div>
     )
 }
 export default PrivateRouter

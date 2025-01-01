@@ -161,7 +161,7 @@ if(file){
           selectedUser ?   
           <>
 
-          <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser}/> 
+          <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages}/> 
          
           <div className="conversation-body text-center overflow-auto" >
     {

@@ -7,18 +7,18 @@ const Message = require('../models/Messages')
 const protect=require('../middleware/authMiddleware')
 const mongoose=require('mongoose')
 const multer = require('multer')
-
-const imgconfig=multer.diskStorage({
-    destination:(req,file,callback)=>{
-        callback(null,'uploads')
-    },
-    filename:(req,file,callback)=>{
-        const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9)
-        callback(null,file.fieldname+'-'+uniqueSuffix)
-    }
-})
+const bcrypt=require('bcryptjs')
+// const imgconfig=multer.diskStorage({
+//     destination:(req,file,callback)=>{
+//         callback(null,'uploads')
+//     },
+//     filename:(req,file,callback)=>{
+//         const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9)
+//         callback(null,file.fieldname+'-'+uniqueSuffix)
+//     }
+// })
 const upload=multer({
-    storage:imgconfig,
+    storage:multer.memoryStorage(),
 
 })
 userRouter.post(
@@ -26,7 +26,7 @@ userRouter.post(
     asyncHandler (async(req,res)=>{
     const {username,password}=req.body
     const user= await User.findOne({username})
-if(user && (await user.matchPassword(password))){
+if(user && (await bcrypt.compare(password, user?.password || ""))){
             res.json({
                 _id:user._id,
                  username:user.username,
@@ -43,12 +43,12 @@ if(user && (await user.matchPassword(password))){
         }))
 
                
-        userRouter.post('/messages/:id', asyncHandler(async (req,res)=>{
+        userRouter.post('/messages/:id', protect, asyncHandler(async (req,res)=>{
             try{
                 // const userId=req.params.userId
                 const {message}=req.body         
                 const receiver=req.params.id
-                const sender='675dc4beb4693734af7983db'
+                const sender=req.user._id
                 const newMessage=new Message({
                     message,
                     receiver,
@@ -65,20 +65,31 @@ if(user && (await user.matchPassword(password))){
             }))
 
 
-
-userRouter.put('/profile/:id', upload.single('file'), asyncHandler (async (req,res)=>{
+            // userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
+            //     try{      
+            //      const  {username,password, about}=req.body
+            //      const user=await User.findById(req.params.id) 
+            //          user.username=username
+            //          user.password=password
+            //          user.about=about
+            //      await user.save()
+            //      res.status(200).json({success:true, user})
+            //     }
+            //     catch(err){
+            //      res.status(400)
+            //      throw new Error('Unable to change user profile')
+            //     }
+            //  }))
+            
+             userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
                 try{      
-                 const  image = req.file.filename
-                    if(!image){
-                        res.status(404)
-                        throw new Error('no image uploaded')
-                    }
+                const  {image} = req.body
+                //     if(!image){
+                //         res.status(404)
+                //         throw new Error('no image uploaded')
+                //     }
                  const user=await User.findById(req.params.id)  
-                 if(!user){
-                    res.status(404)
-                    throw new Error("user not found")
-                 }     
-                 user.image=`/uploads/${image}`
+                 user.image=image
                  await user.save()
                  res.status(200).json({success:true, user})
                 }
@@ -87,6 +98,19 @@ userRouter.put('/profile/:id', upload.single('file'), asyncHandler (async (req,r
                  throw new Error('Unable to change a photo')
                 }
              }))
+// userRouter.put('/profile/:id', protect, upload.single('image'), asyncHandler (async (req,res)=>{
+//                 try{      
+//                  const user=await User.findById(req.params.id)  
+//                  user.image=req.file.buffer.toString('base64')
+//                  console.log(user.image)
+//                  await user.save()
+//                  res.status(200).json({success:true, user})
+//                 }
+//                 catch(err){
+//                  res.status(400)
+//                  throw new Error('Unable to change a photo')
+//                 }
+//              }))
             
 userRouter.post('/auth',asyncHandler(async (req,res)=>{
 const {username,email,password}=req.body
@@ -127,11 +151,31 @@ userRouter.get('/messages/:id', protect, async (req,res)=>{
     const messages=await Message.find({
     $or:[
         {sender:req.user._id,receiver:req.params.id},
-        {sender:req.params.id,receiver:req.user_id}
+        {sender:req.params.id,receiver:req.user._id}
     ] 
      
     })
     res.json(messages)
+})
+
+userRouter.delete('/messages/:id', protect, async (req,res)=>{
+    if (!req.user) {
+        return res.status(400).json({ message: 'User not authenticated' });
+    }
+    const messages=await Message.deleteMany({
+    $or:[
+        {sender:req.user._id,receiver:req.params.id},
+        {sender:req.params.id,receiver:req.user._id}
+    ] 
+   
+    })
+    if(messages){
+         res.status(200).json({success:true, message:'jj'})
+    }
+    else{
+        res.json({message:"Messages are deleted"})
+    }
+
 })
 
 
