@@ -40,7 +40,6 @@ const  config={
 
   const data =await axios.post('http://localhost:5000/api/login',{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
-  console.log(userInfo)
   setLogged(true)
   const loggedUser={username:username}
   setUser(loggedUser)  

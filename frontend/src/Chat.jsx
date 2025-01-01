@@ -86,7 +86,6 @@ try{
     withCredentials:true
   })
   const data= response.data
-  console.log(data)
 }
 catch(err){
   console.log(err)
