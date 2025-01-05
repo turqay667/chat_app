@@ -9,9 +9,9 @@ import {toast, ToastContainer } from "react-toastify";
 import io from "socket.io-client"
 import { IoEllipseSharp } from "react-icons/io5";
 import { AuthContext } from "./AuthContext";
-// import { userContext } from "./App";
+import { socket } from "./Socket";
 
-// const socket=io.connect("http://localhost:5000/")
+
 const Login=()=>{
     const navigate=useNavigate()
     const [username,setUsername]=useState('')
@@ -23,14 +23,11 @@ const Login=()=>{
     const {setUser}=useContext(AuthContext)
  
 const userInfo=localStorage.getItem('userInfo')
-// useEffect(()=>{
-//    if(userInfo){
-//  navigate("/home")
-//    } 
-// },[userInfo,navigate])
-if(logged){
-    navigate('/home')
-}
+useEffect(()=>{
+   if(logged){
+ navigate("/home")} 
+},[logged,navigate])
+
     const handleSubmit=async (e)=>{
         e.preventDefault();
         try{
@@ -41,9 +38,12 @@ const  config={
   const data =await axios.post('http://localhost:5000/api/login',{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
   setLogged(true)
+  socket.connect()
   const loggedUser={username:username}
   setUser(loggedUser)  
-     }
+
+  }
+   
     catch(err){
         console.log(err)
         toast.error(err.name)

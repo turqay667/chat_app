@@ -12,11 +12,10 @@ import { useNavigate } from "react-router-dom";
 import io from "socket.io-client"
 import { ThemeContext } from "./ThemeContext";
 import axios from "axios";
+import { socket } from "./Socket";
 // import { FontAwesomeIcon } from '@fortawesome/fontawesome-free'
 import { FaPenSquare, FaRegEdit } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
-const socket=io.connect("http://localhost:5000/")
-
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 let adminn=''
 if(userInfo){
@@ -24,32 +23,34 @@ if(userInfo){
 }
 
 
-const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelectedUser })=>{
+const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelectedUser, onlineUser })=>{
     const {theme,handleTheme}=useContext(ThemeContext)
     const [users,setUsers]=useState([])
-    const [username,setUsername]=useState('turgay')
     const [password,setPassword]=useState('12345678')
     const [phone,setPhone]=useState('')
+    const [filteredUsers, setFilteredUsers]=useState([])
     const [about,setAbout]=useState('“When you change your thoughts, remember to also change your world.” —Norman Vincent Peale')
     const [saved,setSaved]=useState(false)
-    const [image,setImage]=useState(adminn.image)
+    const [image,setImage]=useState('user-profile.png')
     const [search,setSearch]=useState('')
     const [edit,setEdit]=useState(true)
     
  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
  const user=userInfo?.data
  const token=userInfo?.data?.token
-
+ const [username,setUsername]=useState(user.username)
     const navigate=useNavigate()
     useEffect(()=>{
       fetch('http://localhost:5000/api/')
       .then((res)=>res.json())
       .then((data)=>{
-        setUsers(data)})
+        setUsers(data)
+        setFilteredUsers(data)
+      })
       },[])
   
     useEffect(()=>{  
-            if(!selectedUser) return;
+        if (!selectedUser) return;
             const fetching=async()=>{           
                 const response=await fetch(`http://localhost:5000/api/messages/${selectedUser._id}`, {
                   headers:{
@@ -71,23 +72,30 @@ const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelect
                   });
                 }
                 })
-                // return()=>{
-                // socket.disconnect()
-                // }
+
               },[selectedUser,token])
             
 
     const handleLogout=()=>{
        localStorage.removeItem("userInfo")
         navigate("/login")
-        // socket.disconnect()
+         socket.disconnect()
         }
    
 
-
-
-
 const textarea=document.getElementById('about')
+
+const handleSearch=(e)=>{
+e.preventDefault()
+if(search===''){
+  setFilteredUsers(users)
+}
+
+const filterUsers= users.filter((item)=>
+item.username.toLowerCase().includes(search.toLowerCase())
+)
+setFilteredUsers(filterUsers)
+}
 
 
 const handleAbout=(e)=>{
@@ -100,53 +108,53 @@ const handleContacts=(e)=>{
   e.preventDefault()
 }
 
-const handleImage = async (e)=>{
+
+const handleImage = (e)=>{
   const file=e.target.files[0]
+
   const reader= new FileReader()
- 
-reader.onload=async(e)=>{
-  const url=reader.result
-  const updatedUser={...adminn,image:url}
-  localStorage.setItem("userInfo", JSON.stringify({data:updatedUser}))
-   setImage(url)
+  reader.onloadend=()=>{
+    // const updatedUser={...adminn,image:reader.result}
+    // localStorage.setItem("userInfo", JSON.stringify({data:updatedUser}))
+    setImage(reader.result)
 
-const formData=new FormData()
- formData.append('image', file)
-
-try{
- await axios.put(`http://localhost:5000/api/profile/${userId}`, {image:url}, {
-  headers:{
-     "Content-Type":"application/json",
-     "Authorization":`Bearer ${token}`
-  }
-  
- })
-}
-catch(err){
-  console.log(err)
-}
+   try{
+   axios.put(`http://localhost:5000/api/profile/${userId}`, {image},{
+     headers:{
+       "Content-Type":"application/json",
+       "Authorization":`Bearer ${token}`
+     }
+    })
+   }
+   catch(err){
+     console.log(err)
+   }
 }
 reader.readAsDataURL(file)
 }
 const handleProfile=async(e)=>{
   e.preventDefault()
-  setEdit(false)
- try{
-  await axios.put(`http://localhost:5000/api/profile/${userId}`, {username,password,about},{
-   headers:{
-     "Content-Type":"application/json",
-     "Authorization":`Bearer ${token}`
+
+if(!edit){
+  try{
+    await axios.put(`http://localhost:5000/api/profile/${userId}`, {username,password},{
+     headers:{
+       "Content-Type":"application/json",
+       "Authorization":`Bearer ${token}`
+     }
+    })
    }
-  })
- }
- catch(err){
-   console.log(err)
- }
- }
+   catch(err){
+     console.log(err)
+
+}
+}
+
+}
 
 // const admin=users.find(item=>item.role==='Admin')
 const userId=adminn ? adminn._id : null
-console.log(user.username)
+
  
     return (
         <>
@@ -170,13 +178,13 @@ console.log(user.username)
 </ul>
 </div>
 </div>
-        <div className="col-md-3 chats tab-content" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>
+        <div className="col-md-3 chats tab-content overflow-auto" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>
         <div className="sidebar-left tab-pane fade show active" id="chat" role="tabpanel" aria-labelledby="chat-tab">
             <div className="header">
                 <div className="mb-4">
                 <h4>Chat</h4>
                 </div>          
-            <form className="search-form d-flex align-items-center">
+            <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
             <input type="text" className="form-control bg-light" placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
@@ -184,19 +192,22 @@ console.log(user.username)
            <div className="sidebar-body">
            <div className="users">           
            {
-              users.map((user)=>{
-return <div>        
+              filteredUsers.map((user)=>{
+            
+return (        
 <a className="user-profile" onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex pb-3" >
       
             {user.username===adminn ? <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
               
-          <span className="status"></span>
+          <span className="status">ff</span>
+       
           
               <div className="notifies d-flex flex-column pl-3 justify-content-between">
-             {user.username===adminn ?   <h5 className="text-truncate">You</h5> :   <h5 className="text-truncate">{user.username}</h5> }
-            
-  
+    <h5 className="text-truncate">{user.username}</h5> 
+
+     
+ 
     
              
                 </div>     
@@ -204,7 +215,7 @@ return <div>
     
             </div>
        </a>
-</div>
+)
 
 
    })
@@ -253,26 +264,23 @@ return <div>
 <h5>Media </h5>
 <a className="text-success">Show all</a>
 </div>
-<div className="media-img">
-  {/* {
-    Usermessages.filter((item)=>item.image).map(item=>{
-     
+<div className="media-img row">
+
+   {messages.filter((item)=>item.image).length>0 ?  (messages.filter((item)=>item.image).map(item=>{   
      return (
-        <>
-        <img src={item.image}/>
-        </>
-      )
+        <div key={item._id} className="col-md-3">
+       <img src={item.image}/> 
+        </div>
+     
+      ) 
 
-    })
-  } */}
-  
-<div>
-
+    }))
+   
+    :  <p className="text-center mt-5">Nothing to show</p> 
+  } 
 </div>
 </div>
 </div>
-</div>
-
       
 </div>
 <div className="sidebar-left tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
@@ -288,22 +296,23 @@ return <div>
 
 
         <div className="user-profile">
+        <form onSubmit={handleProfile} id="prof">
           {
          
-            adminn ?
+            adminn ? (
             
             <>
              <div className="profile-img d-flex justify-content-center">
-<img src={image} className="rounded-circle avatar"/>
-<form  id='prof'>
-  <label>  <input type="file"  name="image" onChange={handleImage}/>
+              <figure>
+
+       
+<img src={image} className="rounded-circle avatar"></img>
+  <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
   <a>
     <MdOutlineEdit fontSize={28} />
     </a>
   </label>
-</form>
-
-
+  </figure>
 </div>
 <div className="text-center">
 
@@ -319,28 +328,27 @@ return <div>
 </div> */}
 </div>
 <div className="user-content">
-  <form onSubmit={handleProfile}>
     <label className="text-muted pt-3 pb-3">About</label>
     <textarea className="form-control" id="about" value={about} rows={4}  cols={7} onChange={(e)=>setAbout(e.target.value)} /> 
-    <label className="text-muted pt-3 pb-3">Name</label>
-    <input className="form-control" value={username} onChange={(e)=>setUsername(e.target.value)}/>
-    <label className="text-muted  pt-3 pb-3">Password</label>
+    <label className="text-muted pt-3 pb-2">Name</label>
+    <input className="form-control"      value={username}   onChange={(e)=>setUsername(e.target.value)}/>
+    <label className="text-muted  pt-3 pb-2">Password</label>
     <input className="form-control font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
     <div className="text-center mt-3">
       {
-        edit?  <button className="btn btn-primary">Edit</button> : <button type="submit" className="btn btn-success">Success</button>
+        edit ?  (<button className="btn btn-primary" onClick={()=>setEdit(false)}>Edit</button> ) : 
+        (  <button type="submit" className="btn btn-success">Save</button>)
+
       }
-    
     </div>
-   
-    </form>
 </div>
             </> 
+            )
             : <></>
           }
    
 
-
+</form>
 </div> 
 
 

@@ -4,8 +4,12 @@ const chatSchema=mongoose.Schema(
     {
      message:{
         type:String,
-        required:true,
+        required:false,
      },
+   image: {
+   type:String,
+   required:false,
+ },
      sender:{
       type:mongoose.Schema.Types.ObjectId,
       required:true,

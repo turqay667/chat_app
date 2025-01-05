@@ -199,6 +199,10 @@ figure{
   padding: 10px 15px;
   margin-bottom: inherit;
 }
+.message div p{
+  text-align: start;
+  color: #7f8384;
+}
 .msnn{
   display: flex;
   justify-content: start;
@@ -210,10 +214,6 @@ figure{
   padding: 2px;
 }
 
-.message div:nth-child(1){
-  text-align: start;
-  color: #7f8384;
-}
 .hide{
   position: absolute;
   right: 0px;
@@ -384,12 +384,14 @@ gap: 1rem;
 display: flex;
 gap: 20px;
 }
+
 .media-img img{
   width: 80px;
   height: 80px;
   border-radius: 4px;
   object-fit: cover;
 }
+
 .emojis{
   margin-bottom: inherit;
 }
@@ -438,11 +440,11 @@ form img{
   display: flex;
   justify-content: center;
   font-size: 24px;
-  padding: 8px;
-  right: 0.5rem;
+  padding: 6.5px;
+  right: 0.6rem;
   bottom: 0.7rem;
   text-align: center;
-  width: 2.5rem;
+  width: 2.3rem;
   background: rgb( 230, 235, 245) !important;
   color: #333 !important;
   border-radius: 50%;

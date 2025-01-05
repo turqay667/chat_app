@@ -9,8 +9,6 @@ import { Route, Routes } from 'react-router-dom';
 import ThemeProvider from './ThemeContext';
 import io from "socket.io-client";
 import AuthProvider from './AuthContext';
-
-
 function App() {
   return (
    <>
@@ -18,7 +16,7 @@ function App() {
        <AuthProvider>
         <ThemeProvider>  
 <Routes>
-  <Route exact path='/' Component={Register}/>
+  <Route exact path='/' Component={Register} />
   <Route path='/login' Component={Login}/>
   <Route   path='/home' Component={Chat}/>
   {/* <Route  exact path='/home/:id' Component={Chat}/> */}

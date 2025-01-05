@@ -9,8 +9,7 @@ import { BiEnvelope } from "react-icons/bi";
 import { CiLock } from "react-icons/ci";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate} from "react-router-dom";
-import io from "socket.io-client"
-// const socket=io.connect("http://localhost:5000/")
+
 const Register=(props)=>{
   
     const navigate=useNavigate()

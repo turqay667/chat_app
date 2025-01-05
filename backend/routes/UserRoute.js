@@ -43,61 +43,56 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
         }))
 
                
-        userRouter.post('/messages/:id', protect, asyncHandler(async (req,res)=>{
+        userRouter.post('/messages/:id', protect, upload.single('image'), asyncHandler(async (req,res)=>{
             try{
                 // const userId=req.params.userId
-                const {message}=req.body         
-                const receiver=req.params.id
+                const {message, image}=req.body   
+                //  const image=req.file ? req.file.path : null
                 const sender=req.user._id
+                const receiver=req.params.id
                 const newMessage=new Message({
                     message,
                     receiver,
-                    sender
+                    sender,
+                    image,
                 })
 
                 await newMessage.save()
                 res.status(201).json(newMessage)
             }
             catch(err){
-                res.status(400)
+                res.status(400).json({error:'Unable to send a message', details:err.message})
                 throw new Error('Unable to send a message')
             }
             }))
 
 
-            // userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
-            //     try{      
-            //      const  {username,password, about}=req.body
-            //      const user=await User.findById(req.params.id) 
-            //          user.username=username
-            //          user.password=password
-            //          user.about=about
-            //      await user.save()
-            //      res.status(200).json({success:true, user})
-            //     }
-            //     catch(err){
-            //      res.status(400)
-            //      throw new Error('Unable to change user profile')
-            //     }
-            //  }))
-            
-             userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
+            userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
                 try{      
-                const  {image} = req.body
-                //     if(!image){
-                //         res.status(404)
-                //         throw new Error('no image uploaded')
-                //     }
-                 const user=await User.findById(req.params.id)  
-                 user.image=image
+                 const  {username,password, about, image}=req.body     
+                 const user=await User.findById(req.params.id) 
+                 if(username){
+                    user.username=username
+                 }
+                     if(password){
+                        user.password=password
+                 }
+                   if(about){
+                    user.about=about
+                   }
+                   if(image){
+                    user.image=image
+                   }
+
                  await user.save()
                  res.status(200).json({success:true, user})
                 }
                 catch(err){
                  res.status(400)
-                 throw new Error('Unable to change a photo')
+                 throw new Error('Unable to change user profile')
                 }
              }))
+            
 // userRouter.put('/profile/:id', protect, upload.single('image'), asyncHandler (async (req,res)=>{
 //                 try{      
 //                  const user=await User.findById(req.params.id)  

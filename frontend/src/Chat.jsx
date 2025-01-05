@@ -15,31 +15,39 @@ import axios from "axios";
 import { Tooltip } from "react-tooltip";
 import Message from "./Message";
 import Header from "./Header";
-const socket=io.connect("http://localhost:5000/")
-
+import { socket } from "./Socket";
  function Chat(){
   const {theme, handleTheme}=useContext(ThemeContext)
   const [called,setCalled]=useState(false)
   const [videoCalled,setVideoCalled]=useState(false)
   const [attach,setAttach]=useState(null)
-  const [image,setImage]=useState()
+  const [image,setImage]=useState('')
+  const [onlineUsers, setOnlineUsers]=useState([])
   const [messages,setMessages]=useState([])
   const [item,setItem]=useState('')
   const [muted,setMuted]=useState(false)
   const [recording,setRecording]=useState(false)
   const [selectedUser,setSelectedUser]=useState(null)
 
-  const navigate=useNavigate()
 
- const userInfo = JSON.parse(localStorage.getItem('userInfo'))
- const user=userInfo?.data
- const token=userInfo?.data?.token
- console.log(userInfo.data._id)
-
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  const user=userInfo?.data
+  const token=userInfo?.data.token
   
+useEffect(()=>{
+  if(user){
+    socket.emit('join', user.username)
+    socket.on('online', (users)=>{
+       setOnlineUsers(users) 
+       })
+   }
+
+}, [selectedUser])
+ 
+
+const msg=document.getElementById('msg')
 
 let mediaRecorder=null;
-const handleInput=document.getElementById('msg')
 
  const emojii=[ 
   "😃",
@@ -62,22 +70,32 @@ const handleInput=document.getElementById('msg')
   "😗",
 ]
 
+const handleAttach=(e)=>{
+  const file=e.target.files[0]
+  setAttach(file)
+if(file){
+const formData=new FormData()
+formData.append('image', file)
+const reader=new FileReader()
+reader.onload=()=>{
+  setImage(reader.result)
+ 
+}
+    reader.readAsDataURL(file)
+  }
+
+}
 
 const handleSubmit= async (event)=>{
 event.preventDefault()
 
-if(!item && !image) return;
-console.log(selectedUser)
-const notification=document.getElementById("notification")
-if(muted){
-  notification.play()
-}
-const newMessage={message:item, image, sender:user._id}
-setMessages((prevMessage)=>[...prevMessage,newMessage])
-socket.emit('message', newMessage)
+ if(!item && !image) return;
 
+const notification=document.getElementById("notification")
+notification.play()
+const newMessage={message:item, image:image, sender:user._id}
 try{
-  const response=await axios.post(`http://localhost:5000/api/messages/${selectedUser._id}`, newMessage, {
+ const response=await axios.post(`http://localhost:5000/api/messages/${selectedUser._id}`, newMessage, {
     headers:{ 
       Authorization:`Bearer ${token}`,
       "Content-Type":"application/json" ,
@@ -85,30 +103,25 @@ try{
     },
     withCredentials:true
   })
-  const data= response.data
+ const data= response.data
+ setMessages((prevMessage)=>[...prevMessage,data])
+ socket.emit('message', formData)
+ console.log(messages)
 }
 catch(err){
   console.log(err)
 }   
       
 setItem('')
-setImage(null)
+setImage('')
+setAttach(null)
 }
 
 const handleEmojis=(e)=>{
   setItem(e.target.value)
 }
 
-const handleAttach=(e)=>{
-  const file=e.target.files[0]
-const reader=new FileReader()
-if(file){
-  reader.onload=()=>{
-    setImage(reader.result)
-  }
-  reader.readAsDataURL(file)
-}
-}
+
 
 
   const handleAudio=async ()=>{
@@ -154,13 +167,13 @@ if(file){
     {videoCalled ?  <VideoCall/>: <></>}
 <div className="chat-row d-flex" style={{backgroundColor: theme==='dark' ? '#303841': "#ffffff", color: theme==='dark' ? 'white': "#212529",}}  >
 
-<Sidebar messages={messages} setMessages={setMessages}   attach={attach} image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} />
+<Sidebar messages={messages} setMessages={setMessages}   attach={attach} image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null}/>
         <div className="chat-body" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
            {
           selectedUser ?   
           <>
 
-          <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages}/> 
+          <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null}/> 
          
           <div className="conversation-body text-center overflow-auto" >
     {
@@ -207,9 +220,9 @@ if(file){
 <form onSubmit={handleSubmit} >
   <div className="d-flex">
 <div className="col-md-9">
-  <input type="text" value={item} className="form-control form-control-lg" placeholder="Write a message..." id="msg" onChange={(e)=>setItem(e.target.value)}/>
+  <input type="text" value={item} className="form-control form-control-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
  
- {/* {attach ?  <img src={item} /> : <div></div> } */}
+  {attach ?  <img src={item} /> : <div></div> }
 
   </div>  
   <audio src="beep.mp3" id="notification"></audio>

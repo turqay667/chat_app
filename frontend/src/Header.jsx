@@ -4,7 +4,7 @@ import { MdCallEnd, MdOutlineClose,MdOutlineDelete, MdOutlineInfo } from "react-
 import { GoUnmute,GoMute } from "react-icons/go";
 import { useState } from "react";
 import axios from "axios";
-const Header=({theme,messages,selectedUser,setMessages})=>{
+const Header=({theme,messages,selectedUser,setMessages, onlineUser})=>{
   const msn=document.getElementById('msn')
 const [muted,setMuted]=useState(false)
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -42,7 +42,9 @@ const handleDelete=async()=>{
     </div>
     <div>
        <h5>{selectedUser?.username}</h5>
-      <p>Online</p>
+    
+    { onlineUser ?  <p>Online</p> : <p>Offline</p> }  
+     
         <div className="text-muted" id="typing"></div>  
           {/* <span className="text-muted">online</span> */}
        

@@ -39,32 +39,40 @@ const PORT=process.env.PORT || 1000;
 
 const io=socket(server, {
   cors:{
-  origin:['http://localhost:5173', 'https://chatapp-mppodtnqj-turqay667s-projects.vercel.app']
+  origin:['http://localhost:5173', 'https://chatapp-mppodtnqj-turqay667s-projects.vercel.app'],
   }
 })
-
+let users=[]
 io.on("connection", function(socket){
-
     socket.on("message", (data)=>{
         io.emit("message", data)
         console.log(data +" has sent")
         })
 
-// socket.on("logged",(msg)=>{
-//     console.log('username '+ msg+ ' has logged in')
-// })
+
+socket.on('connect', (username)=>{
+    console.log(username+ 'has connected')
+})
+socket.on("logged",(msg)=>{
+    console.log(msg+ 'is online')
+})
 // socket.on('typing', (data)=>{
 // console.log("user is typing " + data)
 // })
-let users=[]
-socket.on("join", (data)=>{
-    users.push(data)
-    console.log(data+' joined chat')
+
+socket.on("join", (username)=>{
+    if(!users.some((user)=>user.username===username)){
+        users.push({username,socketId:socket.id })
+        console.log(users)
+    }
+    io.emit('online', users)
 })
 
 
+
 socket.on("disconnect", ()=>{
-    console.log("user has disconnected")
+    users=users.filter(user=>user.socketId!==socket.id)
+    console.log('User has disconnected')
 })
 
 })
