@@ -35,7 +35,7 @@ const  config={
             headers:{"Content-Type":"application/json"},
         }
 
-  const data =await axios.post('https://chat-app-64fc.onrender.com',{username,password},config)
+  const data =await axios.post('https://chat-app-64fc.onrender.com/api/login',{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
   setLogged(true)
   socket.connect()
