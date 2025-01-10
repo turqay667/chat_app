@@ -50,7 +50,6 @@ const  config={
         setLogged(false)
     }
     }
-    console.log(userInfo)
     return (
         <>
         <ToastContainer/>
