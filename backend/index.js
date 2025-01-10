@@ -21,7 +21,7 @@ connectDatabase({
 
 app.use(express.json({limit:'10mb'}));
 app.use(cors({credentials:true,
-    origin:['http://localhost:5173', 'https://chatapp-mppodtnqj-turqay667s-projects.vercel.app']
+    origin:['http://localhost:5173', 'https://chat-app-bxnf.vercel.app']
     
 
 }));
@@ -39,7 +39,7 @@ const PORT=process.env.PORT || 1000;
 
 const io=socket(server, {
   cors:{
-  origin:['http://localhost:5173', 'https://chatapp-mppodtnqj-turqay667s-projects.vercel.app'],
+  origin:['http://localhost:5173', 'https://chat-app-bxnf.vercel.app'],
   }
 })
 let users=[]
