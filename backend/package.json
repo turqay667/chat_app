@@ -4,7 +4,8 @@
   "description": "\"realtime-chat-app\"",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Turgay Mammadov",
   "license": "ISC",
