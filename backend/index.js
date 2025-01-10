@@ -20,7 +20,8 @@ connectDatabase({
 
 
 app.use(express.json({limit:'10mb'}));
-app.use(cors({credentials:true,
+app.use(cors({
+    credentials:true,
     origin:['http://localhost:5173', 'https://chat-app-bxnf.vercel.app']
     
 
@@ -40,6 +41,8 @@ const PORT=process.env.PORT || 1000;
 const io=socket(server, {
   cors:{
   origin:['http://localhost:5173', 'https://chat-app-bxnf.vercel.app'],
+  methods:["GET", "POST"],
+  credentials:true
   }
 })
 let users=[]
