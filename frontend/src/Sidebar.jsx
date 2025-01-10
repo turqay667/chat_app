@@ -41,7 +41,7 @@ const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelect
  const [username,setUsername]=useState(user.username)
     const navigate=useNavigate()
     useEffect(()=>{
-      fetch('http://localhost:5000/api/')
+      fetch('https://chat-app-64fc.onrender.com/api/')
       .then((res)=>res.json())
       .then((data)=>{
         setUsers(data)
@@ -52,7 +52,7 @@ const Sidebar=({messages,setMessages, handleThemes,attach,selectedUser,setSelect
     useEffect(()=>{  
         if (!selectedUser) return;
             const fetching=async()=>{           
-                const response=await fetch(`http://localhost:5000/api/messages/${selectedUser._id}`, {
+                const response=await fetch(`https://chat-app-64fc.onrender.com/api/messages/${selectedUser._id}`, {
                   headers:{
                     Authorization:`Bearer ${token}`
                   }
@@ -119,7 +119,7 @@ const handleImage = (e)=>{
     setImage(reader.result)
 
    try{
-   axios.put(`http://localhost:5000/api/profile/${userId}`, {image},{
+   axios.put(`https://chat-app-64fc.onrender.com/api/profile/${userId}`, {image},{
      headers:{
        "Content-Type":"application/json",
        "Authorization":`Bearer ${token}`
@@ -137,7 +137,7 @@ const handleProfile=async(e)=>{
 
 if(!edit){
   try{
-    await axios.put(`http://localhost:5000/api/profile/${userId}`, {username,password},{
+    await axios.put(`https://chat-app-64fc.onrender.com/api/profile/${userId}`, {username,password},{
      headers:{
        "Content-Type":"application/json",
        "Authorization":`Bearer ${token}`

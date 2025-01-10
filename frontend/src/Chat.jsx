@@ -95,7 +95,7 @@ const notification=document.getElementById("notification")
 notification.play()
 const newMessage={message:item, image:image, sender:user._id}
 try{
- const response=await axios.post(`http://localhost:5000/api/messages/${selectedUser._id}`, newMessage, {
+ const response=await axios.post(`https://chat-app-64fc.onrender.com/api/messages/${selectedUser._id}`, newMessage, {
     headers:{ 
       Authorization:`Bearer ${token}`,
       "Content-Type":"application/json" ,
