@@ -25,7 +25,7 @@ const Register=(props)=>{
     const handleSubmit=async (e)=>{
         e.preventDefault();
        try{
-       const response =await axios.post('http://localhost:5000/api/auth/',{username,email,password},
+       const response =await axios.post('https://chat-app-64fc.onrender.com/api/auth/',{username,email,password},
         {
             headers:{ "Content-Type":"application/json" },
             withCredentials:true

@@ -8,7 +8,8 @@ const socket=require('socket.io')
 const WebSocket=require("ws")
 const http=require("http")
 const server=http.createServer(app)
-const multer=require("multer")
+const multer=require("multer");
+const path = require('path');
 
 
 
@@ -83,6 +84,12 @@ socket.on("disconnect", ()=>{
 app.get('/',(req,res)=>{
     res.send('API is running on this port')
     })
-
+    if(process.env.Node_ENV==='production'){
+    const buildPath=path.resolve(__dirname,'..', 'frontend', 'build')
+    
+    app.get('*', (req,res)=>{
+        res.sendFile(path.resolve(buildPath), 'index.html')
+    })
+    }
 server.listen(PORT,()=>
     console.log(`server is listening on port ${PORT}`))

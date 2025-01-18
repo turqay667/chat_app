@@ -95,34 +95,8 @@ const emojiis=document.createElement('p')
     }
      </div>
           </div> */}
-                  {/* {
-  recording ?
-  <>
-  <div className="waves d-flex justify-content-center">
-  <button className="btn text-white"><SiAudiomack fontSize={72}/></button>
-  <button className="btn text-white"><SiAudiomack fontSize={72}/></button>
-  <button className="btn text-white"><SiAudiomack fontSize={72}/></button>
+                
 
-
-</div>
-</> 
-: 
- <div>
-
-  </div>
-
- } */}
-  // const handleSearch=(e)=>{
-// e.preventDefault()
-// if(search===''){
-//   setFilteredUsers(users)
-// }
-
-// const filterUsers= users.filter((item)=>
-// item.username.toLowerCase().includes(search.toLowerCase())
-// )
-// setFilteredUsers(filterUsers)
-// }
      
          {/* {
           Usermessages.length>0  ?  

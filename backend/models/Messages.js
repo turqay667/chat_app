@@ -6,10 +6,10 @@ const chatSchema=mongoose.Schema(
         type:String,
         required:false,
      },
-   image: {
+    image: {
    type:String,
    required:false,
- },
+       },
      sender:{
       type:mongoose.Schema.Types.ObjectId,
       required:true,
