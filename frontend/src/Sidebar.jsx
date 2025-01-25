@@ -108,7 +108,13 @@ const handleContacts=(e)=>{
   e.preventDefault()
 }
 
+const handleUser=()=>{
+  const chat=document.getElementById('chats')
+  const sidebar=document.getElementById('sidebar')
+  sidebar.classList.add("mobile-sidebar")
+  chat.classList.toggle('col')
 
+}
 const handleImage = (e)=>{
   const file=e.target.files[0]
 
@@ -158,7 +164,7 @@ const userId=adminn ? adminn._id : null
  
     return (
         <>
-        <div className="sidebar" style={{backgroundColor: '#36404a'  }}    >
+        <div className="sidebar" style={{backgroundColor: '#36404a'  }}    id="sidebar">
         <div className="logo pt-4"><a > <BsChatSquareText fontSize={34}/></a></div>
   <div className="navbar-menu">
 <ul className="sidebar-menu nav">
@@ -196,7 +202,7 @@ const userId=adminn ? adminn._id : null
             
 return (        
 <a className="user-profile" onClick={()=> setSelectedUser(user)}  key={user._id}>
-            <div className="user position-relative d-flex" >
+            <div className="user position-relative d-flex" onClick={handleUser}>
       
             {user.username===adminn ? <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
               

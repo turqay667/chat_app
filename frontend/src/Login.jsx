@@ -10,6 +10,7 @@ import io from "socket.io-client"
 import { IoEllipseSharp } from "react-icons/io5";
 import { AuthContext } from "./AuthContext";
 import { socket } from "./Socket";
+import { ApiContext } from "./ApiContext";
 
 
 const Login=()=>{
@@ -19,7 +20,7 @@ const Login=()=>{
     const [logged,setLogged]=useState(false)
     const [hide,setHide]=useState(false)
     const {setUser}=useContext(AuthContext)
- 
+    const {apiUrl}=useContext(ApiContext)
 const userInfo=localStorage.getItem('userInfo')
 // console.log(userInfo)
 useEffect(()=>{
@@ -34,7 +35,7 @@ const  config={
             headers:{"Content-Type":"application/json"},
         }
 
-  const data =await axios.post('http://localhost:5000/api/login',{username,password},config)
+  const data =await axios.post(`${apiUrl}/login`,{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
   setLogged(true)
   socket.connect()

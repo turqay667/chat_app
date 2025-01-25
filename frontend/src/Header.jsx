@@ -3,6 +3,7 @@ import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsThreeDots, BsThree
 import { MdCallEnd, MdOutlineClose,MdOutlineDelete, MdOutlineInfo } from "react-icons/md";
 import { GoUnmute,GoMute } from "react-icons/go";
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 const Header=({theme,messages,selectedUser,setMessages, onlineUser})=>{
   const msn=document.getElementById('msn')
@@ -35,8 +36,12 @@ const handleDelete=async()=>{
     return (
         <div className="chat-header d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
         <div className="col-md-4">
+     
         <div className="chat-user">
         <div className="d-flex justify-content-center align-items-center">
+        <div className="d-block d-lg-none">
+<FaArrowLeft fontSize={24}/>
+          </div>
         <img src='user-profile.png' className="avatar "></img>
        <span className="status"></span>
     </div>

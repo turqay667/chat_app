@@ -548,6 +548,12 @@ form img{
     flex-wrap: nowrap !important;
 
   }
+  .mobile-sidebar{
+    display:none
+  }
+  .starting{
+    display: none;
+  }
   /* .navbar-menu{
     display: flex;
     flex-direction: row;

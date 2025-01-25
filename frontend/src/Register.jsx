@@ -9,7 +9,8 @@ import { BiEnvelope } from "react-icons/bi";
 import { CiLock } from "react-icons/ci";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate} from "react-router-dom";
-
+import { useContext } from "react";
+import { ApiContext } from "./ApiContext";
 const Register=(props)=>{
   
     const navigate=useNavigate()
@@ -18,14 +19,14 @@ const Register=(props)=>{
     const [password,setPassword]=useState('')
     const [success,setSuccess]=useState(false)
     const[hide,setHide]=useState(false)
-
+    const {apiUrl}=useContext(ApiContext)
 // if(success){
 //     navigate("/login")
 // }
     const handleSubmit=async (e)=>{
         e.preventDefault();
        try{
-       const response =await axios.post('https://chat-app-64fc.onrender.com/api/auth/',{username,email,password},
+       const response =await axios.post(`${apiUrl}/auth/`,{username,email,password},
         {
             headers:{ "Content-Type":"application/json" },
             withCredentials:true

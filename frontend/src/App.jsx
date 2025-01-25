@@ -10,11 +10,13 @@ import ThemeProvider from './ThemeContext';
 import io from "socket.io-client";
 import AuthProvider from './AuthContext';
 import PrivateRouter from './PrivateRouter';
+import ApiProvider from './ApiContext';
 function App() {
   return (
    <>
 
        <AuthProvider>
+        <ApiProvider>
         <ThemeProvider>  
 <Routes>
 
@@ -27,6 +29,7 @@ function App() {
 </Routes>
 
 </ThemeProvider>
+</ApiProvider>
 </AuthProvider>
 </>
 

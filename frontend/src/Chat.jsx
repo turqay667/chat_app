@@ -120,9 +120,13 @@ setAttach(null)
 const handleEmojis=(e)=>{
   setItem(e.target.value)
 }
-
-
-
+if(selectedUser){
+  const chat=document.getElementById('chatbody')
+  if(window.innerWidth<=768){
+  chat.classList.add('col-12')
+  console.log('yes')
+} 
+}
 
   const handleAudio=async ()=>{
     setRecording(true)
@@ -168,7 +172,7 @@ const handleEmojis=(e)=>{
 <div className="chat-row d-flex" style={{backgroundColor: theme==='dark' ? '#303841': "#ffffff", color: theme==='dark' ? 'white': "#212529",}}  >
 
 <Sidebar messages={messages} setMessages={setMessages}   attach={attach} image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null}/>
-        <div className="chat-body" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
+        <div className="chat-body" id="chatbody" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
            {
           selectedUser ?   
           <>
@@ -207,7 +211,7 @@ const handleEmojis=(e)=>{
         return(
           <li className="dropdown-item" ><button className="btn" onClick={handleEmojis} value={emoji} id="emojin">{emoji}</button></li>
         )
-
+o
       })}
     
      </ul>
@@ -216,10 +220,10 @@ const handleEmojis=(e)=>{
       </div>
       </div>
  
-   <div className="col-md-10">
+   <div className="col-md-10 col-8">
 <form onSubmit={handleSubmit} >
   <div className="d-flex">
-<div className="col-md-9">
+<div className="col-md-9 ">
   <input type="text" value={item} className="w-full px-2 py-2 rounded-xl" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
  
   {attach ?  <img src={item} /> : <div></div> }
