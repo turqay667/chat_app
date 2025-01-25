@@ -9,8 +9,7 @@ return(
 
         <AuthContext.Provider value={{user,setUser}}>
             {props.children}
-            </AuthContext.Provider>
-    
+            </AuthContext.Provider>  
 )
 }
 export default AuthProvider;

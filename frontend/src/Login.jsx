@@ -15,11 +15,9 @@ import { socket } from "./Socket";
 const Login=()=>{
     const navigate=useNavigate()
     const [username,setUsername]=useState('')
-    const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [logged,setLogged]=useState(false)
     const [hide,setHide]=useState(false)
-    const [errors, setErrors]=useState(false)
     const {setUser}=useContext(AuthContext)
  
 const userInfo=localStorage.getItem('userInfo')
@@ -39,16 +37,22 @@ const  config={
   localStorage.setItem('userInfo', JSON.stringify(data))
   setLogged(true)
   socket.connect()
-  const loggedUser={username:username}
-  setUser(loggedUser)  
+  setUser(username)  
+  toast.success('Login successful')
 
   }
    
     catch(err){
-        console.log(err)
-        toast.error(err.name)
-        setLogged(false)
+        if(err.response && err.response.data && err.response.data.message ){
+        console.log(err.response.data.message)
+        toast.error(err.response.data.message)
+ 
     }
+    else{
+        console.log('Unexpected error')
+    }
+    setLogged(false)
+}
     }
     return (
         <>
@@ -62,35 +66,35 @@ const  config={
     <div className="card authentication">
     <div className="title text-center">
             <h2 className="text-center ">Sign in</h2>
-            <p className="text-muted">Sign in to continue to Chatpro</p>
+            <p className="">Sign in to continue to Chatpro</p>
             </div>
             <label >Username</label>
 <div className="mb-3 position-relative">
-<i className="btn btn-light position-absolute text-muted"><BiUser fontSize={18}/></i>
-<input type="text" placeholder="Enter Username" className="form-control" name="username" required onChange={(e)=>setUsername(e.target.value)}/>
+<i className="btn  position-absolute "><BiUser fontSize={18}/></i>
+<input type="text" placeholder="Enter Username" className="rounded-lg w-full focus:bg-none" name="username" required onChange={(e)=>setUsername(e.target.value)}/>
 </div>
 <div>
-<div className="pass-input d-flex justify-content-between">
-<label>Password</label>
-<a className="forget-password text-muted">Forgot password?</a>
+<div className="pass-input d-flex justify-content-between pt-2">
+<label className="bs-gray-400">Password</label>
+<a className="forget-password ">Forgot password?</a>
 </div>
 <div className="position-relative">
-<a className="btn btn-light position-absolute  text-muted"><CiLock fontSize={20}/></a>
-<input type={hide ? "password" : "text"} placeholder="Enter Password" className="form-control" name="password" required onChange={(e)=>setPassword(e.target.value)}/>
+<i className="btn position-absolute  "><CiLock fontSize={20}/></i>
+<input type={hide ? "password" : "text"} placeholder="Enter Password" className="px-3 py-1.5 rounded-lg w-full" name="password" required onChange={(e)=>setPassword(e.target.value)}/>
 {
-    hide ? <a className="btn hide text-muted" onClick={(e)=>setHide(false)}><FaEyeSlash/></a> : <a className="btn hide text-muted" onClick={(e)=>setHide(true)}><FaEye/></a>
+    hide ? <i className="btn hide " onClick={(e)=>setHide(false)}><FaEyeSlash/></i> : <i className="btn hide " onClick={(e)=>setHide(true)}><FaEye/></i>
 }
 </div>
 </div>
 <div className="submit-btn mt-4">
-<button type="submit" className="btn btn-primary">Login</button>
+<button type="submit" className="btn text-white">Login</button>
 </div>
 </div>
 </form>
 </div>
 </div>       
 </div>
-<p className="text-center text-white mt-3">Don't have an account? <Link className="text-info" to={`/`}>Register</Link></p>
+<p className="text-center text-white mt-3">Don't have an account? <Link className="" to={`/`}>Register</Link></p>
 </div>
 </div>
 </>

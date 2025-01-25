@@ -1,3 +1,4 @@
+ @import "tailwindcss"; 
 *{
   margin:0;
   padding: 0;
@@ -17,11 +18,11 @@ ul{
   display: flex;
   align-items: center;
   height: 100vh;
-  background: #36404a;
+  background: #0f172a;
 }
 a{
   color: inherit !important;
-  text-decoration: none !important;
+  text-decoration: none ;
 }
 
 .dropdown .btn {
@@ -57,14 +58,25 @@ input:focus{
   width: 100%;
   padding: 10px 15px;
 }
-
+.submit-btn .btn:hover{
+  background: #203047;
+}
 
 
 .card {
   padding: 2em;
-  background-color: white;
+  background:#132036 !important;
+  color: white;
 }
-
+.card input {
+  background: #132036;
+}
+.card i{
+  color:white;
+}
+.card label{
+  color: #94a3b8;
+}
 .log-submit{
   text-align: center;
 }
@@ -284,19 +296,25 @@ object-fit: cover;
   align-items: center;
 }
 .authentication input{
-  padding-left: 4rem !important;
-  border: 1px solid #f0eff5;
+  padding-left: 3rem !important;
+  padding: 10px;
+  border: 1px solid #203047;
+  outline: none;
+}
+.authentication input:focus{
+  border: 1px solid #203047 !important;
 }
 .authentication button{
    border: 1px solid #f0eff5; 
 
 
 }
-.authentication .btn-light:hover{
-  background: none;
-  cursor: default;
-  border-color: #f0eff5;
-
+button[type="submit"]{
+  background: #203047;
+  border: none;
+}
+.authentication i{
+  top:8px;
 }
 .sidebar{
   display: flex;
@@ -505,22 +523,5 @@ form img{
 .user{
   cursor: pointer;
   border-bottom: 1px solid #f0eff5!important;
-  border-radius: 4px;
   width: 100%;
 }
-/* .audio{
-  position: relative;
-}
-.audio a{
-  position: absolute;
-  left: 0px;
-}
-
-.tooltip{
-  position: relative;
-  display: inline-block !important;
-}
-.tooltip-title{
-visibility: hidden;
-}
-.starting{

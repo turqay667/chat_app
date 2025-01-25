@@ -26,11 +26,6 @@ function App() {
 </AuthProvider>
 </>
 
-
-
-
-
-
   )
 }
 

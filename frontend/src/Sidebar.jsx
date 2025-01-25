@@ -262,7 +262,7 @@ return (
 <div className="media mt-4">
   <div className=" d-flex justify-content-between mb-3">
 <h5>Media </h5>
-<a className="text-success">Show all</a>
+<a>Show all</a>
 </div>
 <div className="media-img row">
 
@@ -328,18 +328,13 @@ return (
 </div> */}
 </div>
 <div className="user-content">
-    <label className="text-muted pt-3 pb-3">About</label>
+    <label className="text-muted pb-2">About</label>
     <textarea className="form-control" id="about" value={about} rows={4}  cols={7} onChange={(e)=>setAbout(e.target.value)} /> 
     <label className="text-muted pt-3 pb-2">Name</label>
-    <input className="form-control"      value={username}   onChange={(e)=>setUsername(e.target.value)}/>
+    <input className="form-control"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
     <label className="text-muted  pt-3 pb-2">Password</label>
     <input className="form-control font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
     <div className="text-center mt-3">
-      {
-        edit ?  (<button className="btn btn-primary" onClick={()=>setEdit(false)}>Edit</button> ) : 
-        (  <button type="submit" className="btn btn-success">Save</button>)
-
-      }
     </div>
 </div>
             </> 
