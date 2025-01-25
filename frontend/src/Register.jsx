@@ -60,13 +60,13 @@ useEffect(()=>{
     <label className="">Username</label>
 <div className=" mb-3 position-relative username-input">
 <i className="btn  position-absolute  "><BiUser fontSize={18}/></i>
-<input type="text" placeholder="Enter Username" className="w-full" name="username"  onChange={(e)=>setUsername(e.target.value)}  required maxLength={15}/>
+<input type="text" placeholder="Enter Username" className="w-full rounded-lg" name="username"  onChange={(e)=>setUsername(e.target.value)}  required maxLength={15}/>
 </div>
 
 <label className="">Email</label>
 <div className="mb-3 email-input position-relative">
 <i className="btn  position-absolute "><BiEnvelope fontSize={18}/></i>
-<input type="email" placeholder="Enter Email" className="w-full" name="email" onChange={(e)=>setEmail(e.target.value)}  required  />
+<input type="email" placeholder="Enter Email" className="w-full rounded-lg" name="email" onChange={(e)=>setEmail(e.target.value)}  required  />
 
 </div>
 <div>
@@ -76,7 +76,7 @@ useEffect(()=>{
 </div>
 <div className="position-relative">
 <i className="btn  position-absolute  "><CiLock fontSize={20}/></i>
-<input type={hide ? "password" : "text"} placeholder="Enter Password" className="w-full" onChange={(e)=>setPassword(e.target.value)} required minLength={8}/>
+<input type={hide ? "password" : "text"} placeholder="Enter Password" className="w-full rounded-lg" onChange={(e)=>setPassword(e.target.value)} required minLength={8}/>
 {
     hide ? <i className="btn hide " onClick={(e)=>setHide(false)}><FaEyeSlash/></i> : <i className="btn hide " onClick={(e)=>setHide(true)}><FaEye/></i>
 }

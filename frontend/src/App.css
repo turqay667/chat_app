@@ -533,3 +533,31 @@ form img{
   cursor: pointer;
   width: 100%;
 }
+@media (max-width:768px) {
+  .sidebar{
+    position: fixed;
+    bottom:0;
+    min-width: 100%;
+  }
+  .logo{
+    display: none;
+  }
+  .nav, .sidebar, .sidebar-menu, .navbar-menu{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap !important;
+
+  }
+  /* .navbar-menu{
+    display: flex;
+    flex-direction: row;
+  }
+  .sidebar{
+    display: flex;
+    flex-direction: row;
+  }
+  .sidebar-menu{
+    display: flex;
+    flex-direction: row;
+  } */
+}

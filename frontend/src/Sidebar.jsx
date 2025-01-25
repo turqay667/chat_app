@@ -160,7 +160,7 @@ const userId=adminn ? adminn._id : null
         <>
         <div className="sidebar" style={{backgroundColor: '#36404a'  }}    >
         <div className="logo pt-4"><a > <BsChatSquareText fontSize={34}/></a></div>
-  <div className="navbar-menu pt-5">
+  <div className="navbar-menu">
 <ul className="sidebar-menu nav">
 <li><a className="btn" id="chat-tab" data-bs-toggle="tab" role="tab" data-bs-target="#chat" aria-selected="true"><PiChats fontSize={32}/></a></li>
 {/* <li><a className="btn"  id="calls-tab" data-bs-toggle="tab"  role="tab" data-bs-target="#calls"   aria-selected="false"> <PiPhoneCall fontSize={32}/></a></li> */}
@@ -178,7 +178,7 @@ const userId=adminn ? adminn._id : null
 </ul>
 </div>
 </div>
-        <div className="col-md-3 chats tab-content overflow-auto" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>
+        <div className="col-md-3 col-12 chats tab-content overflow-auto" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>
         <div className="sidebar-left tab-pane fade show active" id="chat" role="tabpanel" aria-labelledby="chat-tab">
             <div className="header">
                 <div className="mb-4">
