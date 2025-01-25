@@ -103,16 +103,22 @@ overflow: hidden;
   /* height: calc(100vh - 184px) !important;
 } */
 .chat-header{
-  padding: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #36404a;
 }
-.chat input{
-  color: #eeeeee !important;
-  border: none;
-  outline: none;
-  background-color: #333 !important;
+#msg{
+   border: 1px solid #36404a;
+  outline: none !important;
+  color: #7f8384;
+
 }
 input{
   outline: none;
+}
+textarea{
+  resize: none !important;
+  outline: none;
+  border: none;
 }
 .chat-user{
   display: flex;
@@ -120,9 +126,6 @@ input{
 }
 .chat-user-nav ul{
   margin-bottom: inherit;
-}
-.chat-header{
-  border-bottom: 1px solid #36404a;
 }
 .chat-icons{
   gap:15px;
@@ -166,6 +169,9 @@ input{
   gap: 20px;
 
 }
+.users a{
+  text-decoration: none;
+}
 /* .users img{
   height: 80px;
   width: 80px;
@@ -179,6 +185,7 @@ input{
 } 
 figure{
   position: relative;
+  margin: inherit;
 }
 .status{
   position: absolute;
@@ -310,7 +317,7 @@ object-fit: cover;
 
 
 }
-button[type="submit"]{
+.auth button[type="submit"]{
   background: #203047;
   border: none;
 }
@@ -386,7 +393,9 @@ gap: 1rem;
   justify-content: space-between;
 }
 .profile-img img{
-  border: 3px solid #f0eff5;
+  width: 150px;
+  height: 150px;
+  /* border: 1px solid #f0eff5; */
   /* background: #f2f2f2; */
 }
 .profile-img a{
@@ -398,6 +407,7 @@ gap: 1rem;
 }
 .user-content{
   padding: 20px;
+  border-top: 1px solid rgb(240, 239, 245)
 }
 .media-img {
 display: flex;
@@ -451,17 +461,15 @@ form img{
   height: 3rem;
   border-radius: 10px;
 }
-.profile-img{
-  position: relative;
-}
+
 .profile-img a{
   position: absolute;
   display: flex;
   justify-content: center;
   font-size: 24px;
   padding: 6.5px;
-  right: 0.6rem;
-  bottom: 0.7rem;
+  right: 2rem;
+  bottom: 3rem;
   text-align: center;
   width: 2.3rem;
   background: rgb( 230, 235, 245) !important;
@@ -523,6 +531,5 @@ form img{
 }
 .user{
   cursor: pointer;
-  border-bottom: 1px solid #f0eff5!important;
   width: 100%;
 }

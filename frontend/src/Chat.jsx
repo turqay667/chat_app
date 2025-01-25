@@ -220,7 +220,7 @@ const handleEmojis=(e)=>{
 <form onSubmit={handleSubmit} >
   <div className="d-flex">
 <div className="col-md-9">
-  <input type="text" value={item} className="form-control form-control-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
+  <input type="text" value={item} className="w-full px-2 py-2 rounded-xl" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
  
   {attach ?  <img src={item} /> : <div></div> }
 
@@ -229,12 +229,9 @@ const handleEmojis=(e)=>{
   <div className="col-md-2 col-4 d-flex align-items-center justify-content-center gap-3">
  <div className="audio">
 
- <button type="button" className="btn anchors" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> </button> 
-
+ <button type="button" className="anchors" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> </button>
 </div>
-
-
-  <div className="send d-flex h-100"><button  type ="submit" className="btn btn-primary" ><IoSend className="stopped" fontSize={22}/></button></div>
+  <div className="send d-flex h-100"><button  type ="submit" className="" ><IoSend className="stopped" fontSize={22} color="#6c757d"/></button></div>
   </div>  
   </div>
   </form>

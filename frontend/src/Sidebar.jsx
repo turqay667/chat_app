@@ -227,7 +227,7 @@ return (
         </div>
         <div className="sidebar-left tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div className="header">
-                <div className="mb-4 d-flex justify-content-between">
+                <div className="mb-2 d-flex justify-content-between">
                <div>
                 <h4>My Profile</h4>
                 </div>
@@ -240,7 +240,7 @@ return (
           {
             adminn ?
             <>
-             <div className="profile-img d-flex justify-content-center mb-3">
+             <div className="profile-img d-flex justify-content-center">
 <img src={image} className="rounded-circle avatar"/>
 </div>
 <h5 className="text-center pb-3">{adminn.username}</h5> 
@@ -285,7 +285,7 @@ return (
 </div>
 <div className="sidebar-left tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
         <div className="header">
-                <div className="mb-4 d-flex justify-content-between">
+                <div className="mb-2 d-flex justify-content-between">
                <div>
                 <h4>Settings</h4>
                 </div>
@@ -303,7 +303,7 @@ return (
             
             <>
              <div className="profile-img d-flex justify-content-center">
-              <figure>
+              <figure className="position-relative">
 
        
 <img src={image} className="rounded-circle avatar"></img>
@@ -314,10 +314,8 @@ return (
   </label>
   </figure>
 </div>
-<div className="text-center">
 
-
-<h5 className="pb-3">{adminn.username}</h5> 
+{/* <h5 className="">{adminn.username}</h5>  */}
 {/* <div className="dropdown pb-4">
 <a className="text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Available</a>
 <ul className="dropdown-menu">
@@ -326,7 +324,7 @@ return (
 <li><a className="dropdown-item"> Don't disturb</a></li>
 </ul>
 </div> */}
-</div>
+
 <div className="user-content">
     <label className="text-muted pb-2">About</label>
     <textarea className="w-full" id="about" value={about} rows={4}  cols={7} onChange={(e)=>setAbout(e.target.value)} /> 

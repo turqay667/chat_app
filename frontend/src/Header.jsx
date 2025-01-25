@@ -33,7 +33,7 @@ const handleDelete=async()=>{
   
 
     return (
-        <div className="chat-header mb-5 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
+        <div className="chat-header d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
         <div className="col-md-4">
         <div className="chat-user">
         <div className="d-flex justify-content-center align-items-center">
@@ -43,7 +43,7 @@ const handleDelete=async()=>{
     <div>
        <h5>{selectedUser?.username}</h5>
     
-    { onlineUser ?  <p>Online</p> : <p>Offline</p> }  
+    { onlineUser ?  <p className="text-muted">Online</p> : <p className="text-muted">Offline</p> }  
      
         <div className="text-muted" id="typing"></div>  
           {/* <span className="text-muted">online</span> */}
