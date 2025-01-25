@@ -21,6 +21,7 @@ const Login=()=>{
     const {setUser}=useContext(AuthContext)
  
 const userInfo=localStorage.getItem('userInfo')
+// console.log(userInfo)
 useEffect(()=>{
    if(logged){
  navigate("/home")} 
@@ -33,7 +34,7 @@ const  config={
             headers:{"Content-Type":"application/json"},
         }
 
-  const data =await axios.post('https://chat-app-64fc.onrender.com/api/login',{username,password},config)
+  const data =await axios.post('http://localhost:5000/api/login',{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
   setLogged(true)
   socket.connect()
@@ -43,15 +44,8 @@ const  config={
   }
    
     catch(err){
-        if(err.response && err.response.data && err.response.data.message ){
-        console.log(err.response.data.message)
-        toast.error(err.response.data.message)
- 
-    }
-    else{
-        console.log('Unexpected error')
-    }
-    setLogged(false)
+      console.log(err)
+    // setLogged(false)
 }
     }
     return (

@@ -185,7 +185,7 @@ const userId=adminn ? adminn._id : null
                 <h4>Chat</h4>
                 </div>          
             <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
-            <input type="text" className="form-control bg-light" placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
+            <input type="text" className="w-full rounded-full px-2 py-2" placeholder="  Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
             </div>     
@@ -196,7 +196,7 @@ const userId=adminn ? adminn._id : null
             
 return (        
 <a className="user-profile" onClick={()=> setSelectedUser(user)}  key={user._id}>
-            <div className="user position-relative d-flex pb-3" >
+            <div className="user position-relative d-flex" >
       
             {user.username===adminn ? <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
               
@@ -329,11 +329,11 @@ return (
 </div>
 <div className="user-content">
     <label className="text-muted pb-2">About</label>
-    <textarea className="form-control" id="about" value={about} rows={4}  cols={7} onChange={(e)=>setAbout(e.target.value)} /> 
-    <label className="text-muted pt-3 pb-2">Name</label>
-    <input className="form-control"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
+    <textarea className="w-full" id="about" value={about} rows={4}  cols={7} onChange={(e)=>setAbout(e.target.value)} /> 
+    <label className="text-muted pb-2">Name</label>
+    <input className="w-full"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
     <label className="text-muted  pt-3 pb-2">Password</label>
-    <input className="form-control font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
+    <input className="w-full font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
     <div className="text-center mt-3">
     </div>
 </div>
@@ -371,11 +371,11 @@ return (
               <div className="modal-body">
 
 {/* <label>Emaile</label>
-<input type="text" placeholder="Enter Email" className="form-control" onChange={(e)=>setEmail(e.target.value)}/> */}
+<input type="text" placeholder="Enter Email" className="w-full" onChange={(e)=>setEmail(e.target.value)}/> */}
 <label >Phone </label>
-<input  type="number" placeholder="Enter Phone Number" className="form-control mt-3 mb-3" onChange={(e)=>setPhone(e.target.value)}/>
+<input  type="number" placeholder="Enter Phone Number" className="w-full mt-3 mb-3" onChange={(e)=>setPhone(e.target.value)}/>
 <label >Name</label>
-<input type="text" placeholder="Enter Name" className="form-control mt-3 mb-3" onChange={(e)=>setName(e.target.value)}/>
+<input type="text" placeholder="Enter Name" className="w-full mt-3 mb-3" onChange={(e)=>setName(e.target.value)}/>
 
               </div>
               
@@ -392,7 +392,7 @@ return (
         </div>
       
         <form className="search-form d-flex align-items-center">
-            <input type="text" className="form-control bg-light" placeholder="Search contacts..."/>
+            <input type="text" className="w-full" placeholder="Search contacts..."/>
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
         </div>

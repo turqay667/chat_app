@@ -1,7 +1,14 @@
-const PrivateRouter=(props)=>{
+import { Navigate } from "react-router-dom"
 
+const PrivateRouter=(props)=>{
+    const userInfo=localStorage.getItem('userInfo')
+    if(userInfo){
     return (
         <div>{props.children}</div>
     )
 }
-export default PrivateRouter
+else{
+    return <Navigate to={'/login'}/>
+}
+}
+export default PrivateRouter;

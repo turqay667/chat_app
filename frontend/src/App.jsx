@@ -9,6 +9,7 @@ import { Route, Routes } from 'react-router-dom';
 import ThemeProvider from './ThemeContext';
 import io from "socket.io-client";
 import AuthProvider from './AuthContext';
+import PrivateRouter from './PrivateRouter';
 function App() {
   return (
    <>
@@ -16,12 +17,15 @@ function App() {
        <AuthProvider>
         <ThemeProvider>  
 <Routes>
-  <Route exact path='/' Component={Register} />
-  <Route path='/login' Component={Login}/>
+
+  <Route   path='/login' Component={Login}/>
+  <Route   exact path='/' Component={Register} />
   <Route   path='/home' Component={Chat}/>
+  <Route path='/home' Component={PrivateRouter}/>
   {/* <Route  exact path='/home/:id' Component={Chat}/> */}
   {/* <Route  path=`/home/:${user._id}` Component={Chat}/> */}
 </Routes>
+
 </ThemeProvider>
 </AuthProvider>
 </>
