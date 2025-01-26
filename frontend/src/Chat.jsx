@@ -16,6 +16,8 @@ import { Tooltip } from "react-tooltip";
 import Message from "./Message";
 import Header from "./Header";
 import { socket } from "./Socket";
+import { ApiContext } from "./ApiContext";
+import Chats from "./Chats";
  function Chat(){
   const {theme, handleTheme}=useContext(ThemeContext)
   const [called,setCalled]=useState(false)
@@ -28,7 +30,8 @@ import { socket } from "./Socket";
   const [muted,setMuted]=useState(false)
   const [recording,setRecording]=useState(false)
   const [selectedUser,setSelectedUser]=useState(null)
-
+  const [showSidebar, setShowSidebar]=useState(true)
+  const {apiUrl }=useContext(ApiContext)
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const user=userInfo?.data
@@ -95,7 +98,7 @@ const notification=document.getElementById("notification")
 notification.play()
 const newMessage={message:item, image:image, sender:user._id}
 try{
- const response=await axios.post(`https://chat-app-64fc.onrender.com/api/messages/${selectedUser._id}`, newMessage, {
+ const response=await axios.post(`${apiUrl}/messages/${selectedUser._id}`, newMessage, {
     headers:{ 
       Authorization:`Bearer ${token}`,
       "Content-Type":"application/json" ,
@@ -119,13 +122,6 @@ setAttach(null)
 
 const handleEmojis=(e)=>{
   setItem(e.target.value)
-}
-if(selectedUser){
-  const chat=document.getElementById('chatbody')
-  if(window.innerWidth<=768){
-  chat.classList.add('col-12')
-  console.log('yes')
-} 
 }
 
   const handleAudio=async ()=>{
@@ -170,14 +166,23 @@ if(selectedUser){
     {called ? <Call/>: <></>}
     {videoCalled ?  <VideoCall/>: <></>}
 <div className="chat-row d-flex" style={{backgroundColor: theme==='dark' ? '#303841': "#ffffff", color: theme==='dark' ? 'white': "#212529",}}  >
+{
+  showSidebar ? 
+  <>
+  <Sidebar /> 
+  <Chats messages={messages} setMessages={setMessages}   image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar}/>
+  </>
+  :
+  <></>
 
-<Sidebar messages={messages} setMessages={setMessages}   attach={attach} image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null}/>
-        <div className="chat-body" id="chatbody" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
+}
+
+        <div className={showSidebar ? "chat-body col" : "chat-body col-12"} id="chatbody" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
            {
           selectedUser ?   
           <>
 
-          <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null}/> 
+  <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar}/> 
          
           <div className="conversation-body text-center overflow-auto" >
     {

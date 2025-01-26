@@ -5,7 +5,7 @@ import { GoUnmute,GoMute } from "react-icons/go";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
-const Header=({theme,messages,selectedUser,setMessages, onlineUser})=>{
+const Header=({theme,messages,selectedUser,setMessages, onlineUser,setShowSidebar})=>{
   const msn=document.getElementById('msn')
 const [muted,setMuted]=useState(false)
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -17,7 +17,7 @@ const handleMute=()=>{
 
 const handleDelete=async()=>{
   try{
-    await axios.delete('http://localhost:5000/api/messages/675dc4beb4693734af7983db', {
+    await axios.delete(`${apiUrl}/messages/675dc4beb4693734af7983db`, {
      headers:{
        "Content-Type":"application/json",
        "Authorization":`Bearer ${token}`
@@ -29,7 +29,9 @@ const handleDelete=async()=>{
      console.log(err)
    }
    }
-
+const handleBack=()=>{
+  setShowSidebar(true)
+}
   // msn.innerHTML=`<div></div>`
   
 
@@ -40,7 +42,7 @@ const handleDelete=async()=>{
         <div className="chat-user">
         <div className="d-flex justify-content-center align-items-center">
         <div className="d-block d-lg-none">
-<FaArrowLeft fontSize={24}/>
+<FaArrowLeft fontSize={24} onClick={handleBack}/>
           </div>
         <img src='user-profile.png' className="avatar "></img>
        <span className="status"></span>
