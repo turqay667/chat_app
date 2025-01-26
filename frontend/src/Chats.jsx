@@ -94,8 +94,7 @@ e.preventDefault()
 }
 
 const handleUser=()=>{
-
-if(selectedUser){
+if(selectedUser && window.innerWidth<=768){
 setShowSidebar(false)
 const chat=document.getElementById('nav-tabContent')
 chat.classList.remove('col-12')
