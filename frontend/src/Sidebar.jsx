@@ -13,8 +13,7 @@ const Sidebar=()=>{
     const {theme,handleTheme}=useContext(ThemeContext)
     const navigate=useNavigate()
  
-            
-
+          
     const handleLogout=()=>{
        localStorage.removeItem("userInfo")
         navigate("/login")

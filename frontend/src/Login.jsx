@@ -21,7 +21,7 @@ const Login=()=>{
     const [hide,setHide]=useState(false)
     const {setUser}=useContext(AuthContext)
     const {apiUrl}=useContext(ApiContext)
-const userInfo=localStorage.getItem('userInfo')
+// const userInfo=localStorage.getItem('userInfo')
 // console.log(userInfo)
 useEffect(()=>{
    if(logged){
@@ -30,23 +30,21 @@ useEffect(()=>{
 
     const handleSubmit=async (e)=>{
         e.preventDefault();
+
         try{
 const  config={
             headers:{"Content-Type":"application/json"},
         }
-
-  const data =await axios.post(`${apiUrl}/login`,{username,password},config)
+  const data = await axios.post(`${apiUrl}/login`,{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
-  setLogged(true)
   socket.connect()
   setUser(username)  
   toast.success('Login successful')
-
-  }
-   
+  setLogged(true)
+}
     catch(err){
       console.log(err)
-    // setLogged(false)
+      toast.error(err.response?.data?.message || 'Something went wrong')
 }
     }
     return (
@@ -66,7 +64,7 @@ const  config={
             <label >Username</label>
 <div className="mb-3 position-relative">
 <i className="btn  position-absolute "><BiUser fontSize={18}/></i>
-<input type="text" placeholder="Enter Username" className="rounded-lg w-full focus:bg-none" name="username" required onChange={(e)=>setUsername(e.target.value)}/>
+<input type="text" placeholder="Enter Username" className="rounded-lg w-full focus:bg-none" name="username"  onChange={(e)=>setUsername(e.target.value)}/>
 </div>
 <div>
 <div className="pass-input d-flex justify-content-between pt-2">
@@ -75,7 +73,7 @@ const  config={
 </div>
 <div className="position-relative">
 <i className="btn position-absolute  "><CiLock fontSize={20}/></i>
-<input type={hide ? "password" : "text"} placeholder="Enter Password" className="px-3 py-1.5 rounded-lg w-full" name="password" required onChange={(e)=>setPassword(e.target.value)}/>
+<input type={hide ? "password" : "text"} placeholder="Enter Password" className="px-3 py-1.5 rounded-lg w-full" name="password" onChange={(e)=>setPassword(e.target.value)}/>
 {
     hide ? <i className="btn hide " onClick={(e)=>setHide(false)}><FaEyeSlash/></i> : <i className="btn hide " onClick={(e)=>setHide(true)}><FaEye/></i>
 }

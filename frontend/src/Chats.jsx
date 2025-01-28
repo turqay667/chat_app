@@ -99,8 +99,6 @@ setShowSidebar(false)
 const chat=document.getElementById('nav-tabContent')
 chat.classList.remove('col-12')
 }
-
-
 }
 const handleImage = (e)=>{
 const file=e.target.files[0]
