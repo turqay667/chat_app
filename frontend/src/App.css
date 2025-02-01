@@ -47,6 +47,7 @@ input:focus{
   justify-content: center;
   /* height: 6em;
   padding: 1.5em; */
+  cursor: pointer;
   padding: 20px;
   will-change: filter;
   transition: filter 300ms;
@@ -97,6 +98,7 @@ display: flex;
 justify-content: space-between;
 flex-direction: column;
 overflow: hidden;
+box-shadow: 0 2px 4px #0f223a1f;
   /* color: white;
   background: #36404a; */
 }
@@ -112,10 +114,12 @@ overflow: hidden;
 #msg{
    border: 1px solid #e6ebf5;
   outline: none !important;
+  background: rgba(230, 235, 245);
   color: #7f8384;
 
 }
 input{
+
   outline: none;
 }
 textarea{
@@ -168,9 +172,11 @@ textarea{
 .users{
   display: flex;
   flex-direction: column;
-  padding: 20px;
   /* gap: 20px; */
 
+}
+.user{
+  padding-left: 1.5rem;
 }
 .users a{
   text-decoration: none;
@@ -251,6 +257,7 @@ figure{
 .search-form input{
   border: 1px solid #e6ebf5;
   color: #7f8384;
+  background: rgba(230, 235, 245);
   font-size: 1.2rem;
 }
 /* .search-form input:focus{
@@ -345,6 +352,7 @@ object-fit: cover;
 }
 .navbar-menu a{
   color: #878a92 !important;
+  border:none !important;
 }
 .sidebar-menu{
   padding: 10px;
@@ -409,12 +417,12 @@ gap: 1rem;
   position: absolute;
   right: 0px;
 }
-.user-profile{
+ .user-profile{
   border-bottom: 1px solid rgb(240, 239, 245);
-}
+} 
 .user-content{
   padding: 20px;
-  border-top: 1px solid rgb(240, 239, 245)
+
 }
 .user-content a{
   font-size: 24px

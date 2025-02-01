@@ -229,7 +229,7 @@ o
 <form onSubmit={handleSubmit} >
   <div className="d-flex">
 <div className="col-md-9 ">
-  <input type="text" value={item} className="w-full px-4 py-2 rounded-xl" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
+  <input type="text" value={item} className="w-full px-4 py-2 rounded-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
  
   {attach ?  <img src={item} /> : <div></div> }
 

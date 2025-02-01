@@ -37,7 +37,7 @@ const handleBack=()=>{
 
     return (
         <div className="chat-header d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
-        <div className="col-md-4">
+        <div className="col-md-4 col-9">
      
         <div className="chat-user">
         <div className="d-flex justify-content-center align-items-center">
@@ -60,7 +60,7 @@ const handleBack=()=>{
         </div>
    
         </div>
-      <div className="col-md-8">
+      <div className="col-md-8 col-3">
       <div className="chat-user-nav d-flex justify-content-end">
         <ul className="d-flex">
     

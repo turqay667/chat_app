@@ -166,7 +166,7 @@ catch(err){
               filteredUsers.map((user)=>{
             
 return (        
-<a className="user-profile" onClick={()=> setSelectedUser(user)}  key={user._id}>
+<a className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'} onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex" onClick={handleUser}>
       
             {user.username===adminn ? <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
@@ -203,7 +203,7 @@ return (
                 </div>
 
 
-        <div className="user-profile">
+        <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>
           {
             adminn ?
             <>
@@ -214,9 +214,7 @@ return (
             </> 
             : <></>
           }
-   
-{/* <p className="text-center text-muted">{admin.about}</p> */}
-
+  
 
 </div> 
 <div className="user-content">
@@ -224,7 +222,7 @@ return (
 <div className="media mt-4">
   <div className=" d-flex justify-content-between mb-3">
 <h5>Media </h5>
-<a>Show all</a>
+<h6>Show all</h6>
 </div>
 <div className="media-img row">
 
@@ -256,16 +254,18 @@ return (
            
                 </div>
 
-
-        <div className="user-profile">
+        <div>
         <form onSubmit={handleProfile} id="prof">
           {
          
             adminn ? (
             
             <>
+            <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>
+
+          
              <div className="profile-img d-flex justify-content-center">
-              <figure className="position-relative">
+             
 
        
 <img src={image} className="rounded-circle avatar"></img>
@@ -274,9 +274,8 @@ return (
     <MdOutlineEdit fontSize={28} />
     </a> */}
   </label>
-  </figure>
 </div>
-
+</div>
 {/* <h5 className="">{adminn.username}</h5>  */}
 {/* <div className="dropdown pb-4">
 <a className="text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Available</a>
@@ -287,7 +286,7 @@ return (
 </ul>
 </div> */}
 
-<div className="user-content">
+<div className='user-content'>
     <label className="text-muted pb-2">About</label>
 
       <div className="d-flex align-items-center"> 
@@ -297,7 +296,7 @@ return (
     </span> */}
     </div>
     <label className="text-muted pb-2">Name</label>  
-    <div className="d-flex justify-content-evenly">
+    <div className="d-flex justify-content-evenly" >
          <input className="w-full"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
   <a>
     <CiEdit   onClick={handleEdit}/>
