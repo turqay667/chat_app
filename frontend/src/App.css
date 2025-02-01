@@ -102,12 +102,15 @@ overflow: hidden;
 }
   /* height: calc(100vh - 184px) !important;
 } */
+ .msg-body{
+  border-top: 1px solid #36404a;
+ }
 .chat-header{
   padding: 10px;
   border-bottom: 1px solid #36404a;
 }
 #msg{
-   border: 1px solid #36404a;
+   border: 1px solid #e6ebf5;
   outline: none !important;
   color: #7f8384;
 
@@ -166,7 +169,7 @@ textarea{
   display: flex;
   flex-direction: column;
   padding: 20px;
-  gap: 20px;
+  /* gap: 20px; */
 
 }
 .users a{
@@ -222,6 +225,10 @@ figure{
   text-align: start;
   color: #7f8384;
 }
+.message img{
+  height: 100px;
+  width: 100% !important;
+}
 .msnn{
   display: flex;
   justify-content: start;
@@ -242,7 +249,7 @@ figure{
   position: relative;
 }
 .search-form input{
-  border: 1px solid grey;
+  border: 1px solid #e6ebf5;
   color: #7f8384;
   font-size: 1.2rem;
 }
@@ -334,7 +341,6 @@ object-fit: cover;
 }
 .navbar-menu{
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
 }
 .navbar-menu a{
@@ -391,6 +397,7 @@ gap: 1rem;
 .chat-user-nav li a{
   display: flex;
   justify-content: space-between;
+  text-decoration: none;
 }
 .profile-img img{
   width: 150px;
@@ -408,6 +415,9 @@ gap: 1rem;
 .user-content{
   padding: 20px;
   border-top: 1px solid rgb(240, 239, 245)
+}
+.user-content a{
+  font-size: 24px
 }
 .media-img {
 display: flex;

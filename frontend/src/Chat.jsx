@@ -72,12 +72,12 @@ let mediaRecorder=null;
   "😘",
   "😗",
 ]
-
+const formData=new FormData()
 const handleAttach=(e)=>{
   const file=e.target.files[0]
   setAttach(file)
 if(file){
-const formData=new FormData()
+
 formData.append('image', file)
 const reader=new FileReader()
 reader.onload=()=>{
@@ -200,7 +200,7 @@ const handleEmojis=(e)=>{
       
 
 </div>
-<div className="msg-body p-3 p-lg-4">
+<div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}}>
 <div className="row align-items-center">
         <div className="d-flex justify-content-center align-items-center icons col-md-2 col-4">     
       <div> 
@@ -225,11 +225,11 @@ o
       </div>
       </div>
  
-   <div className="col-md-10 col-8">
+   <div className="col-md-10 col-8 chat-input">
 <form onSubmit={handleSubmit} >
   <div className="d-flex">
 <div className="col-md-9 ">
-  <input type="text" value={item} className="w-full px-2 py-2 rounded-xl" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
+  <input type="text" value={item} className="w-full px-4 py-2 rounded-xl" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
  
   {attach ?  <img src={item} /> : <div></div> }
 

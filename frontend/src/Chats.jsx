@@ -1,6 +1,6 @@
 import { PiPhoneCall } from "react-icons/pi";
 import { RiContactsLine } from "react-icons/ri";
-import { CiSquarePlus } from "react-icons/ci";
+import { CiEdit, CiSquarePlus } from "react-icons/ci";
 import { BiSearch } from "react-icons/bi";
 import { FaPenSquare, FaRegEdit } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
@@ -8,6 +8,7 @@ import { useState,useEffect, useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 import { ApiContext } from "./ApiContext";
 import { socket } from "./Socket";
+import axios from "axios";
 const Chats=({messages,setMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar })=>{
 const {apiUrl}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
@@ -19,7 +20,7 @@ const [about,setAbout]=useState('“When you change your thoughts, remember to a
 const [saved,setSaved]=useState(false)
 const [image,setImage]=useState('user-profile.png')
 const [search,setSearch]=useState('')
-const [edit,setEdit]=useState(true)
+const [edit,setEdit]=useState(false)
 
 
 
@@ -31,7 +32,8 @@ adminn =userInfo.data
 const user=userInfo?.data
 const token=userInfo?.data?.token
 const [username,setUsername]=useState(user.username)
-
+// const admin=users.find(item=>item.role==='Admin')
+const userId=adminn ? adminn._id : null
 
 useEffect(()=>{
 fetch(`${apiUrl}/`)
@@ -112,8 +114,9 @@ setImage(reader.result)
 try{
 axios.put(`${apiUrl}/profile/${userId}`, {image},{
     headers:{
+     Authorization:`Bearer ${token}`,
     "Content-Type":"application/json",
-    "Authorization":`Bearer ${token}`
+  
     }
 })
 }
@@ -123,22 +126,25 @@ catch(err){
 }
 reader.readAsDataURL(file)
 }
+const handleEdit=()=>{
+  setEdit(true)
+}
 const handleProfile=async(e)=>{
 e.preventDefault()
+console.log('edited')
+const updatedUser={username, password}
 
-if(!edit){
 try{
-await axios.put(`${apiUrl}/profile/${userId}`, {username,password},{
+await axios.put(`${apiUrl}/profile/${userId}`, updatedUser, {
     headers:{
     "Content-Type":"application/json",
     "Authorization":`Bearer ${token}`
     }
 })
+
 }
 catch(err){
     console.log(err)
-
-}
 }
 }
     return(
@@ -150,7 +156,7 @@ catch(err){
                 <h4>Chat</h4>
                 </div>          
             <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
-            <input type="text" className="w-full rounded-full px-2 py-2" placeholder="  Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
+            <input type="text" className="w-full rounded-full px-4 py-2" placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
             </div>     
@@ -264,9 +270,9 @@ return (
        
 <img src={image} className="rounded-circle avatar"></img>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
-  <a>
+  {/* <a>
     <MdOutlineEdit fontSize={28} />
-    </a>
+    </a> */}
   </label>
   </figure>
 </div>
@@ -283,12 +289,31 @@ return (
 
 <div className="user-content">
     <label className="text-muted pb-2">About</label>
-    <textarea className="w-full" id="about" value={about} rows={4}  cols={7} onChange={(e)=>setAbout(e.target.value)} /> 
-    <label className="text-muted pb-2">Name</label>
-    <input className="w-full"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
+
+      <div className="d-flex align-items-center"> 
+        <textarea className="w-full pb-3" id="about" value={about} rows={3}  cols={3} onChange={(e)=>setAbout(e.target.value)} /> 
+ {/* <span className="btn btn-success text-white">
+    <MdOutlineEdit fontSize={24}  onClick={handleEdit}/>
+    </span> */}
+    </div>
+    <label className="text-muted pb-2">Name</label>  
+    <div className="d-flex justify-content-evenly">
+         <input className="w-full"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
+  <a>
+    <CiEdit   onClick={handleEdit}/>
+    </a>
+    
+    </div>
+   
     <label className="text-muted  pt-3 pb-2">Password</label>
+    <div className="d-flex justify-around">
     <input className="w-full font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
+     <a>
+    <CiEdit  onClick={handleEdit}/>
+    </a>
+    </div>
     <div className="text-center mt-3">
+      { edit ? <button type="submit" className="btn btn-success text-white">Save</button> : <div></div>}
     </div>
 </div>
             </> 
