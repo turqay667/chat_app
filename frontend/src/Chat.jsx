@@ -1,5 +1,5 @@
 
-import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
+import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsSend,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
 import { IoCallOutline, IoSend, IoVideocamOutline } from "react-icons/io5";
 import {HiOutlineMicrophone } from 'react-icons/hi2'
 import { createContext, createElement, useContext, useEffect, useRef } from "react";
@@ -201,15 +201,21 @@ const handleEmojis=(e)=>{
 
 </div>
 <div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}}>
-<div className="row align-items-center">
-        <div className="d-flex justify-content-center align-items-center icons col-md-2 col-4">     
-      <div> 
-        <label><BsImage fontSize={32} color="#6c757d"/>     
-      <input type="file" id="files" onChange={handleAttach} accept="image/*" /></label>
-      </div> 
+<form onSubmit={handleSubmit} >
+<div className="d-flex align-items-center justify-center">
 
-      <div className="dropup col-md-2"  >     
+        <div className="justify-content-center align-items-center icons">     
+    
+      <div className="d-flex align-items-center">
+
+
+ <label>
+  <BsImage fontSize={32} color="#6c757d"/> 
+  <input type="file" id="files" onChange={handleAttach} accept="image/*" />
+  </label>
+
       <button type="button" className="btn text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={32} color="#6c757d"/></button>
+      </div>
      <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu" >
       {
       emojii.map((emoji)=>{
@@ -221,35 +227,22 @@ o
     
      </ul>
 
-    
-      </div>
-      </div>
- 
-   <div className="col-md-10 col-8 chat-input">
-<form onSubmit={handleSubmit} >
-  <div className="d-flex">
-<div className="col-md-9 ">
-  <input type="text" value={item} className="w-full px-4 py-2 rounded-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
- 
-  {attach ?  <img src={item} /> : <div></div> }
-
-  </div>  
-  <audio src="beep.mp3" id="notification"></audio>
-  <div className="col-md-2 col-4 d-flex align-items-center justify-content-center gap-3">
- <div className="audio">
-
- <button type="button" className="anchors" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> </button>
-</div>
-  <div className="send d-flex h-100"><button  type ="submit" className="" ><IoSend className="stopped" fontSize={22} color="#6c757d"/></button></div>
-  </div>  
-  </div>
-  </form>
-  </div>  
   
+      </div>
+     
+   <div className="chat-input d-flex col-md-10 gap-2">
+  <input type="text" value={item} className="w-full  px-4 py-2 rounded-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
+  {attach ?  <img src={item} /> : <div></div> }
+  <audio src="beep.mp3" id="notification"></audio>
+ <button type="button" className="anchors" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> </button>
+    <button  type ="submit" ><BsSend className="stopped" fontSize={24} color="#6c757d"/></button>
+    </div>  
+
   </div>
  
-   
+  </form>
         </div>
+        
           </>
           : <div className="starting">
             <h2 className="text-center text-white"> Select chat to start conversation</h2>

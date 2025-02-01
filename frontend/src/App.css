@@ -564,6 +564,7 @@ form img{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap !important;
+    justify-content: center;
 
   }
   .starting{
