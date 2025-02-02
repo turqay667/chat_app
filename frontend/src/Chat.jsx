@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import VideoCall from "./VideoCall";
 import Call from "./Call";
 import Sidebar from "./Sidebar";
-import { FaSearch } from "react-icons/fa";
+import { FaRegStopCircle, FaSearch } from "react-icons/fa";
 import io from "socket.io-client"
 import { ThemeContext } from "./ThemeContext";
 import axios from "axios";
@@ -27,12 +27,18 @@ import Chats from "./Chats";
   const [onlineUsers, setOnlineUsers]=useState([])
   const [messages,setMessages]=useState([])
   const [item,setItem]=useState('')
+  const [record,setRecord]=useState(null)
   const [muted,setMuted]=useState(false)
   const [recording,setRecording]=useState(false)
   const [selectedUser,setSelectedUser]=useState(null)
   const [showSidebar, setShowSidebar]=useState(true)
+  const [timer,setTimer]=useState(0)
   const {apiUrl }=useContext(ApiContext)
 
+  const audioRef=useRef(null)
+  const mediaRecorder=useRef(null)
+  const mediaStream=useRef(null)
+  const chunks=useRef([])
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const user=userInfo?.data
   const token=userInfo?.data.token
@@ -50,7 +56,6 @@ useEffect(()=>{
 
 const msg=document.getElementById('msg')
 
-let mediaRecorder=null;
 
  const emojii=[ 
   "😃",
@@ -89,24 +94,78 @@ reader.onload=()=>{
 
 }
 
+const handleAudio=async ()=>{
+  setRecording(true)
+try{
+    setTimer(0)
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true})
+    mediaStream.current=stream 
+    mediaRecorder.current= new MediaRecorder(stream)
+    mediaRecorder.current.ondataavailable=(e)=>{  
+      if(e.data.size>0){
+        chunks.current.push(e.data)
+      }
+    
+     }
+     const timers = setInterval(()=>{
+      setTimer((prev)=>prev+1)
+    }, 1000)
+
+   mediaRecorder.current.onstop=()=>{
+   const blob=new Blob(chunks.current,{type:"audio/mp3"})
+   const audioURL=URL.createObjectURL(blob)
+   setRecord(audioURL)
+   console.log(audioRef.current)
+
+   chunks.current=[]
+   clearInterval(timers)
+   }
+   mediaRecorder.current.start()
+ 
+  }
+catch(err){
+console.log(err)
+}
+}
+const handleStop=()=>{
+  setRecording(false)
+  if(mediaRecorder.current){
+    mediaRecorder.current.stop()
+    mediaStream.current.getTracks().forEach(track=>track.stop())
+ 
+  }
+ 
+ 
+ }
+ const handleAudioPlay = () => {
+  if (audioRef.current) {
+    audioRef.current.play()
+  }
+};
 const handleSubmit= async (event)=>{
 event.preventDefault()
 
- if(!item && !image) return;
-
+ if(!item && !image && !record) return;
 const notification=document.getElementById("notification")
 notification.play()
-const newMessage={message:item, image:image, sender:user._id}
+// const newMessage={message:item, image:image, audio:record, sender:user._id}
+formData.append('message', item)
+formData.append('image', image)
+if(record){
+  formData.append('audio', record)
+}
+
+formData.append('sender', user._id)
+// formData.append('audio', blob, 'audio.mp3')
 try{
- const response=await axios.post(`${apiUrl}/messages/${selectedUser._id}`, newMessage, {
+ const response=await axios.post(`${apiUrl}/messages/${selectedUser._id}`, formData, {
     headers:{ 
       Authorization:`Bearer ${token}`,
-      "Content-Type":"application/json" ,
-          
+      "Content-Type":"multipart/form-data" ,         
     },
     withCredentials:true
   })
- const data= response.data
+ const data = response.data
  setMessages((prevMessage)=>[...prevMessage,data])
  socket.emit('message', formData)
  console.log(messages)
@@ -117,48 +176,21 @@ catch(err){
       
 setItem('')
 setImage('')
+setRecord('')
 setAttach(null)
 }
 
 const handleEmojis=(e)=>{
   setItem(e.target.value)
 }
+ 
 
-  const handleAudio=async ()=>{
-    setRecording(true)
-    let stream=null;
-     stream = await navigator.mediaDevices.getUserMedia({audio:true,})
-    .then(function (stream){
-       mediaRecorder= new MediaRecorder(stream)
-       mediaRecorder.start()     
-       let chunks=[]
-       mediaRecorder.ondataavailable=(e)=>{
-        chunks.push(e.data)
-       }
 
-       const stopped=document.querySelector(".stopped")
-       stopped.onclick=()=>{
-         mediaRecorder.stop()
-         setRecording(false)
-       }
-
-     mediaRecorder.onstop=(e)=>{
-     console.log("recording stopped")
-     const blob=new Blob(chunks,{type:"audio/webm"})
-     chunks=[]
-     const audioURL=URL.createObjectURL(blob)
-     const audio=new Audio(audioURL)
-     audio.setAttribute("controls","")
-     audio.play()
-     const msn=document.getElementById('msn')
-     msn.appendChild(audio)
-
-     }
-   })
-   .catch((err)=>{
-     console.log(err)
-   })
- }
+ const formatTime=(time)=>{
+  const minutes=Math.floor((time % 3600)/60)
+  const seconds=Math.floor(time%60)
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+}
 
     return (
 <>
@@ -181,32 +213,23 @@ const handleEmojis=(e)=>{
            {
           selectedUser ?   
           <>
+ 
 
   <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar}/> 
-         
+  
           <div className="conversation-body text-center overflow-auto" >
-    {
-  recording ? <div className="lines">
-  <div className="line"></div>
-  <div className="line"></div>
-  <div className="line"></div>
-  <div className="line"></div>
-  <div className="line"></div>
-  </div>
-  : <></>
-}
 
-<Message messages={messages} user={user} />
-      
+<Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay}/>
 
 </div>
-<div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}}>
+<div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}} >
+
 <form onSubmit={handleSubmit} >
 <div className="d-flex align-items-center justify-center">
 
-        <div className="justify-content-center align-items-center icons">     
+        <div className="col-md-2 justify-content-center align-items-center icons">     
     
-      <div className="d-flex align-items-center">
+      <div className="d-flex justify-content-center align-items-center gap-2">
 
 
  <label>
@@ -230,12 +253,28 @@ o
   
       </div>
      
-   <div className="chat-input d-flex col-md-10 gap-2">
-  <input type="text" value={item} className="w-full  px-4 py-2 rounded-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
+   <div className="chat-input d-flex col-md-9 align-items-center gap-2 py-2 px-4">
+   {
+
+recording ? 
+<div className="d-flex gap-2">
+
+  <button className="btn btn-danger" onClick={handleStop}> 
+
+    <FaRegStopCircle fontSize={24}/>
+  </button>
+  <div className="btn d-flex justify-center align-items-center rounded">
+{formatTime(timer)} 
+  </div>
+  </div>
+ : <></>
+  }
+  <input type="text" value={item} className="w-full py-2 rounded-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
   {attach ?  <img src={item} /> : <div></div> }
   <audio src="beep.mp3" id="notification"></audio>
- <button type="button" className="anchors" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> </button>
-    <button  type ="submit" ><BsSend className="stopped" fontSize={24} color="#6c757d"/></button>
+ <button type="button" className="anchors position-relative" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> 
+ </button>
+    <button  type ="submit" className="pr-2.5"><BsSend className="stopped" fontSize={24} color="#6c757d"/></button>
     </div>  
 
   </div>

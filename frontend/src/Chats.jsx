@@ -21,6 +21,7 @@ const [saved,setSaved]=useState(false)
 const [image,setImage]=useState('user-profile.png')
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
+const [allMessages,setAllMessages]=useState([])
 
 
 
@@ -57,6 +58,22 @@ setMessages(data)
 }
 fetching()  
 
+
+
+const fetchingAll=async()=>{           
+  const response=await fetch(`${apiUrl}/messages/`, {
+  headers:{
+  Authorization:`Bearer ${token}`
+  }
+  })
+  const data=await response.json()
+  setAllMessages(data)
+ 
+  }
+  fetchingAll()  
+  
+
+
 socket.on("message", (data)=>{     
 if(data.sender===selectedUser._id){
 setMessages((prevMessage)=>{
@@ -90,7 +107,7 @@ textarea.focus()
 setSaved(true)
 
 }
-
+console.log(allMessages)
 const handleContacts=(e)=>{
 e.preventDefault()
 }
@@ -164,6 +181,7 @@ catch(err){
            <div className="users">           
            {
               filteredUsers.map((user)=>{
+                console.log(user)
             
 return (        
 <a className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'} onClick={()=> setSelectedUser(user)}  key={user._id}>
@@ -176,6 +194,17 @@ return (
           
               <div className="notifies d-flex flex-column pl-3 justify-content-between">
     <h5 className="text-truncate">{user.username}</h5> 
+    {
+      allMessages.length>0 && allMessages.filter((message)=>
+        message.sender===user._id || message.receiver===user._id).slice(-1).map((msg)=>{
+      return (
+        <div>
+          {msg.message}
+        </div>
+      )
+    }) 
+  }
+
 
                 </div>     
         

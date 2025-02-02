@@ -33,7 +33,6 @@ label{
 }
 
 input:focus{
-  border-color: #f0eff5 !important;
   box-shadow: none !important;
   outline: none;
 }
@@ -88,7 +87,10 @@ input:focus{
 .chat{
   display: flex;
 }
-
+.chat-input{
+  background: rgba(230, 235, 245);
+  border-radius: 10px;
+}
 .header{
   padding: 20px;
 }
@@ -221,14 +223,14 @@ figure{
 }
 .message div{
   flex-direction: column;
-  background-color: rgba(61, 177, 107, .3);
-  border-radius: 7px 7px 0px 7px;
-  max-width: 300px;
+  background-color: #f5f7fb;
+  border-radius: 8px 8px 0px 8px;
+  /* max-width: 300px; */
   padding: 10px 15px;
+  text-align: right;
   margin-bottom: inherit;
 }
 .message div p{
-  text-align: start;
   color: #7f8384;
 }
 .message img{
@@ -498,9 +500,8 @@ form img{
   display: flex;
   justify-content:center ;
   gap: 10px;
-  /* position: absolute;
-  top: -1rem; */
-  /* height: 20px; */
+  top: 0rem;
+
 }
 .starting{
   background-color: rgb(54, 64, 74);;
@@ -570,7 +571,7 @@ form img{
   .starting{
     display: none;
   }
-  /* .navbar-menu{
+  .navbar-menu{
     display: flex;
     flex-direction: row;
   }
@@ -581,5 +582,5 @@ form img{
   .sidebar-menu{
     display: flex;
     flex-direction: row;
-  } */
+  }
 }
