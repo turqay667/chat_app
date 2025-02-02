@@ -9,6 +9,11 @@ const chatSchema=mongoose.Schema(
     image: {
    type:String,
    required:false,
+
+       },
+       audio:{
+         type:String,
+         required:false,
        },
      sender:{
       type:mongoose.Schema.Types.ObjectId,

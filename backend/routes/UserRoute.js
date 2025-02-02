@@ -46,8 +46,8 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
         userRouter.post('/messages/:id', protect, upload.single('image'), asyncHandler(async (req,res)=>{
             try{
                 // const userId=req.params.userId
-                const {message, image}=req.body   
-                //  const image=req.file ? req.file.path : null
+                const {message, image,audio}=req.body   
+                // const audio=req.file ? req.file.path : null
                 const sender=req.user._id
                 const receiver=req.params.id
                 const newMessage=new Message({
@@ -55,6 +55,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                     receiver,
                     sender,
                     image,
+                    audio
                 })
 
                 await newMessage.save()
@@ -69,7 +70,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
 
             userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
                 try{      
-                 const  {username,password, about, image}=req.body     
+                 const  {username, password}=req.body     
                  const user=await User.findById(req.params.id) 
                  if(username){
                     user.username=username
@@ -77,13 +78,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                      if(password){
                         user.password=password
                  }
-                   if(about){
-                    user.about=about
-                   }
-                   if(image){
-                    user.image=image
-                   }
-
+                 
                  await user.save()
                  res.status(200).json({success:true, user})
                 }
@@ -136,7 +131,10 @@ else{
     throw new Error('Invalid user data')
 }
 }))
-
+userRouter.get('/messages/', protect, async (req,res)=>{
+    const messages=await Message.find({})
+    res.json(messages)
+})
 
 
 userRouter.get('/messages/:id', protect, async (req,res)=>{
