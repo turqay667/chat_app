@@ -30,11 +30,19 @@ import Chats from "./Chats";
   const [record,setRecord]=useState(null)
   const [muted,setMuted]=useState(false)
   const [recording,setRecording]=useState(false)
-  const [selectedUser,setSelectedUser]=useState(null)
+  const [selectedUser,setSelectedUser]=useState({
+    _id: '675dc4beb4693734af7983db', 
+    email: 'memmedovturqay871@gmail.com', 
+    username:'turgay_m', 
+    password: '$2a$10$uiuCaKf4xVItAdrBDMkLeOWv9Hidw6x8YMKMvr24NweJmlRGcEq3a',
+     role: 'Admin', 
+     isBlocked: false,
+    }
+  )
   const [showSidebar, setShowSidebar]=useState(true)
   const [timer,setTimer]=useState(0)
   const {apiUrl }=useContext(ApiContext)
-
+console.log(selectedUser)
   const audioRef=useRef(null)
   const mediaRecorder=useRef(null)
   const mediaStream=useRef(null)
@@ -53,9 +61,6 @@ useEffect(()=>{
 
 }, [selectedUser])
  
-
-const msg=document.getElementById('msg')
-
 
  const emojii=[ 
   "😃",
@@ -284,7 +289,7 @@ recording ?
         
           </>
           : <div className="starting">
-            <h2 className="text-center text-white"> Select chat to start conversation</h2>
+            {/* <h2 className="text-center text-white"> Select chat to start conversation</h2> */}
    
             
             </div>
