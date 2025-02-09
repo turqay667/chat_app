@@ -2,9 +2,10 @@
 import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
 import { MdCallEnd, MdOutlineClose,MdOutlineDelete, MdOutlineInfo } from "react-icons/md";
 import { GoUnmute,GoMute } from "react-icons/go";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
+import { ApiContext } from "./ApiContext";
 const Header=({theme,messages,selectedUser,setMessages, onlineUser,setShowSidebar})=>{
   const msn=document.getElementById('msn')
 const [muted,setMuted]=useState(false)
@@ -14,7 +15,7 @@ const token=userInfo?.data?.token
 const handleMute=()=>{
   setMuted(!muted)
 }
-
+const {apiUrl}=useContext(ApiContext)
 const handleDelete=async()=>{
   try{
     await axios.delete(`${apiUrl}/messages/675dc4beb4693734af7983db`, {
@@ -36,9 +37,8 @@ const handleBack=()=>{
   
 
     return (
-        <div className="chat-header d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
+        <div className="chat-header  p-3 p-lg-4 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
         <div className="col-md-4 col-9">
-     
         <div className="chat-user">
         <div className="d-flex justify-content-center align-items-center">
         <div className="d-block d-lg-none">

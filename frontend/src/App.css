@@ -114,11 +114,7 @@ box-shadow: 0 2px 4px #0f223a1f;
   border-bottom: 1px solid #36404a;
 }
 #msg{
-   border: 1px solid #e6ebf5;
   outline: none !important;
-  background: rgba(230, 235, 245);
-  color: #7f8384;
-
 }
 input{
 
@@ -151,8 +147,8 @@ textarea{
   margin-right: 1rem;
 } */
 .avatar{
-  width: 6rem;
-  height: 6rem;
+  width: 80px;
+  height: 80px;
   margin-right: 1rem;
   border-radius: 50%;
   position: relative;
@@ -167,10 +163,11 @@ textarea{
 .chat-user-nav .btn svg{
   font-size: 25px !important;
 }
-.chat-user img{
-  height: 100px !important;
-  width: 6rem;
+.attached{
+  margin-bottom: inherit;
+  margin-top: inherit;
 }
+
 .users{
   display: flex;
   flex-direction: column;
@@ -257,9 +254,6 @@ figure{
   position: relative;
 }
 .search-form input{
-  border: 1px solid #e6ebf5;
-  color: #7f8384;
-  background: rgba(230, 235, 245);
   font-size: 1.2rem;
 }
 /* .search-form input:focus{
@@ -343,8 +337,8 @@ object-fit: cover;
 .sidebar{
   display: flex;
   padding: 10px;
-  flex-direction: column;
   width: 5rem !important;
+  flex-direction: column;
   box-shadow: 0 2px 4px rgba(15, 34, 58, .12)
 
 }
@@ -355,6 +349,9 @@ object-fit: cover;
 .navbar-menu a{
   color: #878a92 !important;
   border:none !important;
+}
+.navbar-menu a svg{
+  font-size: 2rem;
 }
 .sidebar-menu{
   padding: 10px;
@@ -410,8 +407,8 @@ gap: 1rem;
   text-decoration: none;
 }
 .profile-img img{
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   /* border: 1px solid #f0eff5; */
   /* background: #f2f2f2; */
 }
@@ -421,10 +418,23 @@ gap: 1rem;
 }
  .user-profile{
   border-bottom: 1px solid rgb(240, 239, 245);
+  padding-bottom: 1rem;
 } 
+.user{
+  padding-top: 1rem;
+}
+.border-lighted{
+  border: 1px solid #36404a;
+}
+.border-grey{
+  border: 1px solid #f0eff5;
+}
 .user-content{
   padding: 20px;
 
+}
+.user-content label{
+  padding-top: 20px;
 }
 .user-content a{
   font-size: 24px
@@ -551,6 +561,15 @@ form img{
 .user{
   cursor: pointer;
   width: 100%;
+}
+.text-mute{
+  color: #abb4d2;;
+}
+.background-light{
+  background:  rgba(54, 64, 74) !important;
+}
+.background-dark{
+  background: rgba( 230, 235, 245) !important;
 }
 @media (max-width:768px) {
   .sidebar{

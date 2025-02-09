@@ -24,7 +24,8 @@ const [edit,setEdit]=useState(false)
 const [allMessages,setAllMessages]=useState([])
 
 
-
+const muted=theme==='dark' ? 'text-muted' :'text-dark'
+const border=theme==="dark" ? 'border-lighted' :'border-grey'
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 let adminn=''
 if(userInfo){
@@ -173,7 +174,7 @@ catch(err){
                 <h4>Chat</h4>
                 </div>          
             <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
-            <input type="text" className="w-full rounded-full px-4 py-2" placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
+            <input type="text" className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full rounded-full px-4 py-2`} placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
             </div>     
@@ -189,7 +190,7 @@ return (
       
             {user.username===adminn ? <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
               
-          <span className="status">ff</span>
+          
        
           
               <div className="notifies d-flex flex-column pl-3 justify-content-between">
@@ -198,7 +199,7 @@ return (
       allMessages.length>0 && allMessages.filter((message)=>
         message.sender===user._id || message.receiver===user._id).slice(-1).map((msg)=>{
       return (
-        <div>
+        <div className={muted}>
           {msg.message}
         </div>
       )
@@ -237,9 +238,9 @@ return (
             adminn ?
             <>
              <div className="profile-img d-flex justify-content-center">
-<img src={image} className="rounded-circle avatar"/>
+<img src={image} className={`${border} rounded-circle avatar`}/>
 </div>
-<h5 className="text-center pb-3">{adminn.username}</h5> 
+<h5 className="text-center pt-2">{adminn.username}</h5> 
             </> 
             : <></>
           }
@@ -247,8 +248,8 @@ return (
 
 </div> 
 <div className="user-content">
-    <p id="about" className="text-muted"> {about}</p> 
-<div className="media mt-4">
+    <p id="about" className={theme==='light' ? 'text-muted' : 'text-mute'}> {about}</p> 
+{/* <div className="media mt-4">
   <div className=" d-flex justify-content-between mb-3">
 <h5>Media </h5>
 <h6>Show all</h6>
@@ -268,7 +269,7 @@ return (
     :  <p className="text-center mt-5">Nothing to show</p> 
   } 
 </div>
-</div>
+</div> */}
 </div>
       
 </div>
@@ -297,7 +298,7 @@ return (
              
 
        
-<img src={image} className="rounded-circle avatar"></img>
+<img src={image} className={`${border} rounded-circle avatar`}></img>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
   {/* <a>
     <MdOutlineEdit fontSize={28} />
@@ -316,7 +317,7 @@ return (
 </div> */}
 
 <div className='user-content'>
-    <label className="text-muted pb-2">About</label>
+    <label className={ theme==='light' ? 'text-muted' : 'text-mute' }>About</label>
 
       <div className="d-flex align-items-center"> 
         <textarea className="w-full pb-3" id="about" value={about} rows={3}  cols={3} onChange={(e)=>setAbout(e.target.value)} /> 
@@ -324,7 +325,7 @@ return (
     <MdOutlineEdit fontSize={24}  onClick={handleEdit}/>
     </span> */}
     </div>
-    <label className="text-muted pb-2">Name</label>  
+    <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Name</label>  
     <div className="d-flex justify-content-evenly" >
          <input className="w-full"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
   <a>
@@ -333,7 +334,7 @@ return (
     
     </div>
    
-    <label className="text-muted  pt-3 pb-2">Password</label>
+    <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Password</label>
     <div className="d-flex justify-around">
     <input className="w-full font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
      <a>

@@ -50,7 +50,7 @@ console.log(selectedUser)
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const user=userInfo?.data
   const token=userInfo?.data.token
-  
+  const className=theme==='dark' ? 'background-light text-mute' : 'background-dark text-muted'
 useEffect(()=>{
   if(user){
     socket.emit('join', user.username)
@@ -241,24 +241,22 @@ const handleEmojis=(e)=>{
   <BsImage fontSize={32} color="#6c757d"/> 
   <input type="file" id="files" onChange={handleAttach} accept="image/*" />
   </label>
-
-      <button type="button" className="btn text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={32} color="#6c757d"/></button>
-      </div>
+<div className="dropup">
+      <a className="btn text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={32} color="#6c757d"/> </a>
      <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu" >
       {
       emojii.map((emoji)=>{
         return(
           <li className="dropdown-item" ><button className="btn" onClick={handleEmojis} value={emoji} id="emojin">{emoji}</button></li>
         )
-o
       })}
     
      </ul>
-
-  
+     </div>
+     </div>
       </div>
      
-   <div className="chat-input d-flex col-md-9 align-items-center gap-2 py-2 px-4">
+   <div className={ `${className} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
    {
 
 recording ? 
@@ -274,8 +272,9 @@ recording ?
   </div>
  : <></>
   }
-  <input type="text" value={item} className="w-full py-2 rounded-lg" placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
-  {attach ?  <img src={item} /> : <div></div> }
+    {attach ?  <p className="attached">Attached</p> : <div></div> }
+  <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
+
   <audio src="beep.mp3" id="notification"></audio>
  <button type="button" className="anchors position-relative" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> 
  </button>
