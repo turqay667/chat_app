@@ -224,7 +224,7 @@ const handleEmojis=(e)=>{
   
           <div className="conversation-body text-center overflow-auto" >
 
-<Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay}/>
+<Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay} theme={theme}/>
 
 </div>
 <div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}} >
