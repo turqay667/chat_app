@@ -1,5 +1,5 @@
 
-import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
+import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsThreeDots, BsThreeDotsVertical, BsTrash} from "react-icons/bs";
 import { MdCallEnd, MdOutlineClose,MdOutlineDelete, MdOutlineInfo } from "react-icons/md";
 import { GoUnmute,GoMute } from "react-icons/go";
 import { useContext, useState } from "react";
@@ -33,8 +33,8 @@ const handleDelete=async()=>{
 const handleBack=()=>{
   setShowSidebar(true)
 }
-  // msn.innerHTML=`<div></div>`
-  
+  const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
+  const colors=theme==='dark' ? 'text-white' :'text-dark'
 
     return (
         <div className="chat-header  p-3 p-lg-4 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
@@ -50,7 +50,7 @@ const handleBack=()=>{
     <div>
        <h5>{selectedUser?.username}</h5>
     
-    { onlineUser ?  <p className="text-muted">Online</p> : <p className="text-muted">Offline</p> }  
+    { onlineUser ?  <p className={`${colors}`}>Online</p> : <p className={`${colors}`}>Offline</p> }  
      
         <div className="text-muted" id="typing"></div>  
           {/* <span className="text-muted">online</span> */}
@@ -63,20 +63,18 @@ const handleBack=()=>{
       <div className="col-md-8 col-3">
       <div className="chat-user-nav d-flex justify-content-end">
         <ul className="d-flex">
-    
 {/* <li><button className="btn nav-btn text-muted"><IoVideocamOutline  fontSize={24} onClick={handleVideoCall}/></button></li>
 <li><button className="btn nav-btn text-muted" onClick={handleCall}><IoCallOutline fontSize={20} /></button></li> */}
 <li className="dropdown">
-<button className="btn text-muted" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
+<button className={`${colors}`} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
 </button>
-
-<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+<ul className={`${className} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
 {/* <li className="dropdown-item"><a  href="#" className="text-muted">Contact info <span><MdOutlineInfo fontSize={28}/></span></a></li> */}
 <li className="dropdown-item"  onClick={handleMute}>
-{ muted=== false ? <a className="text-muted d-flex gap-3"   >
-Mute <span><GoMute fontSize={28}/></span> </a> : <a className="text-muted d-flex gap-3" >Unmute <span><GoUnmute fontSize={28}/></span> </a> }
+{ muted=== false ? <a className=" d-flex gap-3"   >
+Mute <span><GoMute fontSize={28}/></span> </a> : <a className="d-flex gap-3" >Unmute <span><GoUnmute fontSize={24}/></span> </a> }
 </li>
-<li className="dropdown-item"><a onClick={handleDelete} className="text-muted">Delete chat <span><MdOutlineDelete fontSize={26}/></span></a></li>
+<li className="dropdown-item"><a onClick={handleDelete}>Delete chat <span><BsTrash fontSize={24}/></span></a></li>
 
 </ul>
 </li>

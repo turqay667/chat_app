@@ -24,7 +24,7 @@ const [edit,setEdit]=useState(false)
 const [allMessages,setAllMessages]=useState([])
 
 
-const muted=theme==='dark' ? 'text-muted' :'text-dark'
+const muted=theme==='dark' ? 'text-mute' :'text-dark'
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 let adminn=''

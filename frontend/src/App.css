@@ -28,6 +28,13 @@ a{
 .dropdown .btn {
   border: none;
 }
+.dropdown-item{
+  color: inherit !important ;
+}
+.dropdown-item:hover{
+  background: none !important;
+  cursor: pointer;
+}
 label{
   font-weight: 500;
 }
@@ -35,6 +42,10 @@ label{
 input:focus{
   box-shadow: none !important;
   outline: none;
+}
+input:-webkit-autofill {
+  background-color: transparent !important;
+
 }
 .pass-input a{
   color: inherit;
@@ -417,7 +428,7 @@ gap: 1rem;
  .user-profile{
   border-bottom: 1px solid rgb(240, 239, 245);
   padding-bottom: 1rem;
-  padding: 20px;
+  padding: 10px 20px;
 } 
 .sented{
   font-weight: 400;

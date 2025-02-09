@@ -8,9 +8,7 @@ const Message = ({ messages, user, theme}) => {
      
   return (
     
-            <div key={message._id}  className={`message ${message.sender===user._id  ? "justify-content-end" : "justify-content-start"}`}>
-                 
-              
+            <div key={message._id}  className={`message ${message.sender===user._id  ? "justify-content-end" : "justify-content-start"}`}>                
                 <div className={className}>
                   {message.image && <img src={message.image} alt="media" />}
                   {message.audio && <audio src={message.audio}  preload="metadata"  controls  id="records">
