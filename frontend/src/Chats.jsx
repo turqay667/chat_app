@@ -186,30 +186,48 @@ catch(err){
             
 return (        
 <a className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'} onClick={()=> setSelectedUser(user)}  key={user._id}>
-            <div className="user position-relative d-flex" onClick={handleUser}>
+            <div className="user position-relative d-flex justify-between" onClick={handleUser}>
       
-            {user.username===adminn ? <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    <img className="avatar" src='user-profile.png' ></img>}
+ 
               
           
-       
-          
-              <div className="notifies d-flex flex-column pl-3 justify-content-between">
-    <h5 className="text-truncate">{user.username}</h5> 
-    {
+  
+            {
       allMessages.length>0 && allMessages.filter((message)=>
         message.sender===user._id || message.receiver===user._id).slice(-1).map((msg)=>{
-      return (
+          return (
+            <>
+                       
+              <div className="notifies d-flex pl-3 justify-content-between">
+           
+                {user.username===adminn ? 
+            
+            
+            <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    
+            <img className="avatar" src='user-profile.png' ></img>}
+               
+                <div className="d-flex flex-column justify-center">
+                <h5 className="text-truncate">{user.username}</h5>   
         <div className={muted}>
           {msg.message}
-        </div>
+          </div>
+        </div>      
+                </div>     
+                <div>
+   <h5 className="sented">{new Date(msg.createdAt).toLocaleTimeString('en-US', {
+          hour:"numeric",
+          minute:"numeric"
+
+})}</h5>
+<div style={{opacity:0}}>'</div>
+    </div>
+                </>
+        
       )
     }) 
   }
 
-
-                </div>     
-        
-    
+   
             </div>
        </a>
 )

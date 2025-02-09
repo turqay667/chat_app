@@ -419,7 +419,11 @@ gap: 1rem;
  .user-profile{
   border-bottom: 1px solid rgb(240, 239, 245);
   padding-bottom: 1rem;
+  padding: 20px;
 } 
+.sented{
+  font-weight: 400;
+}
 .user{
   padding-top: 1rem;
 }
