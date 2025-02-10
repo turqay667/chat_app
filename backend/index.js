@@ -91,5 +91,5 @@ app.get('/',(req,res)=>{
         res.sendFile(path.resolve(buildPath), 'index.html')
     })
     }
-server.listen(PORT,()=>
+server.listen(PORT, '0.0.0.0', ()=>
     console.log(`server is listening on port ${PORT}`))
