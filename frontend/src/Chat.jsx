@@ -244,7 +244,7 @@ const handleEmojis=(e)=>{
       {
       emojii.map((emoji)=>{
         return(
-          <li className="dropdown-item" ><button className="btn" onClick={handleEmojis} value={emoji} id="emojin">{emoji}</button></li>
+          <li className="dropdown-item" ><button className="btn" onClick={handleEmojis} value={emoji}>{emoji}</button></li>
         )
       })}
     
