@@ -108,7 +108,6 @@ textarea.focus()
 setSaved(true)
 
 }
-console.log(allMessages)
 const handleContacts=(e)=>{
 e.preventDefault()
 }
@@ -149,7 +148,6 @@ const handleEdit=()=>{
 }
 const handleProfile=async(e)=>{
 e.preventDefault()
-console.log('edited')
 const updatedUser={username, password}
 
 try{

@@ -120,7 +120,6 @@ try{
    const blob=new Blob(chunks.current,{type:"audio/mp3"})
    const audioURL=URL.createObjectURL(blob)
    setRecord(audioURL)
-   console.log(audioRef.current)
 
    chunks.current=[]
    clearInterval(timers)
@@ -173,7 +172,6 @@ try{
  const data = response.data
  setMessages((prevMessage)=>[...prevMessage,data])
  socket.emit('message', formData)
- console.log(messages)
 }
 catch(err){
   console.log(err)
