@@ -6,8 +6,10 @@
         "use": "@vercel/static-build"
       }
     ],
-    
-        "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-
+         "rewrites":[
+         {
+            "source":"/(.*)",
+            "destination":"/index.html"
+}]
   }
   
