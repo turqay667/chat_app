@@ -180,8 +180,7 @@ catch(err){
            <div className="users">           
            {
               filteredUsers.map((user)=>{
-                console.log(user)
-            
+             
 return (        
 <a className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'} onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex justify-between" onClick={handleUser}>
