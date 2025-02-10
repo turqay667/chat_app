@@ -42,7 +42,6 @@ import Chats from "./Chats";
   const [showSidebar, setShowSidebar]=useState(true)
   const [timer,setTimer]=useState(0)
   const {apiUrl }=useContext(ApiContext)
-console.log(selectedUser)
   const audioRef=useRef(null)
   const mediaRecorder=useRef(null)
   const mediaStream=useRef(null)

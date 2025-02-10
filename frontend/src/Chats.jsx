@@ -103,11 +103,11 @@ setFilteredUsers(filterUsers)
 }
 
 
-const handleAbout=(e)=>{
-textarea.focus()
-setSaved(true)
+// const handleAbout=(e)=>{
+// textarea.focus()
+// setSaved(true)
 
-}
+// }
 const handleContacts=(e)=>{
 e.preventDefault()
 }
