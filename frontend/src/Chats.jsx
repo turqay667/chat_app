@@ -185,23 +185,15 @@ return (
 <a className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'} onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex justify-between" onClick={handleUser}>
       
- 
-              
-          
-  
             {
       allMessages.length>0 && allMessages.filter((message)=>
         message.sender===user._id || message.receiver===user._id).slice(-1).map((msg)=>{
           return (
-            <>
-                       
-              <div className="notifies d-flex pl-3 justify-content-between">
-           
-                {user.username===adminn ? 
-            
-            
-            <img src={`http://localhost:5000${adminn.image}`} className="admin-img"/> :    
-            <img className="avatar" src='user-profile.png' ></img>}
+            <>                 
+              <div className="notifies d-flex pl-3 justify-content-between">          
+                {user.username===adminn ?          
+            <img src={`http://localhost:5000${adminn.image}`} className="admin-img" alt="admin" loading="lazy"/> :    
+            <img className="avatar" src='user-profile.png'  alt="user" loading="lazy"></img>}
                
                 <div className="d-flex flex-column justify-center">
                 <h5 className="text-truncate">{user.username}</h5>   
@@ -253,7 +245,7 @@ return (
             adminn ?
             <>
              <div className="profile-img d-flex justify-content-center">
-<img src={image} className={`${border} rounded-circle avatar`}/>
+<img src={image} className={`${border} rounded-circle avatar`} alt="user"/>
 </div>
 <h5 className="text-center pt-2">{adminn.username}</h5> 
             </> 
@@ -313,7 +305,7 @@ return (
              
 
        
-<img src={image} className={`${border} rounded-circle avatar`}></img>
+<img src={image} className={`${border} rounded-circle avatar`} alt="user"></img>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
   {/* <a>
     <MdOutlineEdit fontSize={28} />
@@ -373,7 +365,7 @@ return (
 </div>
  
 
-        <div className="sidebar-left tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+        {/* <div className="sidebar-left tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
         <div className="header">
         <div className="mb-4 d-flex justify-content-between">
                <div>
@@ -392,9 +384,6 @@ return (
                 </div>
                 <form >
               <div className="modal-body">
-
-{/* <label>Emaile</label>
-<input type="text" placeholder="Enter Email" className="w-full" onChange={(e)=>setEmail(e.target.value)}/> */}
 <label >Phone </label>
 <input  type="number" placeholder="Enter Phone Number" className="w-full mt-3 mb-3" onChange={(e)=>setPhone(e.target.value)}/>
 <label >Name</label>
@@ -419,7 +408,7 @@ return (
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
         </div>
-        </div>
+        </div> */}
         </div>
         </>
     )

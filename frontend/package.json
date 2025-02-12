@@ -18,8 +18,6 @@
     "emoji-picker-react": "^4.11.1",
     "postcss": "^8.5.1",
     "react": "^18.2.0",
-    "react-chat-engine-advanced": "^0.1.28",
-    "react-chat-engine-pretty": "^0.1.8",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.24.0",

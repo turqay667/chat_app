@@ -62,24 +62,64 @@ useEffect(()=>{
  
 
  const emojii=[ 
-  "😃",
-  "😄",
-  "😁",
-  "😆",
-  "😅",
-  "🤣",
-  "😂",
-  "🙂",
-  "🙃",
-  "🫠",
-  "😉",
-  "😊",
-  "😇",
-  "🥰",
-  "😍",
-  "🤩",
-  "😘",
-  "😗",
+  {
+    id:1,
+    text: "😃",
+  },
+  {
+    id:2,
+    text:"😄",
+  },
+  {
+    id:3,
+    text: "😁",
+  },
+  {
+    id:4,
+    text: "😆",
+  },
+  {
+    id:5,
+    text:  "😅",
+  },
+  {
+    id:6,
+    text:  "🤣", 
+  },
+  {
+    id:7,
+    text:   "😂",
+  },
+  {
+    id:8,
+    text:  "🙂",
+  },
+  {
+    id:9,
+    text:  "🙃",
+  },
+  {
+    id:10,
+    text:  "🫠",
+  },
+  {
+    id:11,
+    text: "😉", 
+  },
+  {
+    id:12,
+    text:  "😊", 
+  }
+
+ 
+
+ 
+  // "😇",
+  // "🥰",
+  // "😍",
+  // "🤩",
+  // "😘",
+  // "😗",
 ]
 const formData=new FormData()
 const handleAttach=(e)=>{
@@ -145,9 +185,11 @@ const handleStop=()=>{
     audioRef.current.play()
   }
 };
+const handleEmojis=(e)=>{
+  setItem(e.target.value)
+}
 const handleSubmit= async (event)=>{
 event.preventDefault()
-
  if(!item && !image && !record) return;
 const notification=document.getElementById("notification")
 notification.play()
@@ -182,9 +224,7 @@ setRecord('')
 setAttach(null)
 }
 
-const handleEmojis=(e)=>{
-  setItem(e.target.value)
-}
+
  
 
 
@@ -215,12 +255,9 @@ const handleEmojis=(e)=>{
            {
           selectedUser ?   
           <>
- 
-
   <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar}/> 
   
           <div className="conversation-body text-center overflow-auto" >
-
 <Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay} theme={theme}/>
 
 </div>
@@ -244,7 +281,9 @@ const handleEmojis=(e)=>{
       {
       emojii.map((emoji)=>{
         return(
-          <li className="dropdown-item" ><button className="btn" onClick={handleEmojis} value={emoji}>{emoji}</button></li>
+          <li className="dropdown-item" key={emoji.id}>
+            <button className="btn" type="button" onClick={handleEmojis} value={emoji.text}>{emoji.text}</button>
+            </li>
         )
       })}
     

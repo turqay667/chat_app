@@ -31,6 +31,9 @@ a{
 .dropdown-item{
   color: inherit !important ;
 }
+.msg-body .dropdown-item{
+  padding: inherit !important;
+}
 .dropdown-item:hover{
   background: none !important;
   cursor: pointer;

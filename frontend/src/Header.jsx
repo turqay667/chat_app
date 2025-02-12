@@ -44,7 +44,7 @@ const handleBack=()=>{
         <div className="d-block d-lg-none">
 <FaArrowLeft fontSize={24} onClick={handleBack}/>
           </div>
-        <img src='user-profile.png' className="avatar "></img>
+        <img src='user-profile.png' className="avatar" alt="user"></img>
        <span className="status"></span>
     </div>
     <div>

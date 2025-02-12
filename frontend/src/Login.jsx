@@ -52,7 +52,7 @@ const  config={
         <div className="auth">
         <div className="container chat-login">
             <div className="login-card">
-<div className="justify-content-center row mt-4">
+<div className="justify-content-center row">
     <div className="col-md-4">
     <form onSubmit={handleSubmit}>
     <div className="card authentication">
@@ -68,7 +68,7 @@ const  config={
 <div>
 <div className="pass-input d-flex justify-content-between pt-2">
 <label className="bs-gray-400">Password</label>
-<a className="forget-password ">Forgot password?</a>
+{/* <a className="forget-password ">Forgot password?</a> */}
 </div>
 <div className="position-relative">
 <i className="btn position-absolute  "><CiLock fontSize={20}/></i>

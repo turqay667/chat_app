@@ -19,7 +19,6 @@ function App() {
         <ApiProvider>
         <ThemeProvider>  
 <Routes>
-
   <Route   path='/login' Component={Login}/>
   <Route   exact path='/' Component={Register} />
   <Route   path='/home' Component={Chat}/>
@@ -27,7 +26,6 @@ function App() {
   {/* <Route  exact path='/home/:id' Component={Chat}/> */}
   {/* <Route  path=`/home/:${user._id}` Component={Chat}/> */}
 </Routes>
-
 </ThemeProvider>
 </ApiProvider>
 </AuthProvider>

@@ -53,7 +53,7 @@ useEffect(()=>{
         <ToastContainer/>
         <div className="auth">
         <div className="container chat-login">
-<div className="row justify-content-center mt-4">
+<div className="row justify-content-center">
     <div className="col-md-4">
     <form onSubmit={handleSubmit}>
     <div className="card authentication">
