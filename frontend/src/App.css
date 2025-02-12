@@ -193,9 +193,7 @@ textarea{
   /* gap: 20px; */
 
 }
-.user{
-  padding-left: 1.5rem;
-}
+
 .users a{
   text-decoration: none;
 }
@@ -203,9 +201,7 @@ textarea{
   height: 80px;
   width: 80px;
 } */
-.user{
-  align-items: center;
-}
+
  .user h5{
   /* text-transform: capitalize; */
   font-size: 15px !important;
@@ -582,6 +578,7 @@ form img{
 .user{
   cursor: pointer;
   width: 100%;
+  align-items: center;
 }
 .text-mute{
   color: #abb4d2;;
