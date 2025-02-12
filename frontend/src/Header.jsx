@@ -44,6 +44,7 @@ const handleBack=()=>{
         <div className="d-block d-lg-none">
 <FaArrowLeft fontSize={24} onClick={handleBack}/>
           </div>
+          <link rel="preload" href="user-profile.png" as="image"/>
         <img src='user-profile.png' className="avatar" alt="user"></img>
        <span className="status"></span>
     </div>

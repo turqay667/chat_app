@@ -9,12 +9,14 @@ import { ThemeContext } from "./ThemeContext";
 import { ApiContext } from "./ApiContext";
 import { socket } from "./Socket";
 import axios from "axios";
+import swal from "sweetalert2";
 const Chats=({messages,setMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar })=>{
 const {apiUrl}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
 const [users,setUsers]=useState([])
 const [password,setPassword]=useState('12345678')
 const [phone,setPhone]=useState('')
+const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [filteredUsers, setFilteredUsers]=useState([])
 const [about,setAbout]=useState('“When you change your thoughts, remember to also change your world.” —Norman Vincent Peale')
 const [saved,setSaved]=useState(false)
@@ -26,7 +28,7 @@ const [allMessages,setAllMessages]=useState([])
 
 const muted=theme==='dark' ? 'text-mute' :'text-dark'
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
-const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+// const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 let adminn=''
 if(userInfo){
 adminn =userInfo.data
@@ -111,7 +113,12 @@ setFilteredUsers(filterUsers)
 const handleContacts=(e)=>{
 e.preventDefault()
 }
-
+const handleSave=()=>{
+  swal.fire({
+    title:"Save changes",
+    text:"Are you sure?",
+    icon:"warning:"  })
+}
 const handleUser=()=>{
 if(selectedUser && window.innerWidth<=768){
 setShowSidebar(false)
@@ -157,7 +164,8 @@ await axios.put(`${apiUrl}/profile/${userId}`, updatedUser, {
     "Authorization":`Bearer ${token}`
     }
 })
-
+  setUserInfo({data:{...adminn, username}})
+  localStorage.setItem('userInfo',JSON.stringify({data:{...adminn,username}}))
 }
 catch(err){
     console.log(err)
@@ -349,7 +357,7 @@ return (
     </a>
     </div>
     <div className="text-center mt-3">
-      { edit ? <button type="submit" className="btn btn-success text-white">Save</button> : <div></div>}
+      { edit ? <button type="submit" className="btn btn-success text-white" onClick={handleSave}>Save</button> : <div></div>}
     </div>
 </div>
             </> 
