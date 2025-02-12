@@ -4,7 +4,7 @@ import { CiEdit, CiSquarePlus } from "react-icons/ci";
 import { BiSearch } from "react-icons/bi";
 import { FaPenSquare, FaRegEdit } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
-import { useState,useEffect, useContext } from "react";
+import { useState,useEffect,useRef, useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 import { ApiContext } from "./ApiContext";
 import { socket } from "./Socket";
@@ -38,7 +38,8 @@ const token=userInfo?.data?.token
 const [username,setUsername]=useState(user.username)
 // const admin=users.find(item=>item.role==='Admin')
 const userId=adminn ? adminn._id : null
-
+const userRef=useRef(null)
+// const passRef=useRef(null)
 useEffect(()=>{
 fetch(`${apiUrl}/`)
 .then((res)=>res.json())
@@ -117,7 +118,7 @@ const handleSave=()=>{
   swal.fire({
     title:"Save changes",
     text:"Are you sure?",
-    icon:"warning:"  })
+    icon:"warning"  })
 }
 const handleUser=()=>{
 if(selectedUser && window.innerWidth<=768){
@@ -150,10 +151,19 @@ catch(err){
 }
 reader.readAsDataURL(file)
 }
-const handleEdit=()=>{
+const handleEdit=(field)=>{
   setEdit(true)
+  if(userRef.current){
+    userRef.current.focus()
+  }
+  // if(field==="password" && passRef.current){
+  //   passRef.current.focus()
+  // }
+
+
 }
 const handleProfile=async(e)=>{
+  setEdit(false)
 e.preventDefault()
 const updatedUser={username, password}
 
@@ -335,29 +345,28 @@ return (
     <label className={ theme==='light' ? 'text-muted' : 'text-mute' }>About</label>
 
       <div className="d-flex align-items-center"> 
-        <textarea className="w-full pb-3" id="about" value={about} rows={3}  cols={3} onChange={(e)=>setAbout(e.target.value)} /> 
+        <textarea className="w-full pb-3" id="about" value={about} rows={3}  cols={3} onChange={(e)=>setAbout(e.target.value)} disabled/> 
  {/* <span className="btn btn-success text-white">
     <MdOutlineEdit fontSize={24}  onClick={handleEdit}/>
     </span> */}
     </div>
     <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Name</label>  
-    <div className="d-flex justify-content-evenly" >
-         <input className="w-full"   value={username}   onChange={(e)=>setUsername(e.target.value)}/>
-  <a>
+    <div className="d-flex justify-content-evenly align-items-center" >
+         <input className="w-full" ref={userRef}  value={username}  disabled={edit ? false : true}  onChange={(e)=>setUsername(e.target.value)}/>
+         <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}>
     <CiEdit   onClick={handleEdit}/>
-    </a>
-    
+    </a>    
     </div>
    
     <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Password</label>
-    <div className="d-flex justify-around">
-    <input className="w-full font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)}/>
-     <a>
+    <div className="d-flex justify-around align-items-center">
+    <input className="w-full font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)} disabled={edit ? false : true} />
+     <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark "}>
     <CiEdit  onClick={handleEdit}/>
     </a>
     </div>
-    <div className="text-center mt-3">
-      { edit ? <button type="submit" className="btn btn-success text-white" onClick={handleSave}>Save</button> : <div></div>}
+    <div className="text-center mt-5">
+      { edit ? <button type="submit" className="px-5 py-2 btn btn-dark text-white" onClick={handleSave}>Save</button> : <div></div>}
     </div>
 </div>
             </> 

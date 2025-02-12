@@ -42,10 +42,10 @@ label{
   font-weight: 500;
 }
 
-input:focus{
+/* input:focus{
   box-shadow: none !important;
   outline: none;
-}
+} */
 input:-webkit-autofill {
   background-color: transparent !important;
 
@@ -75,7 +75,12 @@ input:-webkit-autofill {
 .submit-btn .btn:hover{
   background: #203047;
 }
-
+.btn_light{
+  background:rgb( 54, 64, 74) !important;
+}
+.btn_dark{
+  background: #e6ebf5 !important;
+}
 
 .card {
   padding: 2em;
@@ -505,7 +510,9 @@ form img{
   height: 3rem;
   border-radius: 10px;
 }
-
+.icons  svg{
+  color: #7269ef ;
+}
 .profile-img a{
   position: absolute;
   display: flex;

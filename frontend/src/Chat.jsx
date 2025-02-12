@@ -1,7 +1,7 @@
 
 import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsSend,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
 import { IoCallOutline, IoSend, IoVideocamOutline } from "react-icons/io5";
-import {HiOutlineMicrophone } from 'react-icons/hi2'
+import {HiOutlineMicrophone } from 'react-icons/hi2';
 import { createContext, createElement, useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import VideoCall from "./VideoCall";
 import Call from "./Call";
 import Sidebar from "./Sidebar";
 import { FaRegStopCircle, FaSearch } from "react-icons/fa";
-import io from "socket.io-client"
+import io from "socket.io-client";
 import { ThemeContext } from "./ThemeContext";
 import axios from "axios";
 import { Tooltip } from "react-tooltip";
@@ -216,17 +216,12 @@ try{
 }
 catch(err){
   console.log(err)
-}   
-      
+}       
 setItem('')
 setImage('')
 setRecord('')
 setAttach(null)
 }
-
-
- 
-
 
  const formatTime=(time)=>{
   const minutes=Math.floor((time % 3600)/60)
@@ -272,11 +267,11 @@ setAttach(null)
 
 
  <label>
-  <BsImage fontSize={32} color="#6c757d"/> 
+  <BsImage fontSize={32} /> 
   <input type="file" id="files" onChange={handleAttach} accept="image/*" />
   </label>
 <div className="dropup">
-      <a className="btn text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={32} color="#6c757d"/> </a>
+      <a className="btn text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={32} /> </a>
      <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu" >
       {
       emojii.map((emoji)=>{
@@ -312,9 +307,9 @@ recording ?
   <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
 
   <audio src="beep.mp3" id="notification"></audio>
- <button type="button" className="anchors position-relative" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record" color="#6c757d" /> 
+ <button type="button" className="anchors position-relative" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record"  /> 
  </button>
-    <button  type ="submit" className="pr-2.5"><BsSend className="stopped" fontSize={24} color="#6c757d"/></button>
+    <button  type ="submit" className="pr-2.5"><BsSend className="stopped" fontSize={24} /></button>
     </div>  
 
   </div>
