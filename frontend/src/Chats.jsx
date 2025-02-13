@@ -200,7 +200,7 @@ catch(err){
               filteredUsers.map((user)=>{
              
 return (        
-<a className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'} onClick={()=> setSelectedUser(user)}  key={user._id}>
+<a className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex justify-between" onClick={handleUser}>
       
             {

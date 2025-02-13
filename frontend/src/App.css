@@ -111,7 +111,7 @@ input:-webkit-autofill {
   border-radius: 10px;
 }
 .header{
-  padding: 20px;
+    padding: 15px 20px 15px 20px;
 }
 .chat-body{
   width: 100%;
@@ -193,7 +193,12 @@ textarea{
   /* gap: 20px; */
 
 }
-
+.bs-light:hover{
+  background: #36404a;
+}
+.bs-dark:hover{
+  background: #e6ebf5;
+}
 .users a{
   text-decoration: none;
 }
@@ -432,8 +437,11 @@ gap: 1rem;
  .user-profile{
   border-bottom: 1px solid rgb(240, 239, 245);
   padding-bottom: 1rem;
-  padding: 10px 20px;
 } 
+.users .user-profile{
+  padding: 15px 20px;
+  border:none;
+}
 .sented{
   font-weight: 400;
 }
