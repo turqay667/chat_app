@@ -1,16 +1,18 @@
 import { PiPhoneCall } from "react-icons/pi";
 import { RiContactsLine } from "react-icons/ri";
 import { CiEdit, CiSquarePlus } from "react-icons/ci";
-import { BiSearch } from "react-icons/bi";
+import { BiBlock, BiSearch } from "react-icons/bi";
 import { FaPenSquare, FaRegEdit } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
+import { BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { useState,useEffect,useRef, useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 import { ApiContext } from "./ApiContext";
 import { socket } from "./Socket";
 import axios from "axios";
-import swal from "sweetalert2";
-const Chats=({messages,setMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar })=>{
+import  Swal from "sweetalert2";
+import { CgUnblock } from "react-icons/cg";
+const Chats=({messages,setMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked })=>{
 const {apiUrl}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
 const [users,setUsers]=useState([])
@@ -28,6 +30,8 @@ const [allMessages,setAllMessages]=useState([])
 
 const muted=theme==='dark' ? 'text-mute' :'text-dark'
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
+const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
+  const colors=theme==='dark' ? 'text-white' :'text-dark'
 // const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 let adminn=''
 if(userInfo){
@@ -115,7 +119,7 @@ const handleContacts=(e)=>{
 e.preventDefault()
 }
 const handleSave=()=>{
-  swal.fire({
+  Swal.fire({
     title:"Save changes",
     text:"Are you sure?",
     icon:"warning"  })
@@ -180,6 +184,62 @@ await axios.put(`${apiUrl}/profile/${userId}`, updatedUser, {
 catch(err){
     console.log(err)
 }
+
+
+}
+const deleteUser=()=>{
+  swal.fire({
+    title:"Delete contact",
+    text:"Are you sure?",
+    icon:"warning",
+    showCancelButton:true,
+    confirmButtonText:"Yes"
+    
+  }).then((result)=>{
+    if(result.isConfirmed){
+      handleDelete()
+    }
+  })
+}
+const handleDelete=async ()=>{
+
+  try{
+    await axios.delete(`${apiUrl}/users/${selectedUser._id}`,
+      {
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":`Bearer ${token}`
+      }
+    })
+    setFilteredUsers(prevUsers=>(prevUsers.filter((user)=>user._id!==selectedUser._id)))
+    swal.fire('User deleted successfully')
+  }
+  catch(err){
+    console.error(err)
+  }
+ 
+}
+const handleBlock=()=>{
+  Swal.fire({
+    icon:"error",
+    text:"User blocked",
+    timer:3000
+  })
+setBlocked(true)
+  // swal.fire({
+  //   title:"Block contact",
+  //   text:"Are you sure?",
+  //   icon:"warning"
+  // })
+
+}
+const handleUnblock=()=>{
+  setBlocked(false)
+  Swal.fire({
+    title:"Block removed",
+    // text:"User unblocked",
+    icon:"success"  })
+
 }
     return(
         <>
@@ -190,7 +250,7 @@ catch(err){
                 <h4>Chats</h4>
                 </div>          
             <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
-            <input type="text" className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full rounded-full px-4 py-2`} placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
+            <input type="text" className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2`} placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
             </div>     
@@ -208,22 +268,22 @@ return (
         message.sender===user._id || message.receiver===user._id).slice(-1).map((msg)=>{
           return (
             <>                 
-              <div className="notifies d-flex pl-3 justify-content-between">          
-                {user.username===adminn ?          
-            <img src={`http://localhost:5000${adminn.image}`} className="admin-img" alt="admin" loading="lazy"/> :    
-           
+              <div className="notifies d-flex pl-3 justify-content-between">                          
+                  {/* <img src={`http://localhost:5000${adminn.image}`} className="admin-img" alt="admin" loading="lazy"/>  */}             
            <a className="position-relative">
             <img className="avatar" src='user-profile.png'  alt="user" loading="lazy"></img>
             {/* <span className="status"></span> */}
-            </a>}
+            </a>
               
                 <div className="d-flex flex-column justify-center">
-                <h5 className="text-truncate">{user.username}</h5>   
+               { user.username===adminn.username ?       <h5 className="text-truncate">You</h5>      
+               :    <h5 className="text-truncate">{user.username}</h5>  } 
         <div className={muted}>
           {msg.message}
           </div>
         </div>      
-                </div>     
+        </div>      
+                    
                 <div>
    <h5 className="sented">{new Date(msg.createdAt).toLocaleTimeString('en-US', {
           hour:"numeric",
@@ -366,7 +426,7 @@ return (
    
     <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Password</label>
     <div className="d-flex justify-around align-items-center">
-    <input className="w-full font-size-14" type="password" value={password}  onChange={(e)=>setPassword(e.target.value)} disabled={edit ? false : true} />
+    <input className="w-full font-size-14 " type="password" value={password}  onChange={(e)=>setPassword(e.target.value)} disabled={edit ? false : true} />
      <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark "}>
     <CiEdit  onClick={handleEdit}/>
     </a>
@@ -388,14 +448,14 @@ return (
 </div>
  
 
-        {/* <div className="sidebar-left tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+        <div className="sidebar-left tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
         <div className="header">
-        <div className="mb-4 d-flex justify-content-between">
+        <div className="mb-2 d-flex justify-content-between">
                <div>
                 <h4>Contacts</h4>
                 </div>
                 
-               <div>
+               {/* <div>
                 
                 <button className="btn" type="button" data-bs-toggle="modal" data-bs-target="#contactsModal" ><CiSquarePlus fontSize={32}/></button>
               <div className="modal fade" id="contactsModal" tabIndex="-1" aria-labelledby="contactsModalLabel" aria-hidden="true">
@@ -408,30 +468,82 @@ return (
                 <form >
               <div className="modal-body">
 <label >Phone </label>
-<input  type="number" placeholder="Enter Phone Number" className="w-full mt-3 mb-3" onChange={(e)=>setPhone(e.target.value)}/>
+<input  type="number" placeholder="Enter Phone Number" className="w-full mt-2 mb-3 form-control" onChange={(e)=>setPhone(e.target.value)}/>
 <label >Name</label>
-<input type="text" placeholder="Enter Name" className="w-full mt-3 mb-3" onChange={(e)=>setName(e.target.value)}/>
+<input type="text" placeholder="Enter Name" className="w-full mt-2 mb-3 form-control" onChange={(e)=>setName(e.target.value)}/>
 
               </div>
               
 </form>
               <div className="modal-footer">
-                <button className="btn btn-success" type="submit" onClick={handleContacts}>Submit</button>
+                <button className="btn btn-primary" type="submit" onClick={handleContacts}>Submit</button>
               </div>
               </div>
                         
               </div>
                 </div> 
-                </div>
+                </div> */}
              
         </div>
       
-        <form className="search-form d-flex align-items-center">
-            <input type="text" className="w-full" placeholder="Search contacts..."/>
+        <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
+            <input type="text" className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2`} placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
           <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
            </form>
         </div>
-        </div> */}
+        <div className="sidebar-body">
+           <div className="users">           
+           {
+              filteredUsers.filter((user)=>user.username!==adminn.username)
+              .map((user)=>{
+             
+return (        
+<a className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'}  onClick={()=> setSelectedUser(user)}  key={user._id}>
+            <div className="user position-relative d-flex justify-between" >
+                 
+              <div className="notifies d-flex pl-3 ">                     
+           <a className="position-relative">
+            <img className="avatar" src='user-profile.png'  alt="user" loading="lazy"></img>
+            {/* <span className="status"></span> */}
+            </a>
+              
+                <div className="d-flex flex-column justify-center">
+                <h5 className="text-truncate text-capitalize">{user.username}</h5>   
+    
+        </div>      
+                </div>  
+                <ul>
+                 
+                <li className="dropdown">
+                <button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
+                </button>
+                <ul className={`${className} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
+                {/* <li className="dropdown-item"><a  href="#" className="text-muted">Contact info <span><MdOutlineInfo fontSize={28}/></span></a></li> */}
+                <li className="dropdown-item" >
+                  { 
+                  blocked===true ? <a className="d-flex justify-content-between">Unblock user <span><CgUnblock fontSize={24} onClick={handleUnblock}/></span></a>
+                    :     <a className="d-flex justify-content-between">Block user <span><BiBlock fontSize={24} onClick={handleBlock}/></span></a>
+              }</li>
+                <li className="dropdown-item"><a className="d-flex justify-content-between">Delete user <span><BsTrash fontSize={24} onClick={deleteUser}/></span></a></li>
+                
+                </ul>
+                </li>
+                </ul> 
+            
+             
+            </div>
+       </a>
+)
+
+
+   })
+  }
+   </div>
+   
+       
+           </div>
+        </div>
+        
         </div>
         </>
     )

@@ -18,7 +18,7 @@ const handleMute=()=>{
 const {apiUrl}=useContext(ApiContext)
 const handleDelete=async()=>{
   try{
-    await axios.delete(`${apiUrl}/messages/675dc4beb4693734af7983db`, {
+    await axios.delete(`${apiUrl}/messages/${selectedUser._id}`, {
      headers:{
        "Content-Type":"application/json",
        "Authorization":`Bearer ${token}`

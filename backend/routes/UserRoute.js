@@ -50,16 +50,22 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                 // const audio=req.file ? req.file.path : null
                 const sender=req.user._id
                 const receiver=req.params.id
-                const newMessage=new Message({
-                    message,
-                    receiver,
-                    sender,
-                    image,
-                    audio
-                })
+                receiverr= await User.findById(receiver)
+                  if(receiverr.isBlocked===false){
+                    const newMessage=new Message({
+                        message,
+                        receiver,
+                        sender,
+                        image,
+                        audio
+                    })
+                    await newMessage.save()
+                    res.status(201).json(newMessage)
+                  }
+             
 
-                await newMessage.save()
-                res.status(201).json(newMessage)
+               
+            
             }
             catch(err){
                 res.status(400).json({error:'Unable to send a message', details:err.message})
@@ -171,7 +177,15 @@ userRouter.delete('/messages/:id', protect, async (req,res)=>{
 
 })
 
-
+userRouter.delete('/users/:id', protect, async (req,res)=>{
+          if(!req.user){
+            return res.status(400).json({ message: 'User not authenticated' });
+          }
+          const deletedUser=await User.deleteOne({_id:req.params.id})
+          if (deletedUser){
+            res.status(200).json({success:true, message:'User deleted'})
+          }
+})
 
 userRouter.get('/',async (req,res)=>{
     const users=await User.find({})

@@ -13,6 +13,10 @@ ul{
   list-style: none;
   margin: inherit;
   padding: inherit;
+
+}
+.user ul{
+  margin-bottom: inherit !important;
 }
 .auth{
   display: flex;
@@ -418,9 +422,9 @@ select {
   outline: none !important;
   background: inherit;
 }
-/* .notifies{
-gap: 1rem;
-} */
+#contacts .notifies{
+width: 10rem;
+}
 .msg-count{
   width: 25px;
   height: 25px;
@@ -435,6 +439,7 @@ gap: 1rem;
 .chat-user-nav li a{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   text-decoration: none;
 }
 .profile-img img{

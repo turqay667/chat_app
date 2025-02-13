@@ -18,6 +18,7 @@ import Header from "./Header";
 import { socket } from "./Socket";
 import { ApiContext } from "./ApiContext";
 import Chats from "./Chats";
+import Swal from "sweetalert2";
  function Chat(){
   const {theme, handleTheme}=useContext(ThemeContext)
   const [called,setCalled]=useState(false)
@@ -30,6 +31,7 @@ import Chats from "./Chats";
   const [record,setRecord]=useState(null)
   const [muted,setMuted]=useState(false)
   const [recording,setRecording]=useState(false)
+  const [blocked, setBlocked]=useState(false)
   const [selectedUser,setSelectedUser]=useState({
     _id: '675dc4beb4693734af7983db', 
     email: 'memmedovturqay871@gmail.com', 
@@ -192,6 +194,8 @@ const handleEmojis=(e)=>{
 const handleSubmit= async (event)=>{
 event.preventDefault()
  if(!item && !image && !record) return;
+
+ if(blocked===false){
 const notification=document.getElementById("notification")
 notification.play()
 // const newMessage={message:item, image:image, audio:record, sender:user._id}
@@ -223,6 +227,15 @@ setImage('')
 setRecord('')
 setAttach(null)
 }
+else{
+  Swal.fire({
+    icon:"error",
+    title:"User blocked",
+    text:"You can't send message to this user",
+    timer:3000
+  })
+}
+}
 
  const formatTime=(time)=>{
   const minutes=Math.floor((time % 3600)/60)
@@ -240,7 +253,7 @@ setAttach(null)
   showSidebar ? 
   <>
   <Sidebar /> 
-  <Chats messages={messages} setMessages={setMessages}   image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar}/>
+  <Chats messages={messages} setMessages={setMessages}   image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar} blocked={blocked} setBlocked={setBlocked}/>
   </>
   :
   <></>

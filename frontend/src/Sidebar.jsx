@@ -7,7 +7,7 @@ import { useState,useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "./ThemeContext";
 import { socket } from "./Socket";
-
+import { RiContactsLine } from "react-icons/ri";
 
 const Sidebar=()=>{
     const {theme,handleTheme}=useContext(ThemeContext)
@@ -32,8 +32,8 @@ const Sidebar=()=>{
 <ul className="sidebar-menu nav">
 <li><a className="btn" id="chat-tab" data-bs-toggle="tab" role="tab" data-bs-target="#chat" aria-selected="true"><PiChats /></a></li>
 {/* <li><a className="btn"  id="calls-tab" data-bs-toggle="tab"  role="tab" data-bs-target="#calls"   aria-selected="false"> <PiPhoneCall fontSize={32}/></a></li> */}
-{/* <li><a className="btn"  id="contacts-tab" data-bs-toggle="tab"  role="tab" data-bs-target="#contacts"   aria-selected="false"> <RiContactsLine fontSize={32}/></a></li> */}
-<li><a className="btn"  id="profile-tab" data-bs-toggle="tab"  role="tab" data-bs-target="#profile"   aria-selected="false"> <CgProfile /></a></li>
+<li><a className="btn"  id="contacts-tab" data-bs-toggle="tab"  role="tab" data-bs-target="#contacts"   aria-selected="false"> <RiContactsLine fontSize={32}/></a></li>
+{/* <li><a className="btn"  id="profile-tab" data-bs-toggle="tab"  role="tab" data-bs-target="#profile"   aria-selected="false"> <CgProfile /></a></li> */}
 <li><a className="btn"  id="settings-tab" data-bs-toggle="tab"  role="tab" data-bs-target="#settings"   aria-selected="false"> <CiSettings   /></a></li>
 </ul>
 
