@@ -422,9 +422,9 @@ select {
   outline: none !important;
   background: inherit;
 }
-#contacts .notifies{
+/* #contacts .notifies{
 width: 10rem;
-}
+} */
 .msg-count{
   width: 25px;
   height: 25px;
@@ -602,9 +602,7 @@ form img{
   width: 10px;
 }
 }
-#prof a{
-  position: absolute;
-}
+
 .user{
   cursor: pointer;
   width: 100%;

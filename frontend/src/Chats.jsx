@@ -396,7 +396,11 @@ return (
     </div>
     <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Name</label>  
     <div className="d-flex justify-content-evenly align-items-center" >
+         
+       
          <input className="w-full" ref={userRef}  value={username}  disabled={edit ? false : true}  onChange={(e)=>setUsername(e.target.value)}/>
+         
+       
          <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}>
     <CiEdit   onClick={handleEdit}/>
     </a>    
