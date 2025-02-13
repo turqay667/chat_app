@@ -238,7 +238,7 @@ const handleUnblock=()=>{
               filteredUsers.map((user)=>{
              
 return (        
-<a className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(user)}  key={user._id}>
+<div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex justify-between" onClick={handleUser}>
       
             {
@@ -246,15 +246,15 @@ return (
         message.sender===user._id || message.receiver===user._id).slice(-1).map((msg)=>{
           return (
             <>                 
-              <div className="notifies d-flex pl-3 justify-content-between">                          
+              <div className="notifies d-flex pl-3 justify-content-between" >                          
                   {/* <img src={`http://localhost:5000${adminn.image}`} className="admin-img" alt="admin" loading="lazy"/>  */}             
            <a className="position-relative">
-            <img className="avatar" src='user-profile.png'  alt="user" loading="lazy"></img>
+            <img className="avatar" src='user-profile.png'  alt="user"></img>
             {/* <span className="status"></span> */}
             </a>
               
                 <div className="d-flex flex-column justify-center">
-               { user.username===adminn.username ?       <h5 className="text-truncate">You</h5>      
+               { user.username===adminn.username  ?       <h5 className="text-truncate">You</h5>      
                :    <h5 className="text-truncate">{user.username}</h5>  } 
         <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
           {msg.message}
@@ -278,7 +278,7 @@ return (
 
    
             </div>
-       </a>
+       </div>
 )
 
 
@@ -480,12 +480,12 @@ return (
               .map((user)=>{
              
 return (        
-<a className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'}  onClick={()=> setSelectedUser(user)}  key={user._id}>
+<div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'}  onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex justify-between" >
                  
               <div className="notifies d-flex pl-3 ">                     
            <a className="position-relative">
-            <img className="avatar" src='user-profile.png'  alt="user" loading="lazy"></img>
+            <img className="avatar" src='user-profile.png'  alt="user" ></img>
             {/* <span className="status"></span> */}
             </a>
               
@@ -513,7 +513,7 @@ return (
             
              
             </div>
-       </a>
+       </div>
 )
 
 

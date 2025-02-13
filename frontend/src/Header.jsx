@@ -9,8 +9,10 @@ import { ApiContext } from "./ApiContext";
 const Header=({theme,messages,selectedUser,setMessages, onlineUser,setShowSidebar})=>{
   const msn=document.getElementById('msn')
 const [muted,setMuted]=useState(false)
-const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-const user=userInfo?.data
+const userInfo = JSON.parse(localStorage.getItem('userInfo')) 
+let adminn='' 
+if(userInfo){
+  adminn = userInfo.data }
 const token=userInfo?.data?.token
 const handleMute=()=>{
   setMuted(!muted)
@@ -53,9 +55,11 @@ const handleBack=()=>{
      
     </div>
     <div>
-       <h5>{selectedUser?.username}</h5>
-    
+    <h5>{selectedUser?.username}</h5>
 
+     
+    
+    
      
         <div className="text-muted" id="typing"></div>  
           {/* <span className="text-muted">online</span> */}
