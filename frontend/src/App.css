@@ -621,3 +621,6 @@ form img{
     flex-direction: row;
   }
 }
+form button svg{
+  color: #7269ef !important;
+}

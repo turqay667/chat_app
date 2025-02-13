@@ -309,7 +309,7 @@ recording ?
   <audio src="beep.mp3" id="notification"></audio>
  <button type="button" className="anchors position-relative" ><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record"  /> 
  </button>
-    <button  type ="submit" className="pr-2.5"><BsSend className="stopped" fontSize={24} /></button>
+    <button  type ="submit" className="pr-2.5 "><BsSend className="stopped" fontSize={24} /></button>
     </div>  
 
   </div>

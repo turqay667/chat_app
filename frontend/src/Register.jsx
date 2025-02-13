@@ -20,6 +20,7 @@ const Register=(props)=>{
     const [success,setSuccess]=useState(false)
     const[hide,setHide]=useState(false)
     const {apiUrl}=useContext(ApiContext)
+    console.log(localStorage.getItem('userInfo'))
 // if(success){
 //     navigate("/login")
 // }
@@ -73,7 +74,7 @@ useEffect(()=>{
 <div>
 <div className="pass-input d-flex justify-content-between">
 <label className="">Password</label>
-<a className="forget-password ">Forgot password?</a>
+{/* <a className="forget-password ">Forgot password?</a> */}
 </div>
 <div className="position-relative">
 <i className="btn  position-absolute  "><CiLock fontSize={20}/></i>
