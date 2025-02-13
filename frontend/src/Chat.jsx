@@ -50,6 +50,7 @@ import Chats from "./Chats";
   const user=userInfo?.data
   const token=userInfo?.data.token
   const className=theme==='dark' ? 'background-light text-mute' : 'background-dark text-muted'
+  const formClass=theme==='dark' ? 'form-dark' : 'form-light'
 useEffect(()=>{
   if(user){
     socket.emit('join', user.username)
@@ -258,20 +259,20 @@ setAttach(null)
 </div>
 <div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}} >
 
-<form onSubmit={handleSubmit} >
+<form onSubmit={handleSubmit} className={formClass}>
 <div className="d-flex align-items-center justify-center">
 
         <div className="col-md-2 justify-content-center align-items-center icons">     
     
       <div className="d-flex justify-content-center align-items-center gap-2">
-
-
  <label>
-  <BsImage fontSize={32} /> 
+  <a className="btn rounded-circle text-white">
+  <BsImage fontSize={28} /> 
+  </a>
   <input type="file" id="files" onChange={handleAttach} accept="image/*" />
   </label>
 <div className="dropup">
-      <a className="btn text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={32} /> </a>
+      <a className="btn rounded-circle text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={28} /> </a>
      <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu" >
       {
       emojii.map((emoji)=>{

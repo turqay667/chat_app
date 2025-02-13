@@ -128,6 +128,19 @@ box-shadow: 0 2px 4px #0f223a1f;
  .msg-body{
   border-top: 1px solid #36404a;
  }
+ .msg-body .text-muted button svg{
+  color: #475569 !important;
+ }
+ .form-light .icons svg{
+  color: #475569 !important;
+
+ }
+ .form-dark a{
+  background: rgba(54, 64, 74) !important;
+ }
+ .form-light .icons a{
+  background: #e2e8f0 !important;
+ }
 .chat-header{
   padding: 10px;
   border-bottom: 1px solid #36404a;
@@ -193,6 +206,7 @@ textarea{
   /* gap: 20px; */
 
 }
+/* #475569 */
 .bs-light:hover{
   background: #36404a;
 }
@@ -202,10 +216,10 @@ textarea{
 .users a{
   text-decoration: none;
 }
-/* .users img{
-  height: 80px;
-  width: 80px;
-} */
+.users .avatar {
+  height: 60px;
+  width:60px;
+} 
 
  .user h5{
   /* text-transform: capitalize; */
@@ -217,14 +231,13 @@ figure{
 }
 .status{
   position: absolute;
-  background-color: #06d6a0;
+  /* background-color: #06d6a0; */
   border:2px solid white;
-  display: none;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  right: 5px;
-  bottom: 9px;
+  right: 25px;
+  bottom: 8px;
 }
 .notify{
   right: 0;
@@ -503,6 +516,13 @@ gap: 20px;
 .dropup .dropdown-menu.show{
   display: grid !important;
   grid-template-columns: auto auto auto auto;
+} 
+form  a{
+    width: 50px;
+    height: 50px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
 }
 form{
   position: relative;
@@ -513,9 +533,6 @@ form img{
   width: 4rem;
   height: 3rem;
   border-radius: 10px;
-}
-.icons  svg{
-  color: #7269ef ;
 }
 .profile-img a{
   position: absolute;
@@ -628,7 +645,4 @@ form img{
     display: flex;
     flex-direction: row;
   }
-}
-form button svg{
-  color: #7269ef !important;
 }

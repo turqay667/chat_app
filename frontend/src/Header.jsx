@@ -45,13 +45,17 @@ const handleBack=()=>{
 <FaArrowLeft fontSize={24} onClick={handleBack}/>
           </div>
           <link rel="preload" href="user-profile.png" as="image"/>
+        <a className="position-relative">
         <img src='user-profile.png' className="avatar" alt="user"></img>
-       <span className="status"></span>
+            { onlineUser ?    <span className="status bg-green-400"></span> : <span className="status bg-amber-300"></span> }   
+      
+          </a>
+     
     </div>
     <div>
        <h5>{selectedUser?.username}</h5>
     
-    { onlineUser ?  <p className={`${colors}`}>Online</p> : <p className={`${colors}`}>Offline</p> }  
+
      
         <div className="text-muted" id="typing"></div>  
           {/* <span className="text-muted">online</span> */}
@@ -67,7 +71,7 @@ const handleBack=()=>{
 {/* <li><button className="btn nav-btn text-muted"><IoVideocamOutline  fontSize={24} onClick={handleVideoCall}/></button></li>
 <li><button className="btn nav-btn text-muted" onClick={handleCall}><IoCallOutline fontSize={20} /></button></li> */}
 <li className="dropdown">
-<button className={`${colors}`} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
+<button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
 </button>
 <ul className={`${className} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
 {/* <li className="dropdown-item"><a  href="#" className="text-muted">Contact info <span><MdOutlineInfo fontSize={28}/></span></a></li> */}

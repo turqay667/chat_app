@@ -187,7 +187,7 @@ catch(err){
         <div className="sidebar-left tab-pane fade show active" id="chat" role="tabpanel" aria-labelledby="chat-tab">
             <div className="header">
                 <div className="mb-4">
-                <h4>Chat</h4>
+                <h4>Chats</h4>
                 </div>          
             <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
             <input type="text" className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full rounded-full px-4 py-2`} placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
@@ -211,8 +211,12 @@ return (
               <div className="notifies d-flex pl-3 justify-content-between">          
                 {user.username===adminn ?          
             <img src={`http://localhost:5000${adminn.image}`} className="admin-img" alt="admin" loading="lazy"/> :    
-            <img className="avatar" src='user-profile.png'  alt="user" loading="lazy"></img>}
-               
+           
+           <a className="position-relative">
+            <img className="avatar" src='user-profile.png'  alt="user" loading="lazy"></img>
+            {/* <span className="status"></span> */}
+            </a>}
+              
                 <div className="d-flex flex-column justify-center">
                 <h5 className="text-truncate">{user.username}</h5>   
         <div className={muted}>
@@ -329,7 +333,9 @@ return (
     <MdOutlineEdit fontSize={28} />
     </a> */}
   </label>
+
 </div>
+<h5 className="text-center pt-2">{adminn.username}</h5> 
 </div>
 {/* <h5 className="">{adminn.username}</h5>  */}
 {/* <div className="dropdown pb-4">
