@@ -19,6 +19,7 @@ import { socket } from "./Socket";
 import { ApiContext } from "./ApiContext";
 import Chats from "./Chats";
 import Swal from "sweetalert2";
+import emojii from "./emojis";
  function Chat(){
   const {theme, handleTheme}=useContext(ThemeContext)
   const [called,setCalled]=useState(false)
@@ -32,27 +33,23 @@ import Swal from "sweetalert2";
   const [muted,setMuted]=useState(false)
   const [recording,setRecording]=useState(false)
   const [blocked, setBlocked]=useState(false)
-  const [selectedUser,setSelectedUser]=useState({
-    _id: '675dc4beb4693734af7983db', 
-    email: 'memmedovturqay871@gmail.com', 
-    username:'turgay_m', 
-    password: '$2a$10$uiuCaKf4xVItAdrBDMkLeOWv9Hidw6x8YMKMvr24NweJmlRGcEq3a',
-     role: 'Admin', 
-     isBlocked: false,
-    }
-  )
   const [showSidebar, setShowSidebar]=useState(true)
   const [timer,setTimer]=useState(0)
   const {apiUrl }=useContext(ApiContext)
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  const user=userInfo?.data
+  const token=userInfo?.data.token
+  const [selectedUser,setSelectedUser]=useState(userInfo?.data)
+
   const audioRef=useRef(null)
   const mediaRecorder=useRef(null)
   const mediaStream=useRef(null)
   const chunks=useRef([])
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  const user=userInfo?.data
-  const token=userInfo?.data.token
+
+  
   const className=theme==='dark' ? 'background-light text-mute' : 'background-dark text-muted'
   const formClass=theme==='dark' ? 'form-dark' : 'form-light'
+
 useEffect(()=>{
   if(user){
     socket.emit('join', user.username)
@@ -64,66 +61,7 @@ useEffect(()=>{
 }, [selectedUser])
  
 
- const emojii=[ 
-  {
-    id:1,
-    text: "😃",
-  },
-  {
-    id:2,
-    text:"😄",
-  },
-  {
-    id:3,
-    text: "😁",
-  },
-  {
-    id:4,
-    text: "😆",
-  },
-  {
-    id:5,
-    text:  "😅",
-  },
-  {
-    id:6,
-    text:  "🤣", 
-  },
-  {
-    id:7,
-    text:   "😂",
-  },
-  {
-    id:8,
-    text:  "🙂",
-  },
-  {
-    id:9,
-    text:  "🙃",
-  },
-  {
-    id:10,
-    text:  "🫠",
-  },
-  {
-    id:11,
-    text: "😉", 
-  },
-  {
-    id:12,
-    text:  "😊", 
-  }
-
  
-
- 
-  // "😇",
-  // "🥰",
-  // "😍",
-  // "🤩",
-  // "😘",
-  // "😗",
-]
 const formData=new FormData()
 const handleAttach=(e)=>{
   const file=e.target.files[0]
@@ -288,7 +226,7 @@ else{
       <a className="btn rounded-circle text-white" data-bs-toggle="dropdown" id="emojiMenu" ><BsEmojiSmile fontSize={28} /> </a>
      <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu" >
       {
-      emojii.map((emoji)=>{
+    emojii.map((emoji)=>{
         return(
           <li className="dropdown-item" key={emoji.id}>
             <button className="btn" type="button" onClick={handleEmojis} value={emoji.text}>{emoji.text}</button>
@@ -333,7 +271,7 @@ recording ?
         
           </>
           : <div className="starting">
-            {/* <h2 className="text-center text-white"> Select chat to start conversation</h2> */}
+            <h2 className="text-center text-white"> Select chat to start conversation</h2>
    
             
             </div>

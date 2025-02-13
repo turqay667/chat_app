@@ -12,12 +12,12 @@ import { socket } from "./Socket";
 import axios from "axios";
 import  Swal from "sweetalert2";
 import { CgUnblock } from "react-icons/cg";
+
 const Chats=({messages,setMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked })=>{
 const {apiUrl}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
 const [users,setUsers]=useState([])
 const [password,setPassword]=useState('12345678')
-const [phone,setPhone]=useState('')
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [filteredUsers, setFilteredUsers]=useState([])
 const [about,setAbout]=useState('“When you change your thoughts, remember to also change your world.” —Norman Vincent Peale')
@@ -26,21 +26,16 @@ const [image,setImage]=useState('user-profile.png')
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
 const [allMessages,setAllMessages]=useState([])
+const [username,setUsername]=useState(userInfo?.data?.username || 'undefined')
 
 
-const muted=theme==='dark' ? 'text-mute' :'text-dark'
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
 const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
-  const colors=theme==='dark' ? 'text-white' :'text-dark'
-// const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-let adminn=''
+
+  let adminn=''
 if(userInfo){
-adminn =userInfo.data
-                    }
-const user=userInfo?.data
+  adminn = userInfo.data }
 const token=userInfo?.data?.token
-const [username,setUsername]=useState(user.username)
-// const admin=users.find(item=>item.role==='Admin')
 const userId=adminn ? adminn._id : null
 const userRef=useRef(null)
 // const passRef=useRef(null)
@@ -95,7 +90,6 @@ return  [...prevMessage,data]
 
 },[selectedUser,token])
 
-const textarea=document.getElementById('about')
 
 const handleSearch=(e)=>{
 e.preventDefault()
@@ -110,14 +104,6 @@ setFilteredUsers(filterUsers)
 }
 
 
-// const handleAbout=(e)=>{
-// textarea.focus()
-// setSaved(true)
-
-// }
-const handleContacts=(e)=>{
-e.preventDefault()
-}
 const handleSave=()=>{
   Swal.fire({
     title:"Save changes",
@@ -133,7 +119,6 @@ chat.classList.remove('col-12')
 }
 const handleImage = (e)=>{
 const file=e.target.files[0]
-
 const reader= new FileReader()
 reader.onloadend=()=>{
 // const updatedUser={...adminn,image:reader.result}
@@ -188,7 +173,7 @@ catch(err){
 
 }
 const deleteUser=()=>{
-  swal.fire({
+  Swal.fire({
     title:"Delete contact",
     text:"Are you sure?",
     icon:"warning",
@@ -212,7 +197,7 @@ const handleDelete=async ()=>{
       }
     })
     setFilteredUsers(prevUsers=>(prevUsers.filter((user)=>user._id!==selectedUser._id)))
-    swal.fire('User deleted successfully')
+    Swal.fire('User deleted successfully')
   }
   catch(err){
     console.error(err)
@@ -226,18 +211,11 @@ const handleBlock=()=>{
     timer:3000
   })
 setBlocked(true)
-  // swal.fire({
-  //   title:"Block contact",
-  //   text:"Are you sure?",
-  //   icon:"warning"
-  // })
-
 }
 const handleUnblock=()=>{
   setBlocked(false)
   Swal.fire({
     title:"Block removed",
-    // text:"User unblocked",
     icon:"success"  })
 
 }
@@ -278,7 +256,7 @@ return (
                 <div className="d-flex flex-column justify-center">
                { user.username===adminn.username ?       <h5 className="text-truncate">You</h5>      
                :    <h5 className="text-truncate">{user.username}</h5>  } 
-        <div className={muted}>
+        <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
           {msg.message}
           </div>
         </div>      
@@ -515,8 +493,7 @@ return (
                 <ul>
                  
                 <li className="dropdown">
-                <button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
-                </button>
+                <button className={theme==='dark' ? 'text-white' :'text-dark'} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} /></button>
                 <ul className={`${className} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
                 {/* <li className="dropdown-item"><a  href="#" className="text-muted">Contact info <span><MdOutlineInfo fontSize={28}/></span></a></li> */}
                 <li className="dropdown-item" >
