@@ -35,6 +35,10 @@ a{
 .dropdown-item{
   color: inherit !important ;
 }
+.dropdown-item a{
+  display: flex;
+  gap: 1rem;
+}
 .msg-body .dropdown-item{
   padding: inherit !important;
 }
@@ -122,13 +126,12 @@ input:-webkit-autofill {
 display: flex;
 justify-content: space-between;
 flex-direction: column;
-overflow: hidden;
+/* overflow: hidden; */
 box-shadow: 0 2px 4px #0f223a1f;
   /* color: white;
   background: #36404a; */
 }
-  /* height: calc(100vh - 184px) !important;
-} */
+
  .msg-body{
   border-top: 1px solid #36404a;
  }
@@ -161,6 +164,7 @@ textarea{
   outline: none;
   border: none;
 }
+
 .chat-user{
   display: flex;
   align-items: center;
@@ -176,8 +180,8 @@ textarea{
 }
 .conversation-body{
   padding: 20px;
-  /* height:calc(100vh-94px); */
-  overflow-y: scroll;
+  overflow-x:  hidden;
+  /* overflow:scroll; */
 }
 /* .users .avatar{
   margin-right: 1rem;
@@ -241,7 +245,7 @@ figure{
   height: 10px;
   border-radius: 50%;
   right: 25px;
-  bottom: 8px;
+  bottom: 6px;
 }
 .notify{
   right: 0;
@@ -252,14 +256,20 @@ figure{
 }
 .message{
   display: flex;
+  align-items: center;
   padding: 2px;
+  cursor: pointer;
 
 }
-.message div{
-  flex-direction: column;
-  background-color: #f5f7fb;
+.message .dropdown{
+  display: none;
+
+}
+.message:hover .dropdown{
+  display: block;
+}
+.message .message-content{
   border-radius: 8px 8px 0px 8px;
-  /* max-width: 300px; */
   padding: 10px 15px;
   text-align: right;
   margin-bottom: inherit;
@@ -500,11 +510,14 @@ gap: 20px;
   top: 3px;
   left:0px;
 }
-.message-content div{
+.message ul{
+  padding-left: inherit;
+}
+/* .message-content div{
   background-color: rgba(61, 177, 107, .3);
   border-radius:8px 8px 0 8px;
   padding:12px 20px;
-}
+} */
 .modal-title {
   color: black !important;
 }
@@ -545,10 +558,11 @@ form img{
   justify-content: center;
   font-size: 24px;
   padding: 6.5px;
-  right: 2rem;
-  bottom: 3rem;
+  right: 1rem;
+  bottom: 1rem;
   text-align: center;
   width: 2.3rem;
+  height: 2.3rem;
   background: rgb( 230, 235, 245) !important;
   color: #333 !important;
   border-radius: 50%;

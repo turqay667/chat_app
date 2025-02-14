@@ -21,7 +21,6 @@ const Login=()=>{
     const [hide,setHide]=useState(false)
     const {setUser}=useContext(AuthContext)
     const {apiUrl}=useContext(ApiContext)
-    
 useEffect(()=>{
    if(logged){
  navigate("/home")} 

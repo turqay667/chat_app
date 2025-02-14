@@ -50,8 +50,6 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                 // const audio=req.file ? req.file.path : null
                 const sender=req.user._id
                 const receiver=req.params.id
-                receiverr= await User.findById(receiver)
-                  if(receiverr.isBlocked===false){
                     const newMessage=new Message({
                         message,
                         receiver,
@@ -61,10 +59,10 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                     })
                     await newMessage.save()
                     res.status(201).json(newMessage)
-                  }
+                  
              
 
-               
+  
             
             }
             catch(err){
@@ -176,7 +174,19 @@ userRouter.delete('/messages/:id', protect, async (req,res)=>{
     }
 
 })
+userRouter.delete('/messages/message/:id', protect, async (req,res)=>{
+    if (!req.user) {
+        return res.status(400).json({ message: 'User not authenticated' });
+    }
+    const message=await Message.deleteOne({_id:req.params.id})
+    if(message){
+         res.status(200).json({success:true, message:'message deleted'})
+    }
+    else{
+        res.json({message:"Messages are deleted"})
+    }
 
+})
 userRouter.delete('/users/:id', protect, async (req,res)=>{
           if(!req.user){
             return res.status(400).json({ message: 'User not authenticated' });

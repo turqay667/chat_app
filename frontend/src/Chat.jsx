@@ -34,13 +34,16 @@ import emojii from "./emojis";
   const [recording,setRecording]=useState(false)
   const [blocked, setBlocked]=useState(false)
   const [showSidebar, setShowSidebar]=useState(true)
+  const [showChat, setShowChat]=useState(true)
   const [timer,setTimer]=useState(0)
+  const [filteredUsers, setFilteredUsers]=useState([])
+  const [users,setUsers]=useState([])
+  const [allMessages,setAllMessages]=useState([])
   const {apiUrl }=useContext(ApiContext)
   const userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const user=userInfo?.data
   const token=userInfo?.data.token
-  const [selectedUser,setSelectedUser]=useState(userInfo?.data)
-
+ const [selectedUser,setSelectedUser]=useState(user)
   const audioRef=useRef(null)
   const mediaRecorder=useRef(null)
   const mediaStream=useRef(null)
@@ -49,16 +52,82 @@ import emojii from "./emojis";
   
   const className=theme==='dark' ? 'background-light text-mute' : 'background-dark text-muted'
   const formClass=theme==='dark' ? 'form-dark' : 'form-light'
+ 
+  useEffect(()=>{
+    const handleSize=()=>{
+      if( showSidebar && window.innerWidth<=768){
+        setShowChat(false)
+        }
+        else{
+          setShowChat(true)
+        }
+    }
+    
+    handleSize()
+      window.addEventListener("resize", handleSize);
+    if(user){
+      socket.emit('join', user.username)
+      socket.on('online', (users)=>{
+         setOnlineUsers(users) 
+         })
+     }
+  
+  }, [selectedUser])
 
-useEffect(()=>{
-  if(user){
-    socket.emit('join', user.username)
-    socket.on('online', (users)=>{
-       setOnlineUsers(users) 
-       })
-   }
+  useEffect(()=>{
+    fetch(`${apiUrl}/`)
+    .then((res)=>res.json())
+    .then((data)=>{
+    setUsers(data)
+    setFilteredUsers(data)
+    })
+    },[])
 
-}, [selectedUser])
+
+    
+useEffect(()=>{  
+  if (!selectedUser) return;
+  const fetching=async()=>{           
+  const response=await fetch(`${apiUrl}/messages/${selectedUser._id}`, {
+  headers:{
+  Authorization:`Bearer ${token}`
+  }
+  })
+  const data=await response.json()
+  setMessages(data)
+  }
+  fetching()  
+  
+  
+  
+  const fetchingAll=async()=>{           
+    const response=await fetch(`${apiUrl}/messages/`, {
+    headers:{
+    Authorization:`Bearer ${token}`
+    }
+    })
+    const data=await response.json()
+    setAllMessages(data)
+   
+    }
+    fetchingAll()  
+    
+  
+  
+  socket.on("message", (data)=>{     
+  if(data.sender===selectedUser._id){
+  setMessages((prevMessage)=>{
+  if(!prevMessage.some((item)=>item.message===data.message)){
+  return  [...prevMessage,data]
+  }
+      return prevMessage;
+  });
+  }
+  })
+  
+  },[selectedUser,token])
+
+
  
 
  
@@ -191,21 +260,28 @@ else{
   showSidebar ? 
   <>
   <Sidebar /> 
-  <Chats messages={messages} setMessages={setMessages}   image={image} selectedUser={selectedUser} setSelectedUser={setSelectedUser} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar} blocked={blocked} setBlocked={setBlocked}/>
+  <Chats 
+  messages={messages} setMessages={setMessages}   image={image} selectedUser={selectedUser} 
+  setSelectedUser={setSelectedUser}
+   onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null}
+    setShowSidebar={setShowSidebar} blocked={blocked} setBlocked={setBlocked} users={users} setUsers={setUsers}
+    filteredUsers={filteredUsers} setFilteredUsers={setFilteredUsers} allMessages={allMessages}  setShowChat={setShowChat}
+    />
   </>
   :
   <></>
 
 }
-
-        <div className={showSidebar ? "chat-body col" : "chat-body col-12"} id="chatbody" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
+{
+  showChat===true ? <>
+   <div className={showSidebar ? "chat-body col" : "chat-body col-12"} id="chatbody" style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}}>  
            {
           selectedUser ?   
           <>
-  <Header theme={theme} muted= {muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar}/> 
+  <Header theme={theme} muted={muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar} setShowChat={setShowChat}/> 
   
-          <div className="conversation-body text-center overflow-auto" >
-<Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay} theme={theme}/>
+          <div className="conversation-body overflow-auto text-center" >
+<Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay} theme={theme} setMessages={setMessages}/>
 
 </div>
 <div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}} >
@@ -276,7 +352,12 @@ recording ?
             
             </div>
          } 
-        </div>
+        </div> 
+  
+  </>
+  : <></>
+}
+       
       
         </div>
         

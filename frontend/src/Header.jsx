@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 import { ApiContext } from "./ApiContext";
-const Header=({theme,messages,selectedUser,setMessages, onlineUser,setShowSidebar})=>{
+const Header=({theme,messages,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat})=>{
   const msn=document.getElementById('msn')
 const [muted,setMuted]=useState(false)
 const userInfo = JSON.parse(localStorage.getItem('userInfo')) 
@@ -34,6 +34,7 @@ const handleDelete=async()=>{
    }
 const handleBack=()=>{
   setShowSidebar(true)
+  setShowChat(false)
 }
   const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
   const colors=theme==='dark' ? 'text-white' :'text-dark'
@@ -42,7 +43,7 @@ const handleBack=()=>{
         <div className="chat-header  p-3 p-lg-4 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
         <div className="col-md-4 col-9">
         <div className="chat-user">
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center gap-1">
         <div className="d-block d-lg-none">
 <FaArrowLeft fontSize={24} onClick={handleBack}/>
           </div>

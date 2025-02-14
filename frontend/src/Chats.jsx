@@ -13,20 +13,21 @@ import axios from "axios";
 import  Swal from "sweetalert2";
 import { CgUnblock } from "react-icons/cg";
 
-const Chats=({messages,setMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked })=>{
+const Chats=({allMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setUsers, setShowChat})=>{
 const {apiUrl}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
-const [users,setUsers]=useState([])
 const [password,setPassword]=useState('12345678')
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
-const [filteredUsers, setFilteredUsers]=useState([])
 const [about,setAbout]=useState('“When you change your thoughts, remember to also change your world.” —Norman Vincent Peale')
 const [saved,setSaved]=useState(false)
 const [image,setImage]=useState('user-profile.png')
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
-const [allMessages,setAllMessages]=useState([])
-const [username,setUsername]=useState(userInfo?.data?.username || 'undefined')
+
+const [username,setUsername]=useState(
+  userInfo?.data?.username || 'undefined'
+)
+
 
 
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
@@ -38,57 +39,9 @@ if(userInfo){
 const token=userInfo?.data?.token
 const userId=adminn ? adminn._id : null
 const userRef=useRef(null)
-// const passRef=useRef(null)
-useEffect(()=>{
-fetch(`${apiUrl}/`)
-.then((res)=>res.json())
-.then((data)=>{
-setUsers(data)
-setFilteredUsers(data)
-})
-},[])
-
-useEffect(()=>{  
-if (!selectedUser) return;
-const fetching=async()=>{           
-const response=await fetch(`${apiUrl}/messages/${selectedUser._id}`, {
-headers:{
-Authorization:`Bearer ${token}`
-}
-})
-const data=await response.json()
-setMessages(data)
-}
-fetching()  
+//const passRef=useRef(null)
 
 
-
-const fetchingAll=async()=>{           
-  const response=await fetch(`${apiUrl}/messages/`, {
-  headers:{
-  Authorization:`Bearer ${token}`
-  }
-  })
-  const data=await response.json()
-  setAllMessages(data)
- 
-  }
-  fetchingAll()  
-  
-
-
-socket.on("message", (data)=>{     
-if(data.sender===selectedUser._id){
-setMessages((prevMessage)=>{
-if(!prevMessage.some((item)=>item.message===data.message)){
-return  [...prevMessage,data]
-}
-    return prevMessage;
-});
-}
-})
-
-},[selectedUser,token])
 
 
 const handleSearch=(e)=>{
@@ -104,6 +57,8 @@ setFilteredUsers(filterUsers)
 }
 
 
+
+
 const handleSave=()=>{
   Swal.fire({
     title:"Save changes",
@@ -111,8 +66,9 @@ const handleSave=()=>{
     icon:"warning"  })
 }
 const handleUser=()=>{
-if(selectedUser && window.innerWidth<=768){
+if( window.innerWidth<=768){
 setShowSidebar(false)
+setShowChat(true)
 const chat=document.getElementById('nav-tabContent')
 chat.classList.remove('col-12')
 }
@@ -120,19 +76,17 @@ chat.classList.remove('col-12')
 const handleImage = (e)=>{
 const file=e.target.files[0]
 const reader= new FileReader()
-reader.onloadend=()=>{
-// const updatedUser={...adminn,image:reader.result}
-// localStorage.setItem("userInfo", JSON.stringify({data:updatedUser}))
-setImage(reader.result)
-
+reader.onloadend=async()=>{
+const imageData=reader.result
 try{
-axios.put(`${apiUrl}/profile/${userId}`, {image},{
+axios.put(`${apiUrl}/profile/${userId}`, {image:imageData}, {
     headers:{
      Authorization:`Bearer ${token}`,
     "Content-Type":"application/json",
-  
     }
 })
+setUserInfo({data:{...adminn, image:imageData}})
+localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image:image}}))
 }
 catch(err){
     console.log(err)
@@ -221,7 +175,7 @@ const handleUnblock=()=>{
 }
     return(
         <>
-           <div className="col-md-3 col-12 chats tab-content overflow-auto" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>
+           <div className="col-md-3 col-12 chats tab-content" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>
         <div className="sidebar-left tab-pane fade show active" id="chat" role="tabpanel" aria-labelledby="chat-tab">
             <div className="header">
                 <div className="mb-4">
@@ -355,23 +309,18 @@ return (
         <form onSubmit={handleProfile} id="prof">
           {
          
-            adminn ? (
-            
+            adminn ? (           
             <>
-            <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>
-
-          
+            <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
              <div className="profile-img d-flex justify-content-center">
-             
-
-       
-<img src={image} className={`${border} rounded-circle avatar`} alt="user"></img>
+ <div className="position-relative">     
+<img src={adminn.image} className={`${border} rounded-circle avatar`} alt="user"/>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
-  {/* <a>
+  <a>
     <MdOutlineEdit fontSize={28} />
-    </a> */}
+    </a>
   </label>
-
+  </div>
 </div>
 <h5 className="text-center pt-2">{adminn.username}</h5> 
 </div>
@@ -485,7 +434,7 @@ return (
                  
               <div className="notifies d-flex pl-3 ">                     
            <a className="position-relative">
-            <img className="avatar" src='user-profile.png'  alt="user" ></img>
+            <img className="avatar" src={user.image}  alt="user" ></img>
             {/* <span className="status"></span> */}
             </a>
               
