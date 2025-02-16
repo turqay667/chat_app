@@ -49,7 +49,7 @@ const handleBack=()=>{
           </div>
           <link rel="preload" href="user-profile.png" as="image"/>
         <a className="position-relative">
-        <img src='user-profile.png' className="avatar" alt="user"></img>
+        <img src={selectedUser?.image} className="avatar" alt="user"></img>
             { onlineUser ?    <span className="status bg-green-400"></span> : <span className="status bg-amber-300"></span> }   
       
           </a>
