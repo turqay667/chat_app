@@ -28,11 +28,6 @@ const [username,setUsername]=useState(adminn?.username || undefined)
 const [password,setPassword]=useState('12345678')
 const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
 const [image,setImage]=useState(adminn?.image)
-useEffect(()=>{
-  localStorage.setItem('userInfo',JSON.stringify(userInfo))
- 
- },[userInfo])
-console.log(userInfo)
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
 const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
 
@@ -63,7 +58,6 @@ const handleSave=()=>{
     title:"Save changes",
     text:"Are you sure?",
     icon:"warning"  })
-    console.log(adminn)
 
 }
 const handleUser=()=>{
