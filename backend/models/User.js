@@ -20,7 +20,7 @@ const userSchema=moongose.Schema(
         },  
         about:{
             type:String,
-            maxlength:30,
+            maxlength:50,
             default:'You',
             requried:true,
         },

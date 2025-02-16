@@ -16,31 +16,32 @@ import { CgUnblock } from "react-icons/cg";
 const Chats=({allMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setUsers, setShowChat})=>{
 const {apiUrl}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
-const [password,setPassword]=useState('12345678')
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
-const [about,setAbout]=useState('“When you change your thoughts, remember to also change your world.” —Norman Vincent Peale')
 const [saved,setSaved]=useState(false)
-const [image,setImage]=useState('user-profile.png')
+
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
-
-const [username,setUsername]=useState(
-  userInfo?.data?.username || 'undefined'
-)
-
-
-
+let adminn=''
+if(userInfo){
+  adminn = userInfo.data }
+const [username,setUsername]=useState(adminn?.username || undefined)
+const [password,setPassword]=useState('12345678')
+const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
+const [image,setImage]=useState(adminn?.image)
+useEffect(()=>{
+  localStorage.setItem('userInfo',JSON.stringify(userInfo))
+ 
+ },[userInfo])
+console.log(userInfo)
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
 const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
 
-  let adminn=''
-if(userInfo){
-  adminn = userInfo.data }
+
 const token=userInfo?.data?.token
 const userId=adminn ? adminn._id : null
 const userRef=useRef(null)
-//const passRef=useRef(null)
-
+const passRef=useRef(null)
+const aboutRef=useRef(null)
 
 
 
@@ -57,13 +58,13 @@ setFilteredUsers(filterUsers)
 }
 
 
-
-
 const handleSave=()=>{
   Swal.fire({
     title:"Save changes",
     text:"Are you sure?",
     icon:"warning"  })
+    console.log(adminn)
+
 }
 const handleUser=()=>{
 if( window.innerWidth<=768){
@@ -74,19 +75,23 @@ chat.classList.remove('col-12')
 }
 }
 const handleImage = (e)=>{
+  e.preventDefault()
 const file=e.target.files[0]
+if(!file) return ;
+setEdit(false)
 const reader= new FileReader()
 reader.onloadend=async()=>{
-const imageData=reader.result
+  setImage(reader.result)
 try{
-axios.put(`${apiUrl}/profile/${userId}`, {image:imageData}, {
+axios.put(`${apiUrl}/profile/${userId}`, {image}, {
     headers:{
      Authorization:`Bearer ${token}`,
     "Content-Type":"application/json",
     }
 })
-setUserInfo({data:{...adminn, image:imageData}})
-localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image:image}}))
+
+setUserInfo({data:{...adminn, image}})
+localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image}}))
 }
 catch(err){
     console.log(err)
@@ -99,6 +104,9 @@ const handleEdit=(field)=>{
   if(userRef.current){
     userRef.current.focus()
   }
+  if(aboutRef.current){
+    aboutRef.current.focus()
+  }
   // if(field==="password" && passRef.current){
   //   passRef.current.focus()
   // }
@@ -108,18 +116,22 @@ const handleEdit=(field)=>{
 const handleProfile=async(e)=>{
   setEdit(false)
 e.preventDefault()
-const updatedUser={username, password}
 
 try{
-await axios.put(`${apiUrl}/profile/${userId}`, updatedUser, {
+await axios.put(`${apiUrl}/profile/${userId}`, {username, about}, {
     headers:{
     "Content-Type":"application/json",
     "Authorization":`Bearer ${token}`
     }
 })
-  setUserInfo({data:{...adminn, username}})
-  localStorage.setItem('userInfo',JSON.stringify({data:{...adminn,username}}))
+
+  setUserInfo({data:{...adminn, username, about}})
+ 
+  localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, username}}))
+  localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, about}}))
+  
 }
+
 catch(err){
     console.log(err)
 }
@@ -140,7 +152,7 @@ const deleteUser=()=>{
     }
   })
 }
-const handleDelete=async ()=>{
+const handleDelete= async ()=>{
 
   try{
     await axios.delete(`${apiUrl}/users/${selectedUser._id}`,
@@ -259,7 +271,7 @@ return (
             adminn ?
             <>
              <div className="profile-img d-flex justify-content-center">
-<img src={image} className={`${border} rounded-circle avatar`} alt="user"/>
+<img src={adminn.image} className={`${border} rounded-circle avatar`} alt="user"/>
 </div>
 <h5 className="text-center pt-2">{adminn.username}</h5> 
             </> 
@@ -314,7 +326,7 @@ return (
             <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
              <div className="profile-img d-flex justify-content-center">
  <div className="position-relative">     
-<img src={adminn.image} className={`${border} rounded-circle avatar`} alt="user"/>
+<img src={image} className={`${border} rounded-circle avatar`} alt="user"/>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
   <a>
     <MdOutlineEdit fontSize={28} />
@@ -322,9 +334,9 @@ return (
   </label>
   </div>
 </div>
-<h5 className="text-center pt-2">{adminn.username}</h5> 
+<h5 className="text-center">{adminn.username}</h5> 
 </div>
-{/* <h5 className="">{adminn.username}</h5>  */}
+
 {/* <div className="dropdown pb-4">
 <a className="text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Available</a>
 <ul className="dropdown-menu">
@@ -337,11 +349,11 @@ return (
 <div className='user-content'>
     <label className={ theme==='light' ? 'text-muted' : 'text-mute' }>About</label>
 
-      <div className="d-flex align-items-center"> 
-        <textarea className="w-full pb-3" id="about" value={about} rows={3}  cols={3} onChange={(e)=>setAbout(e.target.value)} disabled/> 
- {/* <span className="btn btn-success text-white">
-    <MdOutlineEdit fontSize={24}  onClick={handleEdit}/>
-    </span> */}
+      <div className="d-flex justify-content-evenly align-items-center gap-5"> 
+        <textarea className="w-full" id="about" ref={aboutRef}  value={about} rows={2}  cols={3}   disabled={edit ? false : true} onChange={(e)=>setAbout(e.target.value)} maxLength={50}/> 
+        <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={handleEdit}>
+    <CiEdit   />
+    </a>    
     </div>
     <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Name</label>  
     <div className="d-flex justify-content-evenly align-items-center" >
@@ -350,17 +362,17 @@ return (
          <input className="w-full" ref={userRef}  value={username}  disabled={edit ? false : true}  onChange={(e)=>setUsername(e.target.value)}/>
          
        
-         <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}>
-    <CiEdit   onClick={handleEdit}/>
+         <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={handleEdit}>
+    <CiEdit   />
     </a>    
     </div>
    
     <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Password</label>
     <div className="d-flex justify-around align-items-center">
-    <input className="w-full font-size-14 " type="password" value={password}  onChange={(e)=>setPassword(e.target.value)} disabled={edit ? false : true} />
-     <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark "}>
+    <input className="w-full font-size-14 " type="password"    value={password}  onChange={(e)=>setPassword(e.target.value)} disabled={edit ? false : true} />
+     {/* <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark "}>
     <CiEdit  onClick={handleEdit}/>
-    </a>
+    </a> */}
     </div>
     <div className="text-center mt-5">
       { edit ? <button type="submit" className="px-5 py-2 btn btn-dark text-white" onClick={handleSave}>Save</button> : <div></div>}

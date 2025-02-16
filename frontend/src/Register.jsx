@@ -20,7 +20,6 @@ const Register=(props)=>{
     const [success,setSuccess]=useState(false)
     const[hide,setHide]=useState(false)
     const {apiUrl}=useContext(ApiContext)
-    console.log(localStorage.getItem('userInfo'))
 // if(success){
 //     navigate("/login")
 // }

@@ -21,6 +21,9 @@ const Login=()=>{
     const [hide,setHide]=useState(false)
     const {setUser}=useContext(AuthContext)
     const {apiUrl}=useContext(ApiContext)
+
+    
+   
 useEffect(()=>{
    if(logged){
  navigate("/home")} 
@@ -28,14 +31,17 @@ useEffect(()=>{
 
     const handleSubmit=async (e)=>{
         e.preventDefault();
-
+        const userInfo=JSON.parse(localStorage.getItem('userInfo'))
+        console.log(userInfo)
         try{
 const  config={
             headers:{"Content-Type":"application/json"},
         }
   const data = await axios.post(`${apiUrl}/login`,{username,password},config)
   localStorage.setItem('userInfo', JSON.stringify(data))
+  
   socket.connect()
+
   setUser(username)  
   toast.success('Login successful')
   setLogged(true)

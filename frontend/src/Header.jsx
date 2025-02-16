@@ -56,12 +56,9 @@ const handleBack=()=>{
      
     </div>
     <div>
-    <h5>{selectedUser?.username}</h5>
-
-     
-    
-    
-     
+      {selectedUser?.username===userInfo?.data?.username
+       ?     <h5>You</h5> : <h5>{selectedUser?.username}</h5>
+      }
         <div className="text-muted" id="typing"></div>  
           {/* <span className="text-muted">online</span> */}
        
