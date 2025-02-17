@@ -1,6 +1,5 @@
 import { BsChatSquareText,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
 import {PiChats} from "react-icons/pi";
-import { CgProfile } from "react-icons/cg";
 import { CiCamera, CiDark, CiLight, CiLogout, CiSettings } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
 import { useState,useEffect, useContext } from "react";

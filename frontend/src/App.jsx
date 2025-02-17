@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-toastify/dist/ReactToastify.css";
@@ -7,7 +7,6 @@ import Chat from './Chat';
 import Register from './Register';
 import { Route, Routes } from 'react-router-dom';
 import ThemeProvider from './ThemeContext';
-import io from "socket.io-client";
 import AuthProvider from './AuthContext';
 import PrivateRouter from './PrivateRouter';
 import ApiProvider from './ApiContext';

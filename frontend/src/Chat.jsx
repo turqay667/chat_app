@@ -6,7 +6,6 @@ import { useState } from "react";
 import Call from "./Call";
 import Sidebar from "./Sidebar";
 import { FaRegStopCircle, FaSearch } from "react-icons/fa";
-import io from "socket.io-client";
 import { ThemeContext } from "./ThemeContext";
 import axios from "axios";
 import Message from "./Message";

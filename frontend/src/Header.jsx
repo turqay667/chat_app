@@ -1,6 +1,5 @@
 
-import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsThreeDots, BsThreeDotsVertical, BsTrash} from "react-icons/bs";
-import { MdCallEnd, MdOutlineClose,MdOutlineDelete, MdOutlineInfo } from "react-icons/md";
+import {  BsThreeDotsVertical, BsTrash} from "react-icons/bs";
 import { GoUnmute,GoMute } from "react-icons/go";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";

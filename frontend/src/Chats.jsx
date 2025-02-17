@@ -1,14 +1,10 @@
-import { PiPhoneCall } from "react-icons/pi";
-import { RiContactsLine } from "react-icons/ri";
 import { CiEdit, CiSquarePlus } from "react-icons/ci";
 import { BiBlock, BiSearch } from "react-icons/bi";
-import { FaPenSquare, FaRegEdit } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { useState,useEffect,useRef, useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 import { ApiContext } from "./ApiContext";
-import { socket } from "./Socket";
 import axios from "axios";
 import  Swal from "sweetalert2";
 import { CgUnblock } from "react-icons/cg";
@@ -17,12 +13,13 @@ const Chats=({allMessages,selectedUser,setSelectedUser, onlineUser,setShowSideba
 const {apiUrl, token}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
-const [saved,setSaved]=useState(false)
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
+
 let adminn=''
-if(userInfo){
-  adminn = userInfo.data }
+if(userInfo){adminn = userInfo.data }
+
+
 const [username,setUsername]=useState(adminn?.username || undefined)
 const [password,setPassword]=useState('12345678')
 const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')

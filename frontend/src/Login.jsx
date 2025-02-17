@@ -6,8 +6,6 @@ import { BiUser } from "react-icons/bi";
 import { CiLock } from "react-icons/ci";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {toast, ToastContainer } from "react-toastify";
-import io from "socket.io-client"
-import { IoEllipseSharp } from "react-icons/io5";
 import { AuthContext } from "./AuthContext";
 import { socket } from "./Socket";
 import { ApiContext } from "./ApiContext";

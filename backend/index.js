@@ -33,12 +33,6 @@ app.use('/uploads',express.static('uploads'))
 
 const PORT=process.env.PORT || 1000;
 
-
-
-
-
-
-
 const io=socket(server, {
   cors:{
   origin:['http://localhost:5173', 'https://chat-app-bxnf.vercel.app'],

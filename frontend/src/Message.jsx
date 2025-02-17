@@ -51,12 +51,8 @@ const Message = ({ messages, user, theme,setMessages}) => {
                   {message.audio && <audio src={message.audio}  preload="metadata"  controls  id="records">
                     </audio>
                     }
-                     <div className="d-flex gap-4">
-                   
-                  <div className={colors}>{message.message}</div>              
-                 
-          
-               
+                     <div className="d-flex gap-4">                   
+                  <div className={colors}>{message.message}</div>                            
                </div>
                   <p className='d-flex justify-content-end'> {new Date(message.createdAt).toLocaleTimeString([], {
                     hour:"2-digit",
