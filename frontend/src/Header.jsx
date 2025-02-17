@@ -33,8 +33,7 @@ const handleBack=()=>{
   setShowSidebar(true)
   setShowChat(false)
 }
-  const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
-  const colors=theme==='dark' ? 'text-white' :'text-dark'
+
 
     return (
         <div className="chat-header  p-3 p-lg-4 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
@@ -70,9 +69,9 @@ const handleBack=()=>{
 {/* <li><button className="btn nav-btn text-muted"><IoVideocamOutline  fontSize={24} onClick={handleVideoCall}/></button></li>
 <li><button className="btn nav-btn text-muted" onClick={handleCall}><IoCallOutline fontSize={20} /></button></li> */}
 <li className="dropdown">
-<button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
+<button className={theme==='dark' ? 'text-white' :'text-dark'}  role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
 </button>
-<ul className={`${className} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
+<ul className={`${theme==='dark' ? 'background-light text-white' : 'background-dark text-muted'} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
 {/* <li className="dropdown-item"><a  href="#" className="text-muted">Contact info <span><MdOutlineInfo fontSize={28}/></span></a></li> */}
 <li className="dropdown-item"  onClick={handleMute}>
 { muted=== false ? <a className=" d-flex gap-3"   >

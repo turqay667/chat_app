@@ -18,7 +18,6 @@ import emojii from "./emojis";
  function Chat(){
   const {theme, handleTheme}=useContext(ThemeContext)
   const [called,setCalled]=useState(false)
-  const [videoCalled,setVideoCalled]=useState(false)
   const [attach,setAttach]=useState(null)
   const [image,setImage]=useState('')
   const [onlineUsers, setOnlineUsers]=useState([])
@@ -42,10 +41,6 @@ import emojii from "./emojis";
   const mediaStream=useRef(null)
   const chunks=useRef([])
 
-  
-  const className=theme==='dark' ? 'background-light text-mute' : 'background-dark text-muted'
-  const formClass=theme==='dark' ? 'form-dark' : 'form-light'
- 
   useEffect(()=>{
     const handleSize=()=>{
       if( showSidebar && window.innerWidth<=768){
@@ -278,7 +273,7 @@ else{
 </div>
 <div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}} >
 
-<form onSubmit={handleSubmit} className={formClass}>
+<form onSubmit={handleSubmit} className={theme==='dark' ? 'form-dark' : 'form-light'}>
 <div className="d-flex align-items-center justify-center">
 
         <div className="col-md-2 justify-content-center align-items-center icons">     
@@ -307,9 +302,8 @@ else{
      </div>
       </div>
      
-   <div className={ `${className} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
+   <div className={ `${theme==='dark' ? 'background-light text-mute' : 'background-dark text-muted'} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
    {
-
 recording ? 
 <div className="d-flex gap-2">
 

@@ -15,18 +15,14 @@ const {theme,handleTheme}=useContext(ThemeContext)
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
-
 let adminn=''
 if(userInfo){adminn = userInfo.data }
-
 
 const [username,setUsername]=useState(adminn?.username || undefined)
 const [password,setPassword]=useState('12345678')
 const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
 const [image,setImage]=useState(adminn?.image)
-const border=theme==="dark" ? 'border-lighted' :'border-grey'
 const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
-
 const userId=adminn ? adminn._id : null
 const userRef=useRef(null)
 const passRef=useRef(null)
@@ -45,8 +41,6 @@ item.username.toLowerCase().includes(search.toLowerCase())
 )
 setFilteredUsers(filterUsers)
 }
-
-
 const handleSave=()=>{
   Swal.fire({
     title:"Save changes",
@@ -259,7 +253,7 @@ return (
             adminn ?
             <>
              <div className="profile-img d-flex justify-content-center">
-<img src={adminn.image} className={`${border} rounded-circle avatar`} alt="user"/>
+<img src={adminn.image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
 </div>
 <h5 className="text-center pt-2">{adminn.username}</h5> 
             </> 
@@ -314,7 +308,7 @@ return (
             <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
              <div className="profile-img d-flex justify-content-center">
  <div className="position-relative">     
-<img src={image} className={`${border} rounded-circle avatar`} alt="user"/>
+<img src={image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
   <a>
     <MdOutlineEdit fontSize={28} />

@@ -5,7 +5,6 @@ import axios from "axios";
 import { BsTrash,BsThreeDotsVertical } from "react-icons/bs";
 import { BiSolidEdit } from "react-icons/bi";
 const Message = ({ messages, user, theme,setMessages}) => {
-  const className=theme==='dark' ? 'background-light text-mute message-content' : 'background-dark text-muted message-content'
   const colors=theme==='dark' ? 'text-white' :'text-dark'
   const {apiUrl,token}=useContext(ApiContext)
   const [selectedMessage, setSelectedMessage]=useState()
@@ -45,7 +44,7 @@ const Message = ({ messages, user, theme,setMessages}) => {
                   </ul>
                   </li>
                   </ul>
-                <div className={className}>
+                <div className={theme==='dark' ? 'background-light text-mute message-content' : 'background-dark text-muted message-content'}>
             
                   {message.image && <img src={message.image} alt="media" />}
                   {message.audio && <audio src={message.audio}  preload="metadata"  controls  id="records">
