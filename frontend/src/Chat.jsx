@@ -1,18 +1,14 @@
 
 import { BsChatSquareText,BsEmojiAngry,BsEmojiSmile,BsImage,BsSend,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
-import { IoCallOutline, IoSend, IoVideocamOutline } from "react-icons/io5";
 import {HiOutlineMicrophone } from 'react-icons/hi2';
 import { createContext, createElement, useContext, useEffect, useRef } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import VideoCall from "./VideoCall";
 import Call from "./Call";
 import Sidebar from "./Sidebar";
 import { FaRegStopCircle, FaSearch } from "react-icons/fa";
 import io from "socket.io-client";
 import { ThemeContext } from "./ThemeContext";
 import axios from "axios";
-import { Tooltip } from "react-tooltip";
 import Message from "./Message";
 import Header from "./Header";
 import { socket } from "./Socket";
@@ -39,11 +35,9 @@ import emojii from "./emojis";
   const [filteredUsers, setFilteredUsers]=useState([])
   const [users,setUsers]=useState([])
   const [allMessages,setAllMessages]=useState([])
-  const {apiUrl }=useContext(ApiContext)
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  const {apiUrl, userInfo, token }=useContext(ApiContext)
   const user=userInfo?.data
-  const token=userInfo?.data.token
- const [selectedUser,setSelectedUser]=useState(user)
+  const [selectedUser,setSelectedUser]=useState(user)
   const audioRef=useRef(null)
   const mediaRecorder=useRef(null)
   const mediaStream=useRef(null)
@@ -254,7 +248,6 @@ else{
 <>
     <div>
     {called ? <Call/>: <></>}
-    {videoCalled ?  <VideoCall/>: <></>}
 <div className="chat-row d-flex" style={{backgroundColor: theme==='dark' ? '#303841': "#ffffff", color: theme==='dark' ? 'white': "#212529",}}  >
 {
   showSidebar ? 

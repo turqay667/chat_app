@@ -7,10 +7,8 @@ import { BiSolidEdit } from "react-icons/bi";
 const Message = ({ messages, user, theme,setMessages}) => {
   const className=theme==='dark' ? 'background-light text-mute message-content' : 'background-dark text-muted message-content'
   const colors=theme==='dark' ? 'text-white' :'text-dark'
-  const {apiUrl}=useContext(ApiContext)
+  const {apiUrl,token}=useContext(ApiContext)
   const [selectedMessage, setSelectedMessage]=useState()
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  const token=userInfo?.data.token
   const handleDelete=async()=>{
     try{
       await axios.delete(`${apiUrl}/messages/message/${selectedMessage}`, {
@@ -19,11 +17,6 @@ const Message = ({ messages, user, theme,setMessages}) => {
          "Authorization":`Bearer ${token}`
        }
       })
-      
-      // Swal.fire({
-      //   title:"Delete message",
-      //   icon:"info"
-      //  })
        setMessages(prevMessages=>(prevMessages.filter((message)=>message._id!==selectedMessage)))
      }
    

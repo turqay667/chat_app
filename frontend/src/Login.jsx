@@ -31,8 +31,6 @@ useEffect(()=>{
 
     const handleSubmit=async (e)=>{
         e.preventDefault();
-        const userInfo=JSON.parse(localStorage.getItem('userInfo'))
-        console.log(userInfo)
         try{
 const  config={
             headers:{"Content-Type":"application/json"},

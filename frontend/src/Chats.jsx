@@ -14,11 +14,10 @@ import  Swal from "sweetalert2";
 import { CgUnblock } from "react-icons/cg";
 
 const Chats=({allMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setUsers, setShowChat})=>{
-const {apiUrl}=useContext(ApiContext)
+const {apiUrl, token}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [saved,setSaved]=useState(false)
-
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
 let adminn=''
@@ -31,8 +30,6 @@ const [image,setImage]=useState(adminn?.image)
 const border=theme==="dark" ? 'border-lighted' :'border-grey'
 const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
 
-
-const token=userInfo?.data?.token
 const userId=adminn ? adminn._id : null
 const userRef=useRef(null)
 const passRef=useRef(null)
@@ -276,7 +273,7 @@ return (
 </div> 
 <div className="user-content">
     <p id="about" className={theme==='light' ? 'text-muted' : 'text-mute'}> {about}</p> 
-{/* <div className="media mt-4">
+ {/* <div className="media mt-4">
   <div className=" d-flex justify-content-between mb-3">
 <h5>Media </h5>
 <h6>Show all</h6>
@@ -296,7 +293,7 @@ return (
     :  <p className="text-center mt-5">Nothing to show</p> 
   } 
 </div>
-</div> */}
+</div>  */}
 </div>
       
 </div>
@@ -387,7 +384,8 @@ return (
 
         <div className="sidebar-left tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
         <div className="header">
-        <div className="mb-2 d-flex justify-content-between">
+
+        <div className="mb-3 d-flex justify-content-between">
                <div>
                 <h4>Contacts</h4>
                 </div>

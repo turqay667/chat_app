@@ -7,17 +7,15 @@ import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 import { ApiContext } from "./ApiContext";
 const Header=({theme,messages,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat})=>{
-  const msn=document.getElementById('msn')
+const {apiUrl ,userInfo ,token}=useContext(ApiContext)
 const [muted,setMuted]=useState(false)
-const userInfo = JSON.parse(localStorage.getItem('userInfo')) 
 let adminn='' 
 if(userInfo){
   adminn = userInfo.data }
-const token=userInfo?.data?.token
 const handleMute=()=>{
   setMuted(!muted)
 }
-const {apiUrl}=useContext(ApiContext)
+
 const handleDelete=async()=>{
   try{
     await axios.delete(`${apiUrl}/messages/${selectedUser._id}`, {
