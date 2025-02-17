@@ -193,17 +193,17 @@ const handleUnblock=()=>{
              
 return (        
 <div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(user)}  key={user._id}>
-            <div className="user position-relative d-flex justify-between" onClick={handleUser}>
+            <div className="user position-relative" onClick={handleUser}>
       
             {
       allMessages.length>0 && allMessages.filter((message)=>
         message.sender===user._id || message.receiver===user._id).slice(-1).map((msg)=>{
           return (
-            <>                 
-              <div className="notifies d-flex pl-3 justify-content-between" >                          
+            <div key={msg._id} className="d-flex align-items-center justify-content-between">                 
+              <div className="notifies d-flex pl-3 justify-content-between">                          
                   {/* <img src={`http://localhost:5000${adminn.image}`} className="admin-img" alt="admin" loading="lazy"/>  */}             
            <a className="position-relative">
-            <img className="avatar" src='user-profile.png'  alt="user"></img>
+            <img className="avatar" src={user.image}  alt="user"></img>
             {/* <span className="status"></span> */}
             </a>
               
@@ -224,7 +224,7 @@ return (
 })}</h5>
 <div style={{opacity:0}}>'</div>
     </div>
-                </>
+                </div>
         
       )
     }) 
