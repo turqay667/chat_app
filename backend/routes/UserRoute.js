@@ -142,10 +142,7 @@ else{
     throw new Error('Invalid user data')
 }
 }))
-userRouter.get('/messages/', async (req,res)=>{
-    const messages=await Message.find({})
-    res.json(messages)
-})
+
 
 
 userRouter.get('/messages/:id', protect, async (req,res)=>{
@@ -206,9 +203,12 @@ userRouter.delete('/users/:id', protect, async (req,res)=>{
 
 userRouter.get('/',async (req,res)=>{
     const users=await User.find({})
-  
     res.json(users)
 })
 
+userRouter.get('/messages/', async (req,res)=>{
+    const messages=await Message.find({})
+    res.json(messages)
+})
 
 module.exports=userRouter;
