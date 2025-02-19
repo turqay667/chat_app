@@ -33,7 +33,10 @@ const Register=(props)=>{
         })
         localStorage.setItem("userInfo", JSON.stringify(response.data))
         toast.success("Successfully registered")
-        setSuccess(true)   
+        setTimeout(()=>{
+            setSuccess(true)  
+        }, 1000)
+        
        }
     
         catch(err){

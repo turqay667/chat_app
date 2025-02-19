@@ -37,14 +37,17 @@ const  config={
   localStorage.setItem('userInfo', JSON.stringify(data))
   
   socket.connect()
-
   setUser(username)  
-  toast.success('Login successful')
-  setLogged(true)
+  toast.success('Successfully logged')
+  setTimeout(()=>{
+    setLogged(true)
+  }, 1000)
+
+
 }
     catch(err){
       console.log(err)
-      toast.error(err.response?.data?.message || 'Something went wrong')
+      toast.error(err.response?.data?.message || 'Invalid user data')
 }
     }
     return (
