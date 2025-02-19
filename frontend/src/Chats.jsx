@@ -27,7 +27,7 @@ const passRef=useRef(null)
 const aboutRef=useRef(null)
 
 
-
+console.log(adminn)
 const handleSearch=(e)=>{
 e.preventDefault()
 if(search===''){
