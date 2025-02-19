@@ -100,7 +100,7 @@ const handleEdit=(field)=>{
 
 
 }
-console.log(adminn)
+// console.log(adminn)
 const handleProfile=async(e)=>{
   setEdit(false)
 e.preventDefault()
@@ -171,7 +171,6 @@ const handleUnblock=()=>{
     icon:"success"  })
 
 }
-console.log(userInfo)
     return(
         <>
            <div className="col-md-3 col-12 chats tab-content" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>
