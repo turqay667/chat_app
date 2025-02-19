@@ -405,7 +405,7 @@ return (
             <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
              <div className="profile-img d-flex justify-content-center">
  <div className="position-relative">     
-<img src={image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
+<img src={adminn.image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
   <a>
     <MdOutlineEdit fontSize={28} />
