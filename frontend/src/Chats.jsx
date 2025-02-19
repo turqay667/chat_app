@@ -10,21 +10,23 @@ import  Swal from "sweetalert2";
 import { CgUnblock } from "react-icons/cg";
 
 const Chats=({allMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setUsers, setShowChat})=>{
-const {apiUrl, userInfo, token}=useContext(ApiContext)
+const {apiUrl, token}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
+ const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
-const adminn = userInfo.data
-const userId=adminn._id
+const adminn = userInfo?.data
 const [username,setUsername]=useState(adminn?.username || undefined)
-const [password,setPassword]=useState('')
+const [password,setPassword]=useState('12345678')
 const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
-const [image,setImage]=useState(adminn.image || 'user-profile.png')
+const [image,setImage]=useState(adminn?.image || "user-profile.png")
 const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
-
+const userId=adminn ? adminn._id : null
 const userRef=useRef(null)
 const passRef=useRef(null)
 const aboutRef=useRef(null)
+
+
 
 const handleSearch=(e)=>{
 e.preventDefault()
@@ -70,7 +72,7 @@ await axios.put(`${apiUrl}/profile/${userId}`, {image:imageBase64}, {
     }
 })
 
-//  setUserInfo({data:{...adminn, image:imageBase64}})
+// setUserInfo({data:{...adminn, image:imageBase64}})
 localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image:imageBase64}}))
 setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
  item._id===userId ? {...item, image:imageBase64} : item
@@ -103,7 +105,7 @@ const handleProfile=async(e)=>{
 e.preventDefault()
 
 try{
-  await axios.put(`${apiUrl}/profile/${userId}`, {username, about}, {
+await axios.put(`${apiUrl}/profile/${userId}`, {username, about}, {
     headers:{
     "Content-Type":"application/json",
     "Authorization":`Bearer ${token}`
