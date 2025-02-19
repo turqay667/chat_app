@@ -142,7 +142,7 @@ else{
     throw new Error('Invalid user data')
 }
 }))
-userRouter.get('/messages/', protect, async (req,res)=>{
+userRouter.get('/messages/', async (req,res)=>{
     const messages=await Message.find({})
     res.json(messages)
 })
