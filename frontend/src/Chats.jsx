@@ -79,7 +79,6 @@ localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image:imageBase
 setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
  item._id===userId ? {...item, image:imageBase64} : item
 ))
-
 }
 
 catch(err){
@@ -116,7 +115,7 @@ await axios.put(`${apiUrl}/profile/${userId}`, {username, about}, {
 
   setUserInfo({data:{...adminn, username, about}})
   localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, username, about}}))
-  
+
 }
 
 catch(err){
@@ -172,6 +171,7 @@ const handleUnblock=()=>{
     icon:"success"  })
 
 }
+console.log(userInfo)
     return(
         <>
            <div className="col-md-3 col-12 chats tab-content" id="nav-tabContent"  style={{backgroundColor: theme==='dark' ? '#303841': "#f5f7fb"  }}>

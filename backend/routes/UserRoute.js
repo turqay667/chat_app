@@ -31,6 +31,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                 _id:user._id,
                  username:user.username,
                  role:user.role,
+                 image:user.image,
                  token:generateToken(user._id),
                  createdAt:user.createdAt,
               
@@ -128,6 +129,7 @@ if(userExist){
         _id:user._id,
         username:user.username,
         email:user.email,
+        image:user.image,
         password:user.password,
         role:user.role,
         token:generateToken(user._id)
