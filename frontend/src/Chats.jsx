@@ -15,8 +15,7 @@ const {theme,handleTheme}=useContext(ThemeContext)
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
-let adminn=''
-if(userInfo){adminn = userInfo.data }
+const adminn = userInfo.data 
 
 const [username,setUsername]=useState(adminn?.username || undefined)
 const [password,setPassword]=useState('12345678')
@@ -101,6 +100,7 @@ const handleEdit=(field)=>{
 
 
 }
+console.log(adminn)
 const handleProfile=async(e)=>{
   setEdit(false)
 e.preventDefault()
