@@ -10,24 +10,22 @@ import  Swal from "sweetalert2";
 import { CgUnblock } from "react-icons/cg";
 
 const Chats=({allMessages,selectedUser,setSelectedUser, onlineUser,setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setUsers, setShowChat})=>{
-const {apiUrl, token}=useContext(ApiContext)
+const {apiUrl, userInfo, token}=useContext(ApiContext)
 const {theme,handleTheme}=useContext(ThemeContext)
-// const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [search,setSearch]=useState('')
 const [edit,setEdit]=useState(false)
-const adminn = JSON.parse(localStorage.getItem('userInfo')).data 
+const adminn = userInfo.data
+const userId=adminn._id
 const [username,setUsername]=useState(adminn?.username || undefined)
-const [password,setPassword]=useState('12345678')
+const [password,setPassword]=useState('')
 const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
-const [image,setImage]=useState(adminn.image)
+const [image,setImage]=useState(adminn.image || 'user-profile.png')
 const className=theme==='dark' ? 'background-light text-white' : 'background-dark text-muted';
-const userId=adminn ? adminn._id : null
+
 const userRef=useRef(null)
 const passRef=useRef(null)
 const aboutRef=useRef(null)
 
-
-console.log(adminn)
 const handleSearch=(e)=>{
 e.preventDefault()
 if(search===''){
@@ -72,7 +70,7 @@ await axios.put(`${apiUrl}/profile/${userId}`, {image:imageBase64}, {
     }
 })
 
-// setUserInfo({data:{...adminn, image:imageBase64}})
+//  setUserInfo({data:{...adminn, image:imageBase64}})
 localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image:imageBase64}}))
 setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
  item._id===userId ? {...item, image:imageBase64} : item
@@ -405,7 +403,7 @@ return (
             <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
              <div className="profile-img d-flex justify-content-center">
  <div className="position-relative">     
-<img src={adminn.image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
+<img src={image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
   <a>
     <MdOutlineEdit fontSize={28} />
