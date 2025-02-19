@@ -203,7 +203,7 @@ if(record){
 formData.append('sender', user._id)
 // formData.append('audio', blob, 'audio.mp3')
 try{
- const response=await axios.post(`${apiUrl}/messages/${selectedUser._id}`, formData, {
+ const response = await axios.post(`${apiUrl}/messages/${selectedUser._id}`, formData, {
     headers:{ 
       Authorization:`Bearer ${token}`,
       "Content-Type":"multipart/form-data" ,         

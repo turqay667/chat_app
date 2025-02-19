@@ -65,7 +65,7 @@ reader.onloadend=async()=>{
   const imageBase64=reader.result
   setImage(imageBase64)
 try{
-axios.put(`${apiUrl}/profile/${userId}`, {image:imageBase64}, {
+await axios.put(`${apiUrl}/profile/${userId}`, {image:imageBase64}, {
     headers:{
      Authorization:`Bearer ${token}`,
     "Content-Type":"application/json",
@@ -105,7 +105,7 @@ const handleProfile=async(e)=>{
 e.preventDefault()
 
 try{
-await axios.put(`${apiUrl}/profile/${userId}`, {username, about}, {
+  await axios.put(`${apiUrl}/profile/${userId}`, {username, about}, {
     headers:{
     "Content-Type":"application/json",
     "Authorization":`Bearer ${token}`
