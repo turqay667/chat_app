@@ -55,4 +55,4 @@ const emojii=[
     // "😘",
     // "😗",
   ]
-  export default emojii
+  export default emojii;
