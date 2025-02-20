@@ -9,7 +9,7 @@ import { CiLock } from "react-icons/ci";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate} from "react-router-dom";
 import { useContext } from "react";
-import { ApiContext } from "../ApiContext";
+import { ApiContext } from "../Context.jsx/ApiContext";
 const Register=(props)=>{
   
     const navigate=useNavigate()

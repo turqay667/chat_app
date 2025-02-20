@@ -1,8 +1,8 @@
 
 import { BiSearch } from "react-icons/bi";
 import { useState,useEffect,useRef, useContext } from "react";
-import { ThemeContext } from "../ThemeContext";
-import { ApiContext } from "../ApiContext";
+import { ThemeContext } from "../Context.jsx/ThemeContext";
+import { ApiContext } from "../Context.jsx/ApiContext";
 import axios from "axios";
 import  Swal from "sweetalert2";
 import Settings from "./Settings";

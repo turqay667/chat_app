@@ -2,7 +2,7 @@ import { BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { CgUnblock } from "react-icons/cg";
 import { CiSquarePlus } from "react-icons/ci";
 import { useState,useContext } from "react";
-import { ThemeContext } from "../ThemeContext";
+import { ThemeContext } from "../Context.jsx/ThemeContext";
 import { BiSearch, BiBlock } from "react-icons/bi";
 import  Swal from "sweetalert2";
 const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, setSelectedUser})=>{

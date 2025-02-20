@@ -6,10 +6,10 @@ import Login from "./Components/Login"
 import Chat from './Components/Chat';
 import Register from './Components/Register';
 import { Route, Routes } from 'react-router-dom';
-import ThemeProvider from './ThemeContext';
-import AuthProvider from './AuthContext';
+import ThemeProvider from './Context.jsx/ThemeContext';
+import AuthProvider from './Context.jsx/AuthContext';
 import PrivateRouter from './PrivateRouter';
-import ApiProvider from './ApiContext';
+import ApiProvider from './Context.jsx/ApiContext';
 function App() {
   return (
    <>

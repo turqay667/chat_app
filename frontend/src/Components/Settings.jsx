@@ -1,6 +1,6 @@
 import { useState, useContext, useRef} from "react"
-import { ApiContext } from "../ApiContext"
-import { ThemeContext } from "../ThemeContext"
+import { ApiContext } from "../Context.jsx/ApiContext"
+import { ThemeContext } from "../Context.jsx/ThemeContext"
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineEdit } from "react-icons/md";
 import axios from "axios";

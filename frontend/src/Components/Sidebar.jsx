@@ -4,7 +4,7 @@ import {  CiDark, CiLight, CiSettings } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
 import { useState,useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ThemeContext } from "../ThemeContext";
+import { ThemeContext } from "../Context.jsx/ThemeContext";
 import { socket } from "../Socket";
 import { RiContactsLine } from "react-icons/ri";
 

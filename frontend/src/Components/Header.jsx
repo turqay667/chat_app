@@ -4,7 +4,7 @@ import { GoUnmute,GoMute } from "react-icons/go";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
-import { ApiContext } from "../ApiContext";
+import { ApiContext } from "../Context.jsx/ApiContext";
 const Header=({theme,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat})=>{
 const {apiUrl ,userInfo ,token}=useContext(ApiContext)
 const [muted,setMuted]=useState(false)
