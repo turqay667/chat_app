@@ -43,9 +43,9 @@ const handleBack=()=>{
         <div className="d-block d-lg-none">
 <FaArrowLeft fontSize={24} onClick={handleBack}/>
           </div>
-          <link rel="preload" href="user-profile.png" as="image"/>
+          {/* <link rel="preload" href="user-profile.png" as="image"/> */}
         <a className="position-relative">
-        <img src={selectedUser?.image} className="avatar" alt="user"></img>
+        <img src={selectedUser ? selectedUser?.image : 'user-profile.png' } className="avatar" alt="user"></img>
             { onlineUser ?    <span className="status bg-green-400"></span> : <span className="status bg-amber-300"></span> }   
       
           </a>
