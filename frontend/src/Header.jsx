@@ -14,7 +14,7 @@ if(userInfo){
 const handleMute=()=>{
   setMuted(!muted)
 }
-
+console.log(selectedUser)
 const handleDelete=async()=>{
   try{
     await axios.delete(`${apiUrl}/messages/${selectedUser._id}`, {
