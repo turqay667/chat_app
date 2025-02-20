@@ -13,9 +13,7 @@ ul {
   margin: inherit;
   padding: inherit;
 }
-.user ul {
-  margin-bottom: inherit !important;
-}
+
 
 a {
   color: inherit !important;
@@ -363,8 +361,10 @@ figure {
 }
 
 .user h5 {
-  /* text-transform: capitalize; */
   font-size: 15px !important;
+}
+.user ul {
+  margin-bottom: inherit !important;
 }
 .profile-img img {
   width: 100px;
