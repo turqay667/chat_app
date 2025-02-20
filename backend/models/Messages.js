@@ -39,7 +39,9 @@ const chatSchema=mongoose.Schema(
         timestamps:true
      }
 )
+chatSchema.index({sender:1, receiver:1})
 chatSchema.pre("save", async function(next){
+   next()
 })
 const Message=mongoose.model("Message",chatSchema)
 module.exports=Message;

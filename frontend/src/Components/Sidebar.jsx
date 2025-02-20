@@ -22,7 +22,7 @@ const Sidebar=()=>{
     return (
         <>
         <div className="sidebar" style={{backgroundColor: '#36404a'  }}    id="sidebar">
-        <div className="logo pt-2 mb-5"><a > <BsChatSquareText fontSize={34}/></a></div>
+        <div className="logo"><a > <BsChatSquareText fontSize={34}/></a></div>
   <div className="navbar-menu">
 <ul className="sidebar-menu nav">
 <li><a className="btn" id="chat-tab" data-bs-toggle="tab" role="tab" data-bs-target="#chat" aria-selected="true"><PiChats /></a></li>

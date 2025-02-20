@@ -33,6 +33,7 @@ import emojii from "../emojis";
   const [filteredUsers, setFilteredUsers]=useState([])
   const [users,setUsers]=useState([])
   const [allMessages,setAllMessages]=useState([])
+  const [loading, setLoading]=useState(true)
   const {apiUrl, userInfo, token }=useContext(ApiContext)
   const user=userInfo?.data
   const [selectedUser,setSelectedUser]=useState(user)
@@ -63,6 +64,9 @@ import emojii from "../emojis";
   }, [selectedUser])
 
   useEffect(()=>{
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
     fetch(`${apiUrl}/`)
     .then((res)=>res.json())
     .then((data)=>{
@@ -84,10 +88,8 @@ useEffect(()=>{
   const data=await response.json()
   setMessages(data)
   }
-  fetching()  
-  
-  
-  
+
+
   const fetchingAll=async()=>{           
     const response=await fetch(`${apiUrl}/messages/`, {
     headers:{
@@ -98,6 +100,7 @@ useEffect(()=>{
     setAllMessages(data)
    
     }
+    fetching()  
     fetchingAll()  
     
   
@@ -105,14 +108,16 @@ useEffect(()=>{
   socket.on("message", (data)=>{     
   if(data.sender===selectedUser._id){
   setMessages((prevMessage)=>{
-  if(!prevMessage.some((item)=>item.message===data.message)){
+  if(!prevMessage.some((item)=>item._id===data._id)){
   return  [...prevMessage,data]
   }
       return prevMessage;
   });
   }
   })
-  
+  return ()=>{
+    socket.off('message')
+  }
   },[selectedUser,token])
 
 
@@ -212,6 +217,7 @@ try{
   })
  const data = response.data
  setMessages((prevMessage)=>[...prevMessage,data])
+ setAllMessages((prevMessage)=>[...prevMessage, data])
  socket.emit('message', formData)
 }
 catch(err){
@@ -266,9 +272,8 @@ else{
           selectedUser ?   
           <>
   <Header theme={theme} muted={muted} setMuted={setMuted} selectedUser={selectedUser} messages={messages} setMessages={setMessages} onlineUser={selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null} setShowSidebar={setShowSidebar} setShowChat={setShowChat}/> 
-  
-          <div className="conversation-body overflow-auto text-center" >
-<Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay} theme={theme} setMessages={setMessages}/>
+  <div className="conversation-body overflow-auto text-center" >
+<Message messages={messages} user={user}  audioRef={audioRef} handleAudioPlay={handleAudioPlay} theme={theme} setMessages={setMessages} setAllMessages={setAllMessages}/>
 
 </div>
 <div className="msg-body p-3 p-lg-4" style={{borderTop: theme==='dark' ? '' : '1px solid #f0eff5'}} >

@@ -5,7 +5,7 @@ import { useState,useContext } from "react";
 import { ThemeContext } from "../Context.jsx/ThemeContext";
 import { BiSearch, BiBlock } from "react-icons/bi";
 import  Swal from "sweetalert2";
-const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, setSelectedUser})=>{
+const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,setSelectedUser,setFilteredUsers})=>{
     const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
     const adminn = userInfo?.data
     const {theme,handleTheme}=useContext(ThemeContext)
@@ -41,6 +41,24 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, setSelectedUs
     }
     const handleContacts=()=>{
       console.log('s')
+    }
+    const handleDelete= async ()=>{
+
+      try{
+        await axios.delete(`${apiUrl}/users/${selectedUser._id}`,
+          {
+          headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${token}`
+          }
+        })
+        setFilteredUsers(prevUsers=>(prevUsers.filter((user)=>user._id!==selectedUser._id)))
+        Swal.fire('User deleted successfully')
+      }
+      catch(err){
+        console.error(err)
+      }
+     
     }
     return (
         <>

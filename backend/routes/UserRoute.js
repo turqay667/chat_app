@@ -46,9 +46,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                
         userRouter.post('/messages/:id', protect, upload.single('image'), asyncHandler(async (req,res)=>{
             try{
-                // const userId=req.params.userId
                 const {message, image,audio}=req.body   
-                // const audio=req.file ? req.file.path : null
                 const sender=req.user._id
                 const receiver=req.params.id
                     const newMessage=new Message({

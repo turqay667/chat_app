@@ -1,12 +1,21 @@
-import { useContext, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import { ApiContext } from "../Context.jsx/ApiContext";
 import axios from "axios";
 import { BsTrash,BsThreeDotsVertical } from "react-icons/bs";
 import { BiSolidEdit } from "react-icons/bi";
-const Message = ({ messages, user, theme,setMessages}) => {
-  const colors=theme==='dark' ? 'text-white' :'text-dark'
+import Loading from "../Loading";
+const Message = ({ user, theme,  messages,setMessages, setAllMessages}) => {
+
+  const [loading, setLoading]=useState(true)
   const {apiUrl,token}=useContext(ApiContext)
   const [selectedMessage, setSelectedMessage]=useState()
+  const colors=theme==='dark' ? 'text-white' :'text-dark'
+
+  useEffect(()=>{
+setTimeout(()=>{
+setLoading(false)
+},1500)
+  },[])
   const handleDelete=async()=>{
     try{
       await axios.delete(`${apiUrl}/messages/message/${selectedMessage}`, {
@@ -15,7 +24,8 @@ const Message = ({ messages, user, theme,setMessages}) => {
          "Authorization":`Bearer ${token}`
        }
       })
-       setMessages(prevMessages=>(prevMessages.filter((message)=>message._id!==selectedMessage)))
+       setMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
+       setAllMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
      }
    
      catch(err){
@@ -24,12 +34,19 @@ const Message = ({ messages, user, theme,setMessages}) => {
      }
   return (
     <div className="messages">
+    {
+      loading ? <Loading/> :
+       <>
+   
+
+    
+
       { messages.length>0 ? (
        messages.map((message) => {
     
   return (
-    
             <div key={message._id}  className={`message ${message.sender===user._id  ? "justify-content-end" : "justify-content-start"}`} onClick={()=>setSelectedMessage(message._id)}>                
+                     
                    <ul>         
                   <li className="dropdown">
                   <button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={20} />
@@ -69,9 +86,11 @@ const Message = ({ messages, user, theme,setMessages}) => {
 ):
  <>
 </>
+}  
+</> 
 }
     </div>
-    
+  
   );
 };
 export default Message;

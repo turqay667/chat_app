@@ -381,8 +381,6 @@ figure {
   text-align: center;
   width: 2.3rem;
   height: 2.3rem;
-  background: rgb(230, 235, 245) !important;
-  color: #333 !important;
   border-radius: 50%;
 }
 .user-profile {

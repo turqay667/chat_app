@@ -5,7 +5,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdOutlineEdit } from "react-icons/md";
 import axios from "axios";
 import  Swal from "sweetalert2";
-const Settings=()=>{
+const Settings=({setFilteredUsers})=>{
 
     const {apiUrl, token}=useContext(ApiContext)
     const {theme,handleTheme}=useContext(ThemeContext)
@@ -39,8 +39,8 @@ const Settings=()=>{
         "Content-Type":"application/json",
         }
     })
-    
-    // setUserInfo({data:{...adminn, image:imageBase64}})
+    console.log(adminn)
+    setUserInfo({data:{...adminn, image:imageBase64}})
     localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image:imageBase64}}))
     setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
      item._id===userId ? {...item, image:imageBase64} : item
@@ -120,8 +120,8 @@ const Settings=()=>{
  <div className="position-relative">     
 <img src={image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
   <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
-  <a>
-    <MdOutlineEdit fontSize={28} />
+  <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}>
+    <CiEdit />
     </a>
   </label>
   </div>

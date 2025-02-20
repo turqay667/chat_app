@@ -22,8 +22,6 @@ function App() {
   <Route   exact path='/' Component={Register} />
   <Route   path='/home' Component={Chat}/>
   <Route path='/home' Component={PrivateRouter}/>
-  {/* <Route  exact path='/home/:id' Component={Chat}/> */}
-  {/* <Route  path=`/home/:${user._id}` Component={Chat}/> */}
 </Routes>
 </ThemeProvider>
 </ApiProvider>
