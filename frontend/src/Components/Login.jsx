@@ -6,9 +6,9 @@ import { BiUser } from "react-icons/bi";
 import { CiLock } from "react-icons/ci";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {toast, ToastContainer } from "react-toastify";
-import { AuthContext } from "./AuthContext";
-import { socket } from "./Socket";
-import { ApiContext } from "./ApiContext";
+import { AuthContext } from "../AuthContext";
+import { socket } from "../Socket";
+import { ApiContext } from "../ApiContext";
 
 
 const Login=()=>{

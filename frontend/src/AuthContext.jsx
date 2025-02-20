@@ -3,8 +3,6 @@ export const AuthContext=createContext(null)
 
 const AuthProvider=(props)=>{
 const [user,setUser]=useState(null);
-
-
 return(
 
         <AuthContext.Provider value={{user,setUser}}>

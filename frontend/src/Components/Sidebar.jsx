@@ -1,11 +1,11 @@
-import { BsChatSquareText,BsThreeDots, BsThreeDotsVertical} from "react-icons/bs";
+import { BsChatSquareText} from "react-icons/bs";
 import {PiChats} from "react-icons/pi";
-import { CiCamera, CiDark, CiLight, CiLogout, CiSettings } from "react-icons/ci";
+import {  CiDark, CiLight, CiSettings } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
 import { useState,useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ThemeContext } from "./ThemeContext";
-import { socket } from "./Socket";
+import { ThemeContext } from "../ThemeContext";
+import { socket } from "../Socket";
 import { RiContactsLine } from "react-icons/ri";
 
 const Sidebar=()=>{
@@ -19,10 +19,6 @@ const Sidebar=()=>{
          socket.disconnect()
         }
    
-
-
-
- 
     return (
         <>
         <div className="sidebar" style={{backgroundColor: '#36404a'  }}    id="sidebar">

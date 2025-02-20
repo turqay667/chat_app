@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
 import {Link} from "react-router-dom"
-import Login from "./Login";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { BiUser } from "react-icons/bi";
@@ -10,7 +9,7 @@ import { CiLock } from "react-icons/ci";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate} from "react-router-dom";
 import { useContext } from "react";
-import { ApiContext } from "./ApiContext";
+import { ApiContext } from "../ApiContext";
 const Register=(props)=>{
   
     const navigate=useNavigate()
@@ -20,9 +19,6 @@ const Register=(props)=>{
     const [success,setSuccess]=useState(false)
     const[hide,setHide]=useState(false)
     const {apiUrl}=useContext(ApiContext)
-// if(success){
-//     navigate("/login")
-// }
     const handleSubmit=async (e)=>{
         e.preventDefault();
        try{

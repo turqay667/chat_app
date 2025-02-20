@@ -4,8 +4,8 @@ import { GoUnmute,GoMute } from "react-icons/go";
 import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
-import { ApiContext } from "./ApiContext";
-const Header=({theme,messages,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat})=>{
+import { ApiContext } from "../ApiContext";
+const Header=({theme,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat})=>{
 const {apiUrl ,userInfo ,token}=useContext(ApiContext)
 const [muted,setMuted]=useState(false)
 let adminn='' 
@@ -14,7 +14,6 @@ if(userInfo){
 const handleMute=()=>{
   setMuted(!muted)
 }
-console.log(selectedUser)
 const handleDelete=async()=>{
   try{
     await axios.delete(`${apiUrl}/messages/${selectedUser._id}`, {

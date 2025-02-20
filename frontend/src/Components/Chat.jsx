@@ -6,15 +6,15 @@ import { useState } from "react";
 import Call from "./Call";
 import Sidebar from "./Sidebar";
 import { FaRegStopCircle, FaSearch } from "react-icons/fa";
-import { ThemeContext } from "./ThemeContext";
+import { ThemeContext } from "../ThemeContext";
 import axios from "axios";
 import Message from "./Message";
 import Header from "./Header";
-import { socket } from "./Socket";
-import { ApiContext } from "./ApiContext";
+import { socket } from "../Socket";
+import { ApiContext } from "../ApiContext";
 import Chats from "./Chats";
 import Swal from "sweetalert2";
-import emojii from "./emojis";
+import emojii from "../emojis";
  function Chat(){
   const {theme, handleTheme}=useContext(ThemeContext)
   const [called,setCalled]=useState(false)

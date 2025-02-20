@@ -279,6 +279,9 @@ figure{
   height: 100px;
   width: 100% !important;
 }
+.contact-actions a svg{
+font-size: 24px;
+}
 .msnn{
   display: flex;
   justify-content: start;

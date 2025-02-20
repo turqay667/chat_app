@@ -2,9 +2,9 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-toastify/dist/ReactToastify.css";
-import Login from './Login'
-import Chat from './Chat';
-import Register from './Register';
+import Login from "./Components/Login"
+import Chat from './Components/Chat';
+import Register from './Components/Register';
 import { Route, Routes } from 'react-router-dom';
 import ThemeProvider from './ThemeContext';
 import AuthProvider from './AuthContext';
