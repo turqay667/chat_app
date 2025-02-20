@@ -10,7 +10,6 @@ import { AuthContext } from "../Context.jsx/AuthContext";
 import { socket } from "../Socket";
 import { ApiContext } from "../Context.jsx/ApiContext";
 
-
 const Login=()=>{
     const navigate=useNavigate()
     const [username,setUsername]=useState('')
@@ -20,8 +19,6 @@ const Login=()=>{
     const {setUser}=useContext(AuthContext)
     const {apiUrl}=useContext(ApiContext)
 
-    
-   
 useEffect(()=>{
    if(logged){
  navigate("/home")} 

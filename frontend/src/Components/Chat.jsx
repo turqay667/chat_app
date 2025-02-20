@@ -24,7 +24,7 @@ import emojii from "../emojis";
   const [messages,setMessages]=useState([])
   const [item,setItem]=useState('')
   const [record,setRecord]=useState(null)
-  const [muted,setMuted]=useState(false)
+  const [muted,setMuted]=useState(true)
   const [recording,setRecording]=useState(false)
   const [blocked, setBlocked]=useState(false)
   const [showSidebar, setShowSidebar]=useState(true)
@@ -191,13 +191,18 @@ const handleStop=()=>{
 const handleEmojis=(e)=>{
   setItem(e.target.value)
 }
+
 const handleSubmit= async (event)=>{
 event.preventDefault()
  if(!item && !image && !record) return;
 
  if(blocked===false){
-const notification=document.getElementById("notification")
-notification.play()
+  
+console.log(muted)
+if(muted===false){
+  const notification=document.getElementById("notification")
+  notification.play()
+}
 // const newMessage={message:item, image:image, audio:record, sender:user._id}
 formData.append('message', item)
 formData.append('image', image)

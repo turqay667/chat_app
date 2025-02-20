@@ -5,9 +5,8 @@ import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 import { ApiContext } from "../Context.jsx/ApiContext";
-const Header=({theme,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat})=>{
+const Header=({theme,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat, muted, setMuted})=>{
 const {apiUrl ,userInfo ,token}=useContext(ApiContext)
-const [muted,setMuted]=useState(false)
 let adminn='' 
 if(userInfo){
   adminn = userInfo.data }
