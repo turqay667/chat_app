@@ -64,7 +64,7 @@ const  config={
             <label >Username</label>
 <div className="mb-3 position-relative">
 <i className="btn  position-absolute "><BiUser fontSize={18}/></i>
-<input type="text" placeholder="Enter Username" className="rounded-lg w-full focus:bg-none" name="username"  onChange={(e)=>setUsername(e.target.value)}/>
+<input type="text" placeholder="Enter Username" className="rounded-lg w-full focus:bg-none" name="username"  onChange={(e)=>setUsername(e.target.value)} maxLength={20}/>
 </div>
 <div>
 <div className="pass-input d-flex justify-content-between pt-2">
@@ -73,7 +73,7 @@ const  config={
 </div>
 <div className="position-relative">
 <i className="btn position-absolute  "><CiLock fontSize={20}/></i>
-<input type={hide ? "password" : "text"} placeholder="Enter Password" className="px-3 py-1.5 rounded-lg w-full" name="password" onChange={(e)=>setPassword(e.target.value)}/>
+<input type={hide ? "password" : "text"} placeholder="Enter Password" className="px-3 py-1.5 rounded-lg w-full" name="password" onChange={(e)=>setPassword(e.target.value)} minLength={8}/>
 {
     hide ? <i className="btn hide " onClick={(e)=>setHide(false)}><FaEyeSlash/></i> : <i className="btn hide " onClick={(e)=>setHide(true)}><FaEye/></i>
 }

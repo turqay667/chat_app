@@ -17,8 +17,10 @@ const Register=(props)=>{
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [success,setSuccess]=useState(false)
+    // const [validated,setValidated]=useState(false)
     const[hide,setHide]=useState(false)
     const {apiUrl}=useContext(ApiContext)
+
     const handleSubmit=async (e)=>{
         e.preventDefault();
        try{
@@ -32,12 +34,12 @@ const Register=(props)=>{
         setTimeout(()=>{
             setSuccess(true)  
         }, 1000)
+    
         
        }
-    
         catch(err){
             console.log(err)
-            toast.error(err.response?.data?.message || 'Something went wrong')
+            toast.error(err.response.data.error || 'Something went wrong')
         }
         
     }
@@ -76,13 +78,25 @@ useEffect(()=>{
 </div>
 <div className="position-relative">
 <i className="btn  position-absolute  "><CiLock fontSize={20}/></i>
-<input type={hide ? "password" : "text"} placeholder="Enter Password" className="w-full rounded-lg" onChange={(e)=>setPassword(e.target.value)} required minLength={8}/>
+<input type={hide ? "password" : "text"} placeholder="Enter Password" className="w-full rounded-lg" onChange={(e)=>setPassword(e.target.value)} required />
 {
     hide ? <i className="btn hide " onClick={(e)=>setHide(false)}><FaEyeSlash/></i> : <i className="btn hide " onClick={(e)=>setHide(true)}><FaEye/></i>
 }
 
 </div>
 </div>
+{/* {
+
+
+validated ? 
+<div className="error-box">
+<p className="text-primary">
+    Password should include 8 characters
+     
+     </p>
+</div> : <></>
+
+} */}
 <div className="submit-btn mt-4">
 <button type="submit" className="btn text-white">Register</button>
 

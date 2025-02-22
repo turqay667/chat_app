@@ -13,9 +13,6 @@ const {theme,handleTheme}=useContext(ThemeContext)
 const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
 const [search,setSearch]=useState('')
 const adminn = userInfo?.data
-
-const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
-const [loading,setLoading]=useState(true)
 const handleSearch=(e)=>{
 e.preventDefault()
 if(search===''){
@@ -27,7 +24,6 @@ item.username.toLowerCase().includes(search.toLowerCase())
 )
 setFilteredUsers(filterUsers)
 }
-console.log(filteredUsers)
 const handleUser=()=>{
 if( window.innerWidth<=768){
 setShowSidebar(false)

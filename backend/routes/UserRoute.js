@@ -114,9 +114,17 @@ userRouter.post('/auth',asyncHandler(async (req,res)=>{
 const {username,email,password}=req.body
 const userExist= await User.findOne({username,email})
 if(userExist){
-    res.status(404)
-    throw new Error('user already exists')
+    res.status(401).json({error:"User already exists"})
 }
+let passwordRegex= /^(?=.*[!@._#+$^&*]).{8,}$/
+let emailRegex=/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/
+if(!emailRegex.test(email)){
+    res.status(401).json({error:"Invalid Email format"})
+}
+if(!passwordRegex.test(password)){
+    res.status(401).json({error:"Password should be at least 8 characters and include one special character"})
+}
+
     const user = await User.create({
         username,
         email,
@@ -133,11 +141,14 @@ if(userExist){
         token:generateToken(user._id)
 
     })
+   
+
+        
 }
 
 else{
     res.status(401)
-    throw new Error('Invalid user data')
+    throw new Error('Validation failed')
 }
 }))
 
