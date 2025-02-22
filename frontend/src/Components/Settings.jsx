@@ -15,7 +15,7 @@ const Settings=({setFilteredUsers})=>{
     const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
     const [image,setImage]=useState(adminn?.image || "user-profile.png")
     const [username,setUsername]=useState(adminn?.username || undefined)
-    const [password,setPassword]=useState('12345678')
+    const [password,setPassword]=useState('12345' || undefined)
       
     const userId=adminn ? adminn._id : null
     const userRef=useRef(null)
@@ -159,13 +159,13 @@ const Settings=({setFilteredUsers})=>{
     </a>    
     </div>
    
-    <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Password</label>
+    {/* <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Password</label>
     <div className="d-flex justify-around align-items-center">
     <input className="w-full font-size-14 " type="password"    value={password}  onChange={(e)=>setPassword(e.target.value)} disabled={edit ? false : true} />
-     {/* <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark "}>
-    <CiEdit  onClick={handleEdit}/>
-    </a> */}
-    </div>
+     <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark "}  onClick={handleEdit}>
+    <CiEdit />
+    </a>
+    </div> */}
     <div className="text-center mt-5">
       { edit ? <button type="submit" className="px-5 py-2 btn btn-dark text-white" onClick={handleSave}>Save</button> : <div></div>}
     </div>

@@ -73,13 +73,15 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
 
             userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
                 try{      
-                 const  {username, about, image}=req.body     
+                 const  {username, password, about, image}=req.body     
                  const user=await User.findById(req.params.id) 
                  
                  if(username){
                     user.username=username
                  }
-                    
+                   if(password){
+                    user.password=password
+                   } 
                  if(about){
                     user.about=about
              }
@@ -112,7 +114,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
             
 userRouter.post('/auth',asyncHandler(async (req,res)=>{
 const {username,email,password}=req.body
-const userExist= await User.findOne({username,email})
+const userExist= await User.findOne({username})
 if(userExist){
     res.status(401).json({error:"User already exists"})
 }
@@ -140,10 +142,7 @@ if(!passwordRegex.test(password)){
         role:user.role,
         token:generateToken(user._id)
 
-    })
-   
-
-        
+    })        
 }
 
 else{
