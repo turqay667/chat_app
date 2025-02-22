@@ -17,9 +17,13 @@ const Register=(props)=>{
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [success,setSuccess]=useState(false)
-    // const [validated,setValidated]=useState(false)
     const[hide,setHide]=useState(false)
     const {apiUrl}=useContext(ApiContext)
+
+const handleUsername=(e)=>{
+    let restrictedText=e.target.value.replace(/[^a-zA-Z._]/g, '')
+    e.target.value=restrictedText
+}
 
     const handleSubmit=async (e)=>{
         e.preventDefault();
@@ -62,7 +66,7 @@ useEffect(()=>{
     <label className="">Username</label>
 <div className=" mb-3 position-relative username-input">
 <i className="btn  position-absolute  "><BiUser fontSize={18}/></i>
-<input type="text" placeholder="Enter Username" className="w-full rounded-lg" name="username"  onChange={(e)=>setUsername(e.target.value)}  required maxLength={15}/>
+<input type="text" placeholder="Enter Username" className="w-full rounded-lg" name="username"  onChange={(e)=>setUsername(e.target.value)} onKeyUp={handleUsername} required maxLength={15}/>
 </div>
 
 <label className="">Email</label>

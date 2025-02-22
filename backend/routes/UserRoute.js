@@ -116,8 +116,13 @@ const userExist= await User.findOne({username,email})
 if(userExist){
     res.status(401).json({error:"User already exists"})
 }
+let usernameRegex=/[a-zA-Z0-9._]$/
 let passwordRegex= /^(?=.*[!@._#+$^&*]).{8,}$/
 let emailRegex=/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/
+
+if(!usernameRegex.test(username)){
+    res.status(401).json({error:"Invalid UserName"})
+}
 if(!emailRegex.test(email)){
     res.status(401).json({error:"Invalid Email format"})
 }
