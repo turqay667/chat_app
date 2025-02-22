@@ -118,7 +118,6 @@ if(userExist){
 }
 let passwordRegex= /^(?=.*[!@._#+$^&*]).{8,}$/
 let emailRegex=/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/
-s
 if(!emailRegex.test(email)){
     res.status(401).json({error:"Invalid Email format"})
 }
