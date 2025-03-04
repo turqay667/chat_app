@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom"
 import { useContext } from "react"
-import { ApiContext } from "./Context.jsx/ApiContext"
+import { ApiContext } from "./ApiContext"
 const PrivateRouter=(props)=>{
 const {userInfo}=useContext(ApiContext)
     if(userInfo){

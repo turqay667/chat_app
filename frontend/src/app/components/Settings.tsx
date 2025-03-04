@@ -1,36 +1,39 @@
 import { useState, useContext, useRef} from "react"
-import { ApiContext } from "../Context.jsx/ApiContext"
-import { ThemeContext } from "../Context.jsx/ThemeContext"
+import { ApiContext } from "../ApiContext"
+import { ThemeContext } from "../ThemeContext"
 import { CiEdit } from "react-icons/ci";
-import { MdOutlineEdit } from "react-icons/md";
 import axios from "axios";
 import  Swal from "sweetalert2";
-const Settings=({setFilteredUsers})=>{
+import type { User } from "./Chats";
+import Image from "next/image";
+import { AuthContext } from "../AuthContext";
 
-    const {apiUrl, token}=useContext(ApiContext)
-    const {theme,handleTheme}=useContext(ThemeContext)
-    const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
-    const [edit,setEdit]=useState(false)
-    const adminn = userInfo?.data
-    const [about,setAbout]=useState(adminn?.about || 'change your thoughts and you change your world')
-    const [image,setImage]=useState(adminn?.image || "user-profile.png")
-    const [username,setUsername]=useState(adminn?.username || undefined)
-    const [password,setPassword]=useState('12345' || undefined)
-      
-    const userId=adminn ? adminn._id : null
-    const userRef=useRef(null)
-    const aboutRef=useRef(null)
+type Props={
+  setFilteredUsers:React.Dispatch<React.SetStateAction<User[]>>
+}
+
+const Settings=({setFilteredUsers}:Props)=>{
+  const {apiUrl}=useContext(ApiContext)
+  const {theme}=useContext(ThemeContext)
+  const {user,setUser, token}=useContext(AuthContext)
+  const [edit,setEdit]=useState(false)
+  const [about,setAbout]=useState(user?.about || 'change your thoughts and you change your world')
+  const [image,setImage]=useState(user?.image || "user-profile.png")
+  const [username,setUsername]=useState(user?.username || 'turgay')
+  const userId=user ? user._id : null
+  const userRef=useRef<HTMLInputElement>(null)
+  const aboutRef=useRef<HTMLTextAreaElement>(null)
 
 
-    const handleImage = (e)=>{
+    const handleImage = (e:React.ChangeEvent<HTMLInputElement>)=>{
       setEdit(false)
       e.preventDefault()
-    const file=e.target.files[0]
-    if(!file) return ;
+    const file = e.target.files?.[0]
+    if(!file) return;
     
     const reader= new FileReader()
     reader.onloadend=async()=>{
-      const imageBase64=reader.result
+      const imageBase64=reader.result as string
       setImage(imageBase64)
     try{
     await axios.put(`${apiUrl}/profile/${userId}`, {image:imageBase64}, {
@@ -39,12 +42,10 @@ const Settings=({setFilteredUsers})=>{
         "Content-Type":"application/json",
         }
     })
-    console.log(adminn)
-    setUserInfo({data:{...adminn, image:imageBase64}})
-    localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, image:imageBase64}}))
+    setUser((prevUser:User | null)=>prevUser ? {...prevUser, image:imageBase64 }: null)
+     window.localStorage.setItem('userInfo',JSON.stringify({...user, image:imageBase64}))
     setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
-     item._id===userId ? {...item, image:imageBase64} : item
-    ))
+     item._id===userId ? {...item, image:imageBase64} : item))
     }
     
     catch(err){
@@ -54,7 +55,7 @@ const Settings=({setFilteredUsers})=>{
     reader.readAsDataURL(file)
     }
 
-    const handleProfile=async(e)=>{
+    const handleProfile=async(e:React.FormEvent)=>{
         setEdit(false)
       e.preventDefault()
       
@@ -66,8 +67,7 @@ const Settings=({setFilteredUsers})=>{
           }
       })
       
-        // setUserInfo({data:{...adminn, username, about}})
-        localStorage.setItem('userInfo',JSON.stringify({data:{...adminn, username, about}}))
+        window.localStorage.setItem('userInfo',JSON.stringify({data:{...user, username, about}}))
       
       }
       
@@ -85,7 +85,7 @@ const Settings=({setFilteredUsers})=>{
           icon:"warning"  })
       
       }
-      const handleEdit=(field)=>{
+      const handleEdit=()=>{
         setEdit(true)
         if(userRef.current){
           userRef.current.focus()
@@ -103,30 +103,32 @@ const Settings=({setFilteredUsers})=>{
                 <div className="mb-2 d-flex justify-content-between">
                <div>
                 <h4>Settings</h4>
-                </div>
-           
-                </div>
-           
+                </div>          
+                </div>           
                 </div>
 
         <div>
         <form onSubmit={handleProfile} id="prof">
           {
          
-            adminn ? (           
+            user ? (           
             <>
             <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
              <div className="profile-img d-flex justify-content-center">
  <div className="position-relative">     
-<img src={image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user"/>
-  <label>  <input type="file" accept="image" name="image" onChange={handleImage}/>
+<Image src="/admin.jpeg" className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy"/> 
+  
+  <div className="d-none">{image}</div>
+  <label htmlFor="image">
+     <input type="file" accept="image" name="image" onChange={handleImage} id="image"/>
   <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}>
     <CiEdit />
     </a>
+{}
   </label>
   </div>
 </div>
-<h5 className="text-center">{adminn.username}</h5> 
+<h5 className="text-center">{user.username}</h5> 
 </div>
 
 {/* <div className="dropdown pb-4">
@@ -139,7 +141,7 @@ const Settings=({setFilteredUsers})=>{
 </div> */}
 
 <div className='user-content'>
-    <label className={ theme==='light' ? 'text-muted' : 'text-mute' }>About</label>
+    <label className={ theme==='light' ? 'text-muted' : 'text-mute' } htmlFor="about">About</label>
 
       <div className="d-flex justify-content-evenly align-items-center gap-5"> 
         <textarea className="w-full" id="about" ref={aboutRef}  value={about} rows={2}  cols={3}   disabled={edit ? false : true} onChange={(e)=>setAbout(e.target.value)} maxLength={50}/> 
@@ -147,11 +149,11 @@ const Settings=({setFilteredUsers})=>{
     <CiEdit   />
     </a>    
     </div>
-    <label className={theme==='light' ? 'text-muted' : 'text-mute'}>Name</label>  
+    <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label>  
     <div className="d-flex justify-content-evenly align-items-center" >
          
        
-         <input className="w-full" ref={userRef}  value={username}  disabled={edit ? false : true}  onChange={(e)=>setUsername(e.target.value)}/>
+         <input className="w-full" ref={userRef}  value={username}  disabled={edit ? false : true}  onChange={(e)=>setUsername(e.target.value)} id="username"/>
          
        
          <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={handleEdit}>
@@ -178,8 +180,6 @@ const Settings=({setFilteredUsers})=>{
 
 </form>
 </div> 
-
-
 </div>
  
         </>

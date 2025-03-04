@@ -1,15 +1,30 @@
 
 import {  BsThreeDotsVertical, BsTrash} from "react-icons/bs";
 import { GoUnmute,GoMute } from "react-icons/go";
-import { useContext, useState } from "react";
+import { useContext} from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
-import { ApiContext } from "../Context.jsx/ApiContext";
-const Header=({theme,selectedUser,setMessages, onlineUser,setShowSidebar, setShowChat, muted, setMuted})=>{
-const {apiUrl ,userInfo ,token}=useContext(ApiContext)
-let adminn='' 
-if(userInfo){
-  adminn = userInfo.data }
+import { ApiContext } from "../ApiContext";
+import { AuthContext } from "../AuthContext";
+import Image from "next/image";
+import type { Message } from "./Messages";
+import type { User } from "./Chats";
+type Props={
+  theme:string,
+  selectedUser:User,
+  onlineUsers:User[],
+  setMessages:React.Dispatch<React.SetStateAction<Message[]>>,
+  setShowSidebar:(showSidebar:boolean)=>void,
+  setShowChat:(showChat:boolean)=>void,
+  muted:boolean,
+  setMuted:(muted:boolean)=>void
+}
+const Header=({theme,selectedUser, onlineUsers, setMessages, setShowSidebar, setShowChat, muted, setMuted}:Props)=>{
+  
+const {apiUrl, }=useContext(ApiContext)
+const {token,user}=useContext(AuthContext)
+
+const onlineUser=selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null
 const handleMute=()=>{
   setMuted(!muted)
 }
@@ -32,9 +47,8 @@ const handleBack=()=>{
   setShowChat(false)
 }
 
-
     return (
-        <div className="chat-header  p-3 p-lg-4 d-flex align-items-center" style={{borderBottom: theme==='dark' ? '' : '1px solid #f0eff5'}}>
+        <div className={`${theme==='dark' ? 'borderDark' : 'borderLight'} chat-header  p-3 p-lg-4 d-flex align-items-center`} >
         <div className="col-md-4 col-9">
         <div className="chat-user">
         <div className="d-flex justify-content-center align-items-center gap-1">
@@ -43,14 +57,14 @@ const handleBack=()=>{
           </div>
           {/* <link rel="preload" href="user-profile.png" as="image"/> */}
         <a className="position-relative">
-        <img src={selectedUser ? selectedUser?.image : 'user-profile.png' } className="avatar" alt="user"></img>
+        <Image src="/user-profile.png" className="avatar" alt="user" width={60} height={60} priority={true}/>
             { onlineUser ?    <span className="status bg-green-400"></span> : <span className="status bg-amber-300"></span> }   
       
           </a>
      
     </div>
     <div>
-      {selectedUser?.username===userInfo?.data?.username
+      {selectedUser?.username===user?.username
        ?     <h5>You</h5> : <h5>{selectedUser?.username}</h5>
       }
         <div className="text-muted" id="typing"></div>  
@@ -67,7 +81,7 @@ const handleBack=()=>{
 {/* <li><button className="btn nav-btn text-muted"><IoVideocamOutline  fontSize={24} onClick={handleVideoCall}/></button></li>
 <li><button className="btn nav-btn text-muted" onClick={handleCall}><IoCallOutline fontSize={20} /></button></li> */}
 <li className="dropdown">
-<button className={theme==='dark' ? 'text-white' :'text-dark'}  role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} />
+<button className={theme==='dark' ? 'text-white' :'text-dark'}  role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" title="dropdown" aria-label="dropdown">< BsThreeDotsVertical  fontSize={24} />
 </button>
 <ul className={`${theme==='dark' ? 'background-light text-white' : 'background-dark text-muted'} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
 {/* <li className="dropdown-item"><a  href="#" className="text-muted">Contact info <span><MdOutlineInfo fontSize={28}/></span></a></li> */}

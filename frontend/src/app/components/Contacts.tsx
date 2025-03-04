@@ -1,14 +1,32 @@
 import { BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { CgUnblock } from "react-icons/cg";
-import { CiSquarePlus } from "react-icons/ci";
-import { useState,useContext } from "react";
-import { ThemeContext } from "../Context.jsx/ThemeContext";
+import { useContext } from "react";
+import { ThemeContext } from "../ThemeContext";
+import axios from "axios"
 import { BiSearch, BiBlock } from "react-icons/bi";
 import  Swal from "sweetalert2";
-const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,setSelectedUser,setFilteredUsers})=>{
-    const [userInfo,setUserInfo]=useState(JSON.parse(localStorage.getItem('userInfo')))
-    const adminn = userInfo?.data
-    const {theme,handleTheme}=useContext(ThemeContext)
+import Image from "next/image";
+import { ApiContext } from "../ApiContext";
+import type { User } from "./Chats";
+import { AuthContext } from "../AuthContext";
+
+
+type Props={
+  selectedUser:User,
+  handleSearch:()=>void
+  setSelectedUser:(selected:User)=>void
+  blocked:boolean,
+  setBlocked:(blocked:boolean)=>void,
+  filteredUsers:User[],
+  setFilteredUsers:React.Dispatch<React.SetStateAction<User[]>>,
+  setSearch:React.Dispatch<React.SetStateAction<string>>,
+ 
+}
+
+const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,setSelectedUser, setSearch, setFilteredUsers}:Props)=>{
+    const {apiUrl}=useContext(ApiContext)
+    const {token,user}=useContext(AuthContext)
+    const {theme}=useContext(ThemeContext)
 
     const deleteUser=()=>{
         Swal.fire({
@@ -16,8 +34,7 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,
           text:"Are you sure?",
           icon:"warning",
           showCancelButton:true,
-          confirmButtonText:"Yes"
-          
+          confirmButtonText:"Yes"          
         }).then((result)=>{
           if(result.isConfirmed){
             handleDelete()
@@ -38,9 +55,6 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,
         title:"Block removed",
         icon:"success"  })
     
-    }
-    const handleContacts=()=>{
-      console.log('s')
     }
     const handleDelete= async ()=>{
 
@@ -71,8 +85,8 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,
                 
                <div>
                 
-                <button className="btn" type="button" data-bs-toggle="modal" data-bs-target="#contactsModal" ><CiSquarePlus fontSize={32}/></button>
-              <div className="modal fade" id="contactsModal" tabIndex="-1" aria-labelledby="contactsModalLabel" aria-hidden="true">
+                {/* <button className="btn" type="button" data-bs-toggle="modal" data-bs-target="#contactsModal" aria-label="modal"><CiSquarePlus fontSize={32}/></button> */}
+              {/* <div className="modal fade" id="contactsModal" aria-labelledby="contactsModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                 <div className="modal-content">
                 <div className="modal-header">
@@ -95,29 +109,27 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,
               </div>
                         
               </div>
-                </div> 
+                </div>  */}
                 </div>
              
         </div>
       
         <form className="search-form d-flex align-items-center" onSubmit={handleSearch}>
             <input type="text" className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2`} placeholder="Search here..." onChange={(e)=>setSearch(e.target.value)}/>        
-          <a type="submit" className=" text-muted"> <BiSearch fontSize={24}/></a>
+          <a type="submit" className="text-muted"> <BiSearch fontSize={24}/></a>
            </form>
         </div>
         <div className="sidebar-body">
            <div className="users">           
            {
-              filteredUsers.filter((user)=>user.username!==adminn.username)
-              .map((user)=>{
-             
+              filteredUsers.filter((item)=>item.username!==user?.username).map((user)=>{             
 return (        
 <div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'}  onClick={()=> setSelectedUser(user)}  key={user._id}>
             <div className="user position-relative d-flex justify-between" >
                  
               <div className="notifies d-flex pl-3 ">                     
            <a className="position-relative">
-            <img className="avatar" src={user.image}  alt="user" ></img>
+            <Image className="avatar" src={`/${user.image}`}  alt="user"  fill={true} />
             {/* <span className="status"></span> */}
             </a>
               
@@ -129,7 +141,7 @@ return (
                 <ul>
                  
                 <li className="dropdown contact-actions">
-                <button className={theme==='dark' ? 'text-white' :'text-dark'} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >< BsThreeDotsVertical  fontSize={24} /></button>
+                <button className={theme==='dark' ? 'text-white' :'text-dark'} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" aria-label="dropdown">< BsThreeDotsVertical  fontSize={24} /></button>
                 <ul className={`${theme==='dark' ? 'background-light text-white' : 'background-dark text-muted'} dropdown-menu`} aria-labelledby="dropdownMenuButton" >
                 {/* <li className="dropdown-item"><a  href="#" className="text-muted">Contact info <span><MdOutlineInfo fontSize={28}/></span></a></li> */}
                 <li className="dropdown-item" >
@@ -141,9 +153,7 @@ return (
                 
                 </ul>
                 </li>
-                </ul> 
-            
-             
+                </ul>                        
             </div>
        </div>
 )

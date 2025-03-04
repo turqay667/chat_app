@@ -1,50 +1,56 @@
+"use client";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { BiUser } from "react-icons/bi";
 import { CiLock } from "react-icons/ci";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {toast, ToastContainer } from "react-toastify";
-import { AuthContext } from "../Context.jsx/AuthContext";
+import { AuthContext } from "../AuthContext";
 import { socket } from "../Socket";
-import { ApiContext } from "../Context.jsx/ApiContext";
+import Link from "next/link";
+import { ApiContext } from "../ApiContext";
+import { redirect } from "next/navigation";
 
 const Login=()=>{
-    const navigate=useNavigate()
     const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
-    const [logged,setLogged]=useState(false)
-    const [hide,setHide]=useState(false)
-    const {setUser}=useContext(AuthContext)
+    const [logged,setLogged]=useState<boolean>(false)
+    const [hide,setHide]=useState<boolean>(false)
+    const {setUser,setToken}=useContext(AuthContext) 
     const {apiUrl}=useContext(ApiContext)
+   
+    
 
 useEffect(()=>{
    if(logged){
- navigate("/home")} 
-},[logged,navigate])
+ redirect("/home")} 
+},[logged])
 
-    const handleSubmit=async (e)=>{
+    const handleSubmit=async (e:React.FormEvent)=>{
         e.preventDefault();
         try{
 const  config={
             headers:{"Content-Type":"application/json"},
         }
-  const data = await axios.post(`${apiUrl}/login`,{username,password},config)
-  localStorage.setItem('userInfo', JSON.stringify(data))
-  
+  const response = await axios.post(`${apiUrl}/login`,{username,password},config)
+  window.localStorage.setItem('userInfo', JSON.stringify(response))
   socket.connect()
-  setUser(username)  
+  setUser(response.data)  
+  setToken(response.data.token)
   toast.success('Successfully logged')
   setTimeout(()=>{
     setLogged(true)
   }, 1000)
 
-
 }
     catch(err){
-      console.log(err)
-      toast.error(err.response?.data?.message || 'Invalid user data')
+        if(axios.isAxiosError(err)){
+            console.log(err)
+            toast.error(err.response?.data?.message|| 'Invalid user data')
+        }
+
+      
+    
 }
     }
     return (
@@ -69,13 +75,12 @@ const  config={
 <div>
 <div className="pass-input d-flex justify-content-between pt-2">
 <label className="bs-gray-400">Password</label>
-{/* <a className="forget-password ">Forgot password?</a> */}
 </div>
 <div className="position-relative">
 <i className="btn position-absolute  "><CiLock fontSize={20}/></i>
 <input type={hide ? "password" : "text"} placeholder="Enter Password" className="px-3 py-1.5 rounded-lg w-full" name="password" onChange={(e)=>setPassword(e.target.value)} minLength={8}/>
 {
-    hide ? <i className="btn hide " onClick={(e)=>setHide(false)}><FaEyeSlash/></i> : <i className="btn hide " onClick={(e)=>setHide(true)}><FaEye/></i>
+    hide ? <i className="btn hide " onClick={()=>setHide(false)}><FaEyeSlash/></i> : <i className="btn hide " onClick={()=>setHide(true)}><FaEye/></i>
 }
 </div>
 </div>
@@ -87,7 +92,7 @@ const  config={
 </div>
 </div>       
 </div>
-<p className="text-center text-white mt-3">Don't have an account? <Link className="" to={`/`}>Register</Link></p>
+<div className="text-center text-white mt-3"> Do not have an account? <Link  href="/">Register</Link></div>
 </div>
 </div>
 </>

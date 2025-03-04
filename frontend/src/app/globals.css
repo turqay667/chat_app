@@ -1,4 +1,44 @@
 @import "tailwindcss";
+/* @theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+} */
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+.darkBg{
+background: #303841;
+color: white;
+}
+.lightBg{
+background: #f5f7fb;
+}
+.chatDark{
+  background:#262e35;
+  color: white;
+}
+.lightDark{
+  background: #ffffff;
+}
+.borderLight{
+  border: 1px solid #f0eff5;
+}
+.borderDark{
+  border:1px solid #36404a;
+}
+.sidebar{
+  background: #36404a;
+}
 * {
   margin: 0;
   padding: 0;
@@ -284,7 +324,6 @@ figure {
 .sidebar {
   display: flex;
   padding: 10px;
-  width: 5rem !important;
   flex-direction: column;
   box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
 }
@@ -430,7 +469,6 @@ figure {
 
 .chat-header {
   padding: 10px;
-  border-bottom: 1px solid #36404a;
 }
 
 .chat-user-nav li a {
@@ -461,10 +499,6 @@ figure {
   justify-content: space-between;
   flex-direction: column;
   box-shadow: 0 2px 4px #0f223a1f;
-}
-
-.msg-body {
-  border-top: 1px solid #36404a;
 }
 .msg-count {
   width: 25px;
@@ -546,8 +580,6 @@ figure {
   margin-bottom: inherit;
   margin-top: inherit;
 }
-
-
 .emojis {
   margin-bottom: inherit;
 }
