@@ -51,7 +51,7 @@ if(chat){
 }}}
     return(
         <>
-           <div className={`${theme==='dark' ? 'darkBg': 'ligthBg'} col-md-3 col-12 chats tab-content`} id="nav-tabContent"  >
+           <div className={`${theme==='dark' ? 'darkBg': 'ligthBg'} col-md-3 col-12 chats tab-content`} id="nav-tabContent" >
         <div className="sidebar-left tab-pane fade show active" id="chat" role="tabpanel" aria-labelledby="chat-tab">
             <div className="header">
                 <div className="mb-4">
