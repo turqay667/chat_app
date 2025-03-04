@@ -18,7 +18,7 @@ export type User={
 
 type Props={
     users:User[],
-    selectedUser:User,
+    selectedUser:User | null,
     allMessages:Message[],
     filteredUsers:User[],
     setFilteredUsers:React.Dispatch<React.SetStateAction<User[]>>,

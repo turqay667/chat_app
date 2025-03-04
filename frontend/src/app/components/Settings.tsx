@@ -15,7 +15,7 @@ type Props={
 const Settings=({setFilteredUsers}:Props)=>{
   const {apiUrl}=useContext(ApiContext)
   const {theme}=useContext(ThemeContext)
-  const {user,setUser, token}=useContext(AuthContext)
+  const {user, token}=useContext(AuthContext)
   const [edit,setEdit]=useState(false)
   const [about,setAbout]=useState(user?.about || 'change your thoughts and you change your world')
   const [image,setImage]=useState(user?.image || "user-profile.png")
@@ -42,7 +42,7 @@ const Settings=({setFilteredUsers}:Props)=>{
         "Content-Type":"application/json",
         }
     })
-    setUser((prevUser:User | null)=>prevUser ? {...prevUser, image:imageBase64 }: null)
+
      window.localStorage.setItem('userInfo',JSON.stringify({...user, image:imageBase64}))
     setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
      item._id===userId ? {...item, image:imageBase64} : item))

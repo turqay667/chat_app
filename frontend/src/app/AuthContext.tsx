@@ -26,6 +26,7 @@ useEffect(()=>{
     setUser(storedUserInfo.data)
     setToken(storedUserInfo.data?.token || '')
 },[])
+
 return(
         <AuthContext.Provider value={{user,setUser, token, setToken}}>
             {children}

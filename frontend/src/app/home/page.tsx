@@ -48,12 +48,7 @@ const mediaRecorder=useRef<MediaRecorder>(null)
 const mediaStream=useRef<MediaStream>(null)
 const chunks=useRef<Blob[]>([])
 
-useEffect(()=>{
-  if(user){
-    setSelectedUser(user)
-  }
-},[user])
-console.log(selectedUser)
+
 useEffect(()=>{
   const handleSize=()=>{
     if( showSidebar && window.innerWidth<=768){
@@ -92,7 +87,7 @@ useEffect(()=>{
 useEffect(()=>{  
 if (!selectedUser) return;
 const fetching = async()=>{           
-const response=await fetch(`${apiUrl}/messages/${selectedUser._id}`, {
+const response=await fetch(`${apiUrl}/messages/${selectedUser?._id}`, {
 headers:{
 Authorization:`Bearer ${token}`
 }

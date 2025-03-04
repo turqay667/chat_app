@@ -19,7 +19,7 @@ export type Message={
 }
 
 type MessageProps={
- user:User,
+ user:User | null,
  theme:string,
  messages:Message[],
  setMessages:React.Dispatch<React.SetStateAction<Message[]>>
@@ -69,7 +69,7 @@ setLoading(false)
        messages.map((message:Message) => {
     
   return (
-            <div key={message._id}  className={`message ${message.sender===user._id  ? "justify-content-end" : "justify-content-start"}`} onClick={()=>setSelectedMessage(message._id)}>                
+            <div key={message._id}  className={`message ${message.sender===user?._id  ? "justify-content-end" : "justify-content-start"}`} onClick={()=>setSelectedMessage(message._id)}>                
                      
                    <ul>         
                   <li className="dropdown">

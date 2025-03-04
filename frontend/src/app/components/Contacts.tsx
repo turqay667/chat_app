@@ -12,7 +12,7 @@ import { AuthContext } from "../AuthContext";
 
 
 type Props={
-  selectedUser:User,
+  selectedUser:User | null,
   handleSearch:()=>void
   setSelectedUser:(selected:User)=>void
   blocked:boolean,
@@ -59,14 +59,14 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,
     const handleDelete= async ()=>{
 
       try{
-        await axios.delete(`${apiUrl}/users/${selectedUser._id}`,
+        await axios.delete(`${apiUrl}/users/${selectedUser?._id}`,
           {
           headers:{
             "Content-Type":"application/json",
             "Authorization":`Bearer ${token}`
           }
         })
-        setFilteredUsers(prevUsers=>(prevUsers.filter((user)=>user._id!==selectedUser._id)))
+        setFilteredUsers(prevUsers=>(prevUsers.filter((user)=>user._id!==selectedUser?._id)))
         Swal.fire('User deleted successfully')
       }
       catch(err){
