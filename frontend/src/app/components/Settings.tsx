@@ -116,7 +116,7 @@ const Settings=({setFilteredUsers}:Props)=>{
             <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
              <div className="profile-img d-flex justify-content-center">
  <div className="position-relative">     
-<Image src="/admin.jpeg" className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy"/> 
+<Image src={`/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy"/> 
   
   <div className="d-none">{image}</div>
   <label htmlFor="image">
