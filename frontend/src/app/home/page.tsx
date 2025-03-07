@@ -6,7 +6,6 @@ import {HiOutlineMicrophone } from 'react-icons/hi2';
 import { useEffect, useRef } from "react";
 import { useContext } from "react";
 import { useState } from "react";
-import Call from "../components/Call";
 import Sidebar from "../components/Sidebar";
 import { FaRegStopCircle } from "react-icons/fa";
 import { ThemeContext } from "../ThemeContext";
@@ -24,7 +23,6 @@ import { AuthContext } from "../AuthContext";
 
 function Chat(){
 const {theme}=useContext(ThemeContext)
-const [called]=useState<boolean>(false)
 const [attach,setAttach]=useState<File | undefined>(undefined)
 const [image,setImage]=useState('') 
 const [onlineUsers, setOnlineUsers]=useState<User[]>([])
@@ -252,7 +250,6 @@ return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 <>
   <div>
   
-  {called ? <Call/>: <></>}
 <div className="chat-row d-flex"  >
 {
 showSidebar ? 
