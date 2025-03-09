@@ -45,7 +45,7 @@ const [selectedUser,setSelectedUser]=useState<User | null>(null)
 const mediaRecorder=useRef<MediaRecorder>(null)
 const mediaStream=useRef<MediaStream>(null)
 const chunks=useRef<Blob[]>([])
-
+const audioRef=useRef<HTMLAudioElement>(null)
 
 useEffect(()=>{
   const handleSize=()=>{
@@ -56,7 +56,6 @@ useEffect(()=>{
         setShowChat(true)
       }
   }
-  
   handleSize()
     window.addEventListener("resize", handleSize);
   if(user){
@@ -69,14 +68,12 @@ useEffect(()=>{
 }, [user])
 
 useEffect(()=>{
-  setTimeout(() => {
-    setLoading(false)
-  }, 1000);
   fetch(`${apiUrl}/`)
   .then((res)=>res.json())
   .then((data)=>{
   setUsers(data)
   setFilteredUsers(data)
+  setLoading(false)
   })
   },[])
 
@@ -148,7 +145,6 @@ try{
     if(e.data.size>0){
       chunks.current.push(e.data)
     }
-  
    }
    const timers = setInterval(()=>{
     setTimer((prev)=>prev+1)
@@ -158,7 +154,6 @@ try{
  const blob=new Blob(chunks.current,{type:"audio/mp3"})
  const audioURL=URL.createObjectURL(blob) 
  setRecord(audioURL)
-
  chunks.current=[]
  clearInterval(timers)
  }
@@ -176,14 +171,7 @@ if(mediaRecorder.current){
   mediaStream.current?.getTracks().forEach(track=>track.stop())
 
 }
-
-
 }
-// const handleAudioPlay = () => {
-// if (audioRef.current) {
-//   audioRef.current.play()
-// }
-// };
 const handleEmojis=(e:React.MouseEvent<HTMLButtonElement>)=>{
 const emoji=e.target as HTMLButtonElement
 setItem(emoji.value)
@@ -191,26 +179,16 @@ setItem(emoji.value)
 const handleSubmit= async (event:React.FormEvent)=>{
 event.preventDefault()
 if(!item && !image && !record) return;
-
 if(blocked===false){
-
-console.log(muted)
-if(muted===false){
-const notification=document.getElementById("notification") as HTMLAudioElement
-if(notification!==null){
-  notification.play()
-}
+if(audioRef.current!==null && muted===false){
+  audioRef.current.play()
 }
 formData.append('message', item)
 formData.append('image', image)
-if(record){
 formData.append('audio', record)
-}
 if(user){
 formData.append('sender', user._id.toString())
 }
-
-// formData.append('audio', blob, 'audio.mp3')
 try{
 const response=await axios.post(`${apiUrl}/messages/${selectedUser?._id}`, formData, {
   headers:{ 
@@ -229,8 +207,10 @@ console.log(err)
 }       
 setItem('')
 setImage('')
+setRecord('')
 setAttach(undefined)
 }
+
 else{
 Swal.fire({
   icon:"error",
@@ -269,7 +249,6 @@ filteredUsers={filteredUsers} setFilteredUsers={setFilteredUsers} allMessages={a
 {
 showChat===true ? <>
  <div className={showSidebar ? `${theme==='dark' ? 'chatDark': 'chatLight'} chat-body col` : `${theme==='dark' ? 'chatDark': 'chatLight'} chat-body col-12`} id="chatbody" >  
- {/* style={{backgroundColor:theme==='dark'? '#262e35' : '#ffffff'}} */}
          {
         selectedUser  && (   
         <>
@@ -279,12 +258,9 @@ showChat===true ? <>
 {loading ? <></> : <></>}
 </div>
 <div className={`${theme==='dark' ? 'borderDark' : 'borderLight'} msg-body p-3 p-lg-4`}  >
-
 <form onSubmit={handleSubmit} className={theme==='dark' ? 'form-dark' : 'form-light'}>
 <div className="d-flex align-items-center justify-center">
-
-      <div className="col-md-2 justify-content-center align-items-center icons">     
-  
+      <div className="col-md-2 justify-content-center align-items-center icons">    
     <div className="d-flex justify-content-center align-items-center gap-2">
 <label htmlFor="files">
 <a className="btn rounded-circle text-white">
@@ -314,9 +290,7 @@ showChat===true ? <>
  {
 recording ? 
 <div className="d-flex gap-2">
-
 <button className="btn btn-danger" aria-label="stop"  onClick={handleStop}> 
-
   <FaRegStopCircle fontSize={24}/>
 </button>
 <div className="btn d-flex justify-center align-items-center rounded">
@@ -328,7 +302,7 @@ recording ?
   {attach ?  <p className="attached">Attached</p> : <div></div> }
 <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg"  onChange={(e)=>setItem(e.target.value)}/>
 
-<audio src="beep.mp3" id="notification"></audio>
+<audio src="beep.mp3" ref={audioRef}></audio>
 <button type="button" className="anchors position-relative" aria-label="audio"><HiOutlineMicrophone  fontSize={32} onClick={handleAudio} id="record"  /> 
 </button>
   <button  type ="submit" className="pr-2.5 " aria-label="send"><BsSend className="stopped" fontSize={24} /></button>

@@ -12,6 +12,7 @@ import { BiUser } from "react-icons/bi";
 import { BiEnvelope } from "react-icons/bi";
 import { CiLock } from "react-icons/ci";
 export default function Home() {
+  
   const [username,setUsername]=useState('')
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')

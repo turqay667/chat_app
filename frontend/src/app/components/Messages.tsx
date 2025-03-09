@@ -61,10 +61,6 @@ setLoading(false)
     {
       loading ? <Loading/> :
        <>
-   
-
-    
-
       { messages.length>0 ? (
        messages.map((message:Message) => {
     

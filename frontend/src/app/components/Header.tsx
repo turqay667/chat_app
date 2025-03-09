@@ -9,6 +9,7 @@ import { AuthContext } from "../AuthContext";
 import Image from "next/image";
 import type { Message } from "./Messages";
 import type { User } from "./Chats";
+
 type Props={
   theme:string,
   selectedUser:User,
@@ -25,6 +26,7 @@ const {apiUrl, }=useContext(ApiContext)
 const {token,user}=useContext(AuthContext)
 
 const onlineUser=selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null
+
 const handleMute=()=>{
   setMuted(!muted)
 }

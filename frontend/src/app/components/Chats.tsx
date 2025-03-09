@@ -93,11 +93,14 @@ return (
         </div>      
                     
                 <div>
-   <h5 className="sented">{new Date(lastMessage.createdAt).toLocaleTimeString('en-US', {
-          hour:"numeric",
-          minute:"numeric"
-
-})}</h5>
+                {
+          lastMessage ?  <h5 className="sented">{new Date(lastMessage.createdAt).toLocaleTimeString('en-US', {
+            hour:"numeric",
+            minute:"numeric"
+  
+  })}</h5> : ''
+          }
+  
 <div ></div>
     </div>
                 </div>
