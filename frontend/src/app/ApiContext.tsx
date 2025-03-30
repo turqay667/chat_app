@@ -13,9 +13,9 @@ type ApiProviderProps={
 }
 const ApiProvider=({children}:ApiProviderProps)=>{
     return (
-        <ApiContext.Provider value={{apiUrl}}>
+        <ApiContext value={{apiUrl}}>
           {children}
-        </ApiContext.Provider>
+        </ApiContext>
     )
 }
 export default ApiProvider;

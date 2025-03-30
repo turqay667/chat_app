@@ -28,9 +28,9 @@ useEffect(()=>{
 },[])
 
 return(
-        <AuthContext.Provider value={{user,setUser, token, setToken}}>
+        <AuthContext value={{user,setUser, token, setToken}}>
             {children}
-            </AuthContext.Provider>  
+            </AuthContext>  
 )
 }
 export default AuthProvider;

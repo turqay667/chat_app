@@ -129,7 +129,7 @@ return (
                  
               <div className="notifies d-flex pl-3 ">                     
            <a className="position-relative">
-            <Image className="avatar" src={`/${user.image}`}  alt="user"  fill={true} />
+            <Image className="avatar" src={`/${user.image}`}  alt="user"  priority={true}  width={60} height={60}/>
             {/* <span className="status"></span> */}
             </a>
               

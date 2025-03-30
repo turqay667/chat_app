@@ -20,9 +20,9 @@ const newTheme=theme==='light' ? 'dark' : 'light';
 setTheme(newTheme)
 }
 return(
-        <ThemeContext.Provider value={{theme, handleTheme}}>
+        <ThemeContext value={{theme, handleTheme}}>
             {children}
-        </ThemeContext.Provider>    
+        </ThemeContext>    
         )
 }
 export default ThemeProvider;

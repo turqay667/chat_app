@@ -18,8 +18,21 @@ type Props={
   setShowSidebar:(showSidebar:boolean)=>void,
   setShowChat:(showChat:boolean)=>void,
   muted:boolean,
-  setMuted:(muted:boolean)=>void
+  setMuted:(muted:boolean)=>void,
+  inputRef:React.RefObject<HTMLInputElement>
 }
+// type inputProps={
+//   inputRef:React.RefObject<HTMLInputElement>
+// }
+// function MyInput({inputRef}:inputProps){
+//   return (
+//     <>
+//   <label>Message</label>
+//   <input type="text" ref={inputRef} placeholder="Write a message"/>
+//   </>
+//   )
+// }
+
 const Header=({theme,selectedUser, onlineUsers, setMessages, setShowSidebar, setShowChat, muted, setMuted}:Props)=>{
   
 const {apiUrl, }=useContext(ApiContext)
@@ -65,6 +78,7 @@ const handleBack=()=>{
           </a>
      
     </div>
+
     <div>
       {selectedUser?.username===user?.username
        ?     <h5>You</h5> : <h5>{selectedUser?.username}</h5>
@@ -79,6 +93,7 @@ const handleBack=()=>{
         </div>
       <div className="col-md-8 col-3">
       <div className="chat-user-nav d-flex justify-content-end">
+        {/* <MyInput inputRef={inputRef}/> */}
         <ul className="d-flex">
 {/* <li><button className="btn nav-btn text-muted"><IoVideocamOutline  fontSize={24} onClick={handleVideoCall}/></button></li>
 <li><button className="btn nav-btn text-muted" onClick={handleCall}><IoCallOutline fontSize={20} /></button></li> */}

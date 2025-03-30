@@ -48,6 +48,7 @@ setLoading(false)
          "Authorization":`Bearer ${token}`
        }
       })
+         setMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
        setMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
        setAllMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
      }

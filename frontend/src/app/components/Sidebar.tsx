@@ -2,13 +2,13 @@ import { BsChatSquareText} from "react-icons/bs";
 import {PiChats} from "react-icons/pi";
 import {  CiDark, CiLight, CiSettings } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
-import { useContext } from "react";
+import { use} from "react";
 import { ThemeContext } from "../ThemeContext";
 import { socket } from "../Socket";
 import { RiContactsLine } from "react-icons/ri";
 import { redirect } from "next/navigation";
 const Sidebar=()=>{
-    const {theme,handleTheme}=useContext(ThemeContext)
+    const {theme,handleTheme}=use(ThemeContext)
 
     const handleLogout=()=>{
        localStorage.removeItem("userInfo")
