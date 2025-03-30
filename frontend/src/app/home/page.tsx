@@ -18,7 +18,7 @@ import emojii from "../emojis";
 import type { Message } from "../components/Messages";
 import type { User } from "../components/Chats";
 import { AuthContext } from "../AuthContext";
-import { useFormState } from "react-dom";
+
 
 function Chat() {
   const { theme } = useContext(ThemeContext);
@@ -278,6 +278,7 @@ function Chat() {
                       onlineUsers={onlineUsers}
                       setShowSidebar={setShowSidebar}
                       setShowChat={setShowChat}
+                   
                     />
                     <div className="conversation-body overflow-auto text-center">
                       <Messages

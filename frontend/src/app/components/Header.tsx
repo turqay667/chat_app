@@ -19,7 +19,6 @@ type Props={
   setShowChat:(showChat:boolean)=>void,
   muted:boolean,
   setMuted:(muted:boolean)=>void,
-  inputRef:React.RefObject<HTMLInputElement>
 }
 // type inputProps={
 //   inputRef:React.RefObject<HTMLInputElement>
