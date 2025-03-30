@@ -48,7 +48,6 @@ setLoading(false)
          "Authorization":`Bearer ${token}`
        }
       })
-         setMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
        setMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
        setAllMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
      }
@@ -62,56 +61,42 @@ setLoading(false)
     {
       loading ? <Loading/> :
        <>
-      { messages.length>0 ? (
+      {messages.length>0 ? (
        messages.map((message:Message) => {
     
   return (
-            <div key={message._id}  className={`message ${message.sender===user?._id  ? "justify-content-end" : "justify-content-start"}`} onClick={()=>setSelectedMessage(message._id)}>                
-                     
-                   <ul>         
-                  <li className="dropdown">
-                  <button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" aria-label="dropdown">< BsThreeDotsVertical  fontSize={20} />
-                  </button>
+            <div key={message._id}  className={`message ${message.sender===user?._id  ? "justify-content-end" : "justify-content-start"}`} onClick={()=>setSelectedMessage(message._id)}>                 
+              <ul>         
+                <li className="dropdown">
+                  <button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" aria-label="dropdown">< BsThreeDotsVertical  fontSize={20} /></button>
                   <ul className={theme==='dark' ? 'background-light text-mute dropdown-menu' : 'background-dark text-muted dropdown-menu'} aria-labelledby="dropdownMenuButton" >
-                  <li className="dropdown-item"  onClick={handleDelete}>
-                  <a >
-                 <span><BiSolidEdit fontSize={24}/></span> Edit</a> 
-                  </li>
-                  <li className="dropdown-item"><a onClick={handleDelete} ><span><BsTrash fontSize={24}/></span>Delete</a></li>                 
+                    <li className="dropdown-item"  onClick={handleDelete}>
+                      <a>
+                        <span><BiSolidEdit fontSize={24}/></span> Edit</a> 
+                    </li>
+                    <li className="dropdown-item"><a onClick={handleDelete} ><span><BsTrash fontSize={24}/></span>Delete</a></li>                 
                   </ul>
-                  </li>
-                  </ul>
+                    </li>
+                   </ul>
                 <div className={theme==='dark' ? 'background-light text-mute message-content' : 'background-dark text-muted message-content'}>
-            
-                  {message.image && <Image src={message.image} alt="media" />}
-                  {message.audio && <audio src={message.audio}  preload="metadata"  controls  id="records">
-                    </audio>
-                    }
-                     <div className="d-flex gap-4">                   
-                  <div className={colors}>{message.message}</div>                            
-               </div>
-                  <p className='d-flex justify-content-end'> {new Date(message.createdAt).toLocaleTimeString([], {
-                    hour:"2-digit",
-                    minute:"2-digit"
-                  })}</p>
-                      
-                    
-                </div>
-             
-            
-                
-              </div> 
-      ) 
-       
+                  {message.image && <Image src={message.image} alt="media"  width={200} height={200}/>}
+                  {message.audio && <audio src={message.audio}  preload="metadata"  controls  id="records"></audio>}
+                  <div className="d-flex gap-4">                   
+                    <div className={colors}>{message.message}</div>                            
+                  </div>
+                    <p className='d-flex justify-content-end'> 
+                      {new Date(message.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
+                     </p> 
+                </div>    
+            </div> 
+      )        
   })
 ):
- <>
-</>
+ <></>
 }  
 </> 
 }
     </div>
-  
   );
 };
 export default Messages;

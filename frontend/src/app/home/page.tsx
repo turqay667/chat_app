@@ -415,10 +415,10 @@ function Chat() {
             </>
           ) : (
             <>
-                <div className="starting">
+                {/* <div className="starting">
                     <h2 className="text-center text-white"> Select chat to start conversation</h2>
 
-                    </div>
+                    </div> */}
             </>
           )}
         </div>
