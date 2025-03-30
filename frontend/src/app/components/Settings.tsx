@@ -107,47 +107,42 @@ const Settings=({setFilteredUsers}:Props)=>{
             </div>           
           </div>
         <div>
-        <form onSubmit={handleProfile} id="prof">
-          {  user ? (           
-            <>
-            <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
-              <div className="profile-img d-flex justify-content-center">
-                <div className="position-relative">     
-                  <Image src={`/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
-                    <div className="d-none">{image}</div>
-                    <label htmlFor="image">
+          <form onSubmit={handleProfile} id="prof">
+            {  user ? (           
+             <>
+              <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
+                <div className="profile-img d-flex justify-content-center">
+                  <div className="position-relative">     
+                    <Image src={`/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
+                      <div className="d-none">{image}</div>
+                      <label htmlFor="image">
                       <input type="file" accept="image" name="image" onChange={handleImage} id="image"/>
                       <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}><CiEdit /></a>
-                    {}
-                    </label>
+                      {}
+                      </label>
+                  </div>
+                </div>
+                <h5 className="text-center">{user.username}</h5> 
+              </div>
+              <div className='user-content'>
+                <label className={ theme==='light' ? 'text-muted' : 'text-mute' } htmlFor="about">About</label>
+                <div className="d-flex justify-content-evenly align-items-center gap-5"> 
+                  <textarea className="w-full" id="about" ref={aboutRef}  value={about} rows={2}  cols={3}   disabled={edit ? false : true} onChange={(e)=>setAbout(e.target.value)} maxLength={50}/> 
+                  <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={handleEdit}><CiEdit   /></a>    
+                </div>
+                <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label>  
+                <div className="d-flex justify-content-evenly align-items-center" >
+                  <input className="w-full" ref={userRef}  value={username}  disabled={edit ? false : true}  onChange={(e)=>setUsername(e.target.value)} id="username"/>
+                  <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={handleEdit}><CiEdit   /></a>    
+                </div>
+                <div className="text-center mt-5">
+                  { edit ? <button type="submit" className="px-5 py-2 btn btn-dark text-white" onClick={handleSave}>Save</button> : <div></div>}
                 </div>
               </div>
-              <h5 className="text-center">{user.username}</h5> 
-            </div>
-<div className='user-content'>
-  <label className={ theme==='light' ? 'text-muted' : 'text-mute' } htmlFor="about">About</label>
-  <div className="d-flex justify-content-evenly align-items-center gap-5"> 
-    <textarea className="w-full" id="about" ref={aboutRef}  value={about} rows={2}  cols={3}   disabled={edit ? false : true} onChange={(e)=>setAbout(e.target.value)} maxLength={50}/> 
-    <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={handleEdit}>
-    <CiEdit   />
-    </a>    
-  </div>
-  <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label>  
-  <div className="d-flex justify-content-evenly align-items-center" >
-    <input className="w-full" ref={userRef}  value={username}  disabled={edit ? false : true}  onChange={(e)=>setUsername(e.target.value)} id="username"/>
-    <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={handleEdit}><CiEdit   /></a>    
-  </div>
-  <div className="text-center mt-5">
-  { edit ? <button type="submit" className="px-5 py-2 btn btn-dark text-white" onClick={handleSave}>Save</button> : <div></div>}
-  </div>
-</div>
-</> 
-)
-: <></>
-}
-</form>
-</div> 
-</div>
+           </> ):<></>}
+          </form>
+        </div> 
+      </div>
  
         </>
     )
