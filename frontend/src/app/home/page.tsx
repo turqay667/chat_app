@@ -331,15 +331,11 @@ function Chat() {
                                   {emojii.map((emoji) => {
                                     return (
                                       <li
-                                        className="dropdown-item"
-                                        key={emoji.id}
-                                      >
+                                        className="dropdown-item" key={emoji.id}>
                                         <button
                                           className="btn"
                                           type="button"
-                                          onClick={() => handleEmojis}
-                                          value={emoji.text}
-                                        >
+                                          onClick={(e) => handleEmojis(e)} value={emoji.text} >
                                           {emoji.text}
                                         </button>
                                       </li>
@@ -404,7 +400,7 @@ function Chat() {
                               aria-label="send"
                             // disabled={pending}
                             >
-                              Send
+                            
                               {/* {pending ? "Sending...": "Send"}  */}
                               <BsSend className="stopped text-2xl" />
                             </button>
@@ -413,15 +409,17 @@ function Chat() {
                       </form>
                     </div>
                   </>
-                  // : <div className="starting">
-                  //   <h2 className="text-center text-white"> Select chat to start conversation</h2>
-
-                  //   </div>
+               
                 )}
               </div>
             </>
           ) : (
-            <></>
+            <>
+                <div className="starting">
+                    <h2 className="text-center text-white"> Select chat to start conversation</h2>
+
+                    </div>
+            </>
           )}
         </div>
       </div>
