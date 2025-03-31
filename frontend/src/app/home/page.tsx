@@ -58,7 +58,7 @@ function Chat() {
     handleSize();
     window.addEventListener("resize", handleSize);
     if (user) {
-      socket.emit("join", user.username);
+      socket.emit("join", user._id, user.username);
       socket.on("online", (users) => {
         setOnlineUsers(users);
       });
@@ -286,6 +286,7 @@ function Chat() {
                         user={user}
                         theme={theme}
                         setMessages={setMessages}
+                        onlineUsers={onlineUsers}
                         setAllMessages={setAllMessages}
                       />
                       {loading ? <></> : <></>}

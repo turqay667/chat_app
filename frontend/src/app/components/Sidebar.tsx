@@ -16,6 +16,7 @@ const Sidebar=()=>{
        socket.disconnect()
         redirect("/login") 
       }
+      
     return (
         <>
         <div className="sidebar"  id="sidebar">

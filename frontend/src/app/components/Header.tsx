@@ -25,8 +25,8 @@ const Header=({theme,selectedUser, onlineUsers, setMessages, setShowSidebar, set
   
 const {apiUrl, }=useContext(ApiContext)
 const {token,user}=useContext(AuthContext)
-const onlineUser=selectedUser ? onlineUsers.find((user)=>user.username===selectedUser.username) : null
-
+console.log(selectedUser)
+const onlineUser=selectedUser?._id ? onlineUsers.find((user)=>user.username===selectedUser.username) : null
 const handleMute=()=>{
   setMuted(!muted)
 }
@@ -64,7 +64,10 @@ const handleBack=()=>{
              </div>
               <div>
                 {selectedUser?.username===user?.username ?   <h5>You</h5> : <h5>{selectedUser?.username}</h5>}
-                <div className="text-muted" id="typing"></div>  
+                <div className="text-muted" id="typing">
+                
+                  
+                  </div>  
               </div>
            </div>
           </div>

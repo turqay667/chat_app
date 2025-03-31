@@ -16,15 +16,18 @@ export type Message={
   sender:number,
   receiver:number,
   createdAt:string,
+  isRead:boolean,
 }
 
 type MessageProps={
  user:User | null,
  theme:string,
  messages:Message[],
+ onlineUsers:User[]
  setMessages:React.Dispatch<React.SetStateAction<Message[]>>
  setAllMessages:React.Dispatch<React.SetStateAction<Message[]>>
 }
+
 const Messages = ({ user, theme,  messages, setMessages, setAllMessages}:MessageProps) => {
 
   const [loading, setLoading]=useState(true)
@@ -32,7 +35,6 @@ const Messages = ({ user, theme,  messages, setMessages, setAllMessages}:Message
   const {token}=useContext(AuthContext)
   const [selectedMessage, setSelectedMessage] = useState<number>()
   const colors = theme ==='dark' ? 'text-white' :'text-dark'
-
 
 useEffect(()=>{
 setTimeout(()=>{
@@ -63,7 +65,7 @@ setLoading(false)
        <>
       {messages.length>0 ? (
        messages.map((message:Message) => {
-    
+       
   return (
             <div key={message._id}  className={`message ${message.sender===user?._id  ? "justify-content-end" : "justify-content-start"}`} onClick={()=>setSelectedMessage(message._id)}>                 
               <ul>         
@@ -78,15 +80,26 @@ setLoading(false)
                   </ul>
                     </li>
                    </ul>
-                <div className={theme==='dark' ? 'background-light text-mute message-content' : 'background-dark text-muted message-content'}>
+                <div className={theme==='dark' ? 'background-light text-mute message-content d-flex flex-col gap-3' : 'background-dark text-muted message-content d-flex flex-col gap-3'}>
                   {message.image && <Image src={message.image} alt="media"  width={200} height={200}/>}
                   {message.audio && <audio src={message.audio}  preload="metadata"  controls  id="records"></audio>}
                   <div className="d-flex gap-4">                   
-                    <div className={colors}>{message.message}</div>                            
+                    <div className={colors}>{message.message}</div>                           
                   </div>
+                  <div className="d-flex justify-between gap-3">
+
+                
                     <p className='d-flex justify-content-end'> 
                       {new Date(message.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
                      </p> 
+                    {
+                      message.sender===user?._id ? <span className="text-muted">✔</span> :  <span className="text-muted"></span> 
+                    }
+   
+   
+                                              
+                  
+                     </div>
                 </div>    
             </div> 
       )        

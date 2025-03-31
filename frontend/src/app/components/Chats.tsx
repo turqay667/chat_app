@@ -13,6 +13,7 @@ export type User={
     username:string,
     token:string,
     about:string,
+    status:string,
     image:string
 }
 
@@ -28,6 +29,8 @@ type Props={
     setBlocked:(blocked:boolean)=>void,
     setShowChat:(showChat:boolean)=>void
 }
+
+
 const Chats=({allMessages, selectedUser,setSelectedUser, setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setShowChat}:Props)=>{
 const {theme}=useContext(ThemeContext)
 const {user}=useContext(AuthContext)

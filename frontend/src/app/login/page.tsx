@@ -42,6 +42,7 @@ const Login = () => {
       setUser(response.data);
       setToken(response.data.token);
       toast.success("Successfully logged");
+      socket.emit('online', console.log(`${username} online`))
       setTimeout(() => {
         setLogged(true);
       }, 1000);

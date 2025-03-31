@@ -25,15 +25,6 @@ const chatSchema=mongoose.Schema(
         required:true,
         ref:'User'
      },
-  
-     groupId:{
-        type:Number,
-        required:false,
-     },
-     isRead:{
-        type:Boolean,
-        required:false,
-     },
     },
      {
         timestamps:true

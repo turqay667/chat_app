@@ -37,7 +37,7 @@ const userSchema=moongose.Schema(
         status:{
         type:String,
         default:'Available',
-        required:false
+        required:true
         },
     
         isBlocked:{

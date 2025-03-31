@@ -162,8 +162,8 @@ userRouter.get('/messages/:id', protect, async (req,res)=>{
         {sender:req.user._id,receiver:req.params.id},
         {sender:req.params.id,receiver:req.user._id}
     ] 
-     
     })
+    messages.status="✓✓"
     res.json(messages)
 })
 

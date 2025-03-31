@@ -5,12 +5,10 @@ const connectDatabase = require('./config/connect');
 const userRouter=require('./routes/UserRoute');
 const app=express();
 const socket=require('socket.io')
-const WebSocket=require("ws")
 const http=require("http")
 const server=http.createServer(app)
 const multer=require("multer");
 const path = require('path');
-
 
 
 dotenv.config()
@@ -24,15 +22,12 @@ app.use(express.json({limit:'10mb'}));
 app.use(cors({
     credentials:true,
     origin:['http://localhost:3000', 'https://chat-app-bxnf.vercel.app']
-    
-
-}));
+    }));
 app.use('/api',userRouter)
 app.use('/uploads',express.static('uploads'))
 
 
 const PORT=process.env.PORT || 1000;
-
 const io=socket(server, {
   cors:{
   origin:['http://localhost:3000', 'https://chat-app-bxnf.vercel.app'],
@@ -40,6 +35,7 @@ const io=socket(server, {
   credentials:true
   }
 })
+
 let users=[]
 io.on("connection", function(socket){
     socket.on("message", (data)=>{
@@ -58,19 +54,18 @@ socket.on("logged",(msg)=>{
 // console.log("user is typing " + data)
 // })
 
-socket.on("join", (username)=>{
-    if(!users.some((user)=>user.username===username)){
-        users.push({username,socketId:socket.id })
+socket.on("join", (id, username)=>{
+    if(!users.some((user)=>user._id===id)){
+        users.push({ id, username, socketId:socket.id })
         console.log(users)
     }
     io.emit('online', users)
 })
 
-
-
 socket.on("disconnect", ()=>{
     users=users.filter(user=>user.socketId!==socket.id)
     console.log('User has disconnected')
+    io.emit('online', users)
 })
 
 })
