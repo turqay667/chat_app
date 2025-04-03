@@ -1,4 +1,4 @@
-import { BsChatSquareText} from "react-icons/bs";
+
 import {PiChats} from "react-icons/pi";
 import {  CiDark, CiLight, CiSettings } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
@@ -20,7 +20,7 @@ const Sidebar=()=>{
     return (
         <>
         <div className="sidebar"  id="sidebar">
-          <div className="logo"><a > <BsChatSquareText fontSize={34}/></a></div>
+          {/* <div className="logo"><a > <BsChatSquareText fontSize={34}/></a></div> */}
           <div className="navbar-menu">
             <ul className="sidebar-menu nav" role="tablist">
               <li role="list"><a title="chats" className="btn active" id="chat-tab" data-bs-toggle="tab" role="tab" data-bs-target="#chat"  aria-selected="true"  ><PiChats /></a></li>

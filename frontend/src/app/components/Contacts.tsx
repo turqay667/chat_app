@@ -97,7 +97,7 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,
                   <div className="user position-relative d-flex justify-between" >
                     <div className="notifies d-flex pl-3 ">                     
                       <a className="position-relative">
-                        <Image className="avatar" src={`/${user.image}`}  alt="user"  priority={true}  width={60} height={60}/>{/* <span className="status"></span> */}
+                        <Image className="avatar" src="/user-profile.png"  alt="user"  priority={true}  width={60} height={60}/>{/* <span className="status"></span> */}
                       </a>              
                       <div className="d-flex flex-column justify-center">
                         <h5 className="text-truncate text-capitalize">{user.username}</h5>     

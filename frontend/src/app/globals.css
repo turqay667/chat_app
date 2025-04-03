@@ -328,7 +328,7 @@ figure {
     min-width: 100%;
   }
   .logo {
-    display: none;
+    display: none !important;
   }
   .nav,
   .sidebar,

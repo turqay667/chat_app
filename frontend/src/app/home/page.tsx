@@ -416,6 +416,7 @@ function Chat() {
             </>
           ) : (
             <>
+           
                 {/* <div className="starting">
                     <h2 className="text-center text-white"> Select chat to start conversation</h2>
 

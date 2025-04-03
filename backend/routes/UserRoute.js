@@ -73,22 +73,14 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
 
             userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
                 try{      
-                 const  {username, password, about, image}=req.body     
-                 const user=await User.findById(req.params.id) 
-                 
+                 const  {username, password}=req.body     
+                 const user=await User.findById(req.params.id)                 
                  if(username){
                     user.username=username
                  }
                    if(password){
                     user.password=password
-                   } 
-                 if(about){
-                    user.about=about
-             }
-                 if(image){
-                    user.image=image
-                 }
-                 
+                   }                 
                  await user.save()
                  res.status(200).json({success:true, user})
                 }

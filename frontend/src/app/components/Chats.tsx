@@ -10,10 +10,10 @@ import { AuthContext } from "../AuthContext";
 
 export type User={
     _id:number,
-    username:string,
+    username?:string,
     token:string,
-    about:string,
     status:string,
+    password:string,
     image:string
 }
 
@@ -41,7 +41,7 @@ const handleSearch=()=>{
 if(search===''){
 setFilteredUsers(users)
 }
-const filterUsers = users.filter((item:User)=>item.username.toLowerCase().includes(search.toLowerCase()))
+const filterUsers = users.filter((item:User)=>item?.username?.toLowerCase().includes(search.toLowerCase()))
 setFilteredUsers(filterUsers)
 }
 const handleUser=()=>{
@@ -77,7 +77,7 @@ if(chat){
                    <div className="d-flex align-items-center justify-content-between">                 
                      <div className="notifies d-flex pl-3 justify-content-between">                                     
                        <a className="position-relative">
-                         <Image src={`/${item.image}`}  className="avatar"  alt="user" width={100} height={100}/>
+                         <Image src="/user-profile.png"  className="avatar"  alt="user" width={100} height={100}/>
                        </a>              
                        <div className="d-flex flex-column justify-center">
                          { item.username===user?.username  ? 

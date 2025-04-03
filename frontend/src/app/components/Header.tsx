@@ -25,7 +25,6 @@ const Header=({theme,selectedUser, onlineUsers, setMessages, setShowSidebar, set
   
 const {apiUrl, }=useContext(ApiContext)
 const {token,user}=useContext(AuthContext)
-console.log(selectedUser)
 const onlineUser=selectedUser?._id ? onlineUsers.find((user)=>user.username===selectedUser.username) : null
 const handleMute=()=>{
   setMuted(!muted)

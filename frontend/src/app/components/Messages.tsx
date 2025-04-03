@@ -72,7 +72,7 @@ setLoading(false)
                 <li className="dropdown">
                   <button className={`${colors} `} role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" aria-label="dropdown">< BsThreeDotsVertical  fontSize={20} /></button>
                   <ul className={theme==='dark' ? 'background-light text-mute dropdown-menu' : 'background-dark text-muted dropdown-menu'} aria-labelledby="dropdownMenuButton" >
-                    <li className="dropdown-item"  onClick={handleDelete}>
+                    <li className="dropdown-item"  onClick={()=>console.log('edit')}>
                       <a>
                         <span><BiSolidEdit fontSize={24}/></span> Edit</a> 
                     </li>
@@ -81,7 +81,7 @@ setLoading(false)
                     </li>
                    </ul>
                 <div className={theme==='dark' ? 'background-light text-mute message-content d-flex flex-col gap-3' : 'background-dark text-muted message-content d-flex flex-col gap-3'}>
-                  {message.image && <Image src={message.image} alt="media"  width={200} height={200}/>}
+                  <a href={message.image} download>{message.image && <Image src={message.image} alt="media"  width={200} height={200} />}</a>    
                   {message.audio && <audio src={message.audio}  preload="metadata"  controls  id="records"></audio>}
                   <div className="d-flex gap-4">                   
                     <div className={colors}>{message.message}</div>                           

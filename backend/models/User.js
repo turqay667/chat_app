@@ -18,12 +18,12 @@ const userSchema=moongose.Schema(
          minlength:[8,'Password must be at least 8 characters'],
          required:true,
         },  
-        about:{
-            type:String,
-            maxlength:50,
-            default:'You',
-            requried:true,
-        },
+        // about:{
+        //     type:String,
+        //     maxlength:50,
+        //     default:'You',
+        //     requried:true,
+        // },
         image:{
             type:String,
             default:'user-profile.png',
