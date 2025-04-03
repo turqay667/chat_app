@@ -122,14 +122,14 @@ const Settings=({setFilteredUsers}:Props)=>{
                 </div> */}
                 <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label>  
                 <div className="d-flex justify-content-evenly align-items-center" >
-                  <input className="w-full"  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)} id="username"/>
+                  <input className="w-full"  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)} readOnly={edit ? false : true} id="username"/>
                  {
                   edit ?  <></> : <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={()=>handleEdit('')}><CiEdit   /></a>
                  }             
                 </div>
                 <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="password">Password</label>  
                 <div className="d-flex justify-content-evenly align-items-center" >
-                  <input className="w-full"  ref={passRef}  value={password} type="password"   onChange={(e)=>setPassword(e.target.value)} id="password"/>
+                  <input className="w-full"  ref={passRef}  value={password} type="password" readOnly={edit ? false : true}  onChange={(e)=>setPassword(e.target.value)} id="password"/>
                   {
                   edit ?  <></> : <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={()=>handleEdit("password")}><CiEdit   /></a>
                  }  
