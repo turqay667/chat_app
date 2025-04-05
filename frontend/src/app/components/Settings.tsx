@@ -32,14 +32,16 @@ const Settings=({setFilteredUsers}:Props)=>{
     if(!file) return;
     const formData=new FormData()
     formData.append('image', file)
-    setImage(URL.createObjectURL(file))
+
     try{
-    await axios.put(`${apiUrl}/profile/${userId}`, formData, {
+ const result=  await axios.put(`${apiUrl}/profile/${userId}`, formData, {
         headers:{
          Authorization:`Bearer ${token}`,
         "Content-Type":"multipart/form-data",
         }
     })
+     setImage(result.data.user.image)
+     console.log(result.data.user.image)
      window.localStorage.setItem('userInfo',JSON.stringify({...user, image:file.name}))
      setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
      item._id===userId ? {...item, image:file.name} : item))
@@ -97,7 +99,7 @@ const Settings=({setFilteredUsers}:Props)=>{
               <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
                 <div className="profile-img d-flex justify-content-center">
                   <div className="position-relative">     
-                    <img src={`..uploads/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
+                    <img src={`${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
                       <label htmlFor="image">
                       <input type="file" accept="image" name="image" id="image" onChange={handleImage}/>
                       <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}><CiEdit /></a>

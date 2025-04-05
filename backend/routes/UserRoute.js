@@ -11,7 +11,7 @@ const bcrypt=require('bcryptjs')
 
 const storage= multer.diskStorage({
     destination:(req,ref,cb)=>{
-        cb(null,'../frontend/public/')
+        cb(null,'')
     },
     filename:(req,ref,cb)=>{
         cb(null,`${ref.originalname}`)
