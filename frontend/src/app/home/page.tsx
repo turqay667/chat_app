@@ -70,6 +70,7 @@ function Chat() {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
+        // setSelectedUser(data[0])
         setFilteredUsers(data);
         setLoading(false);
       });
@@ -176,7 +177,6 @@ function Chat() {
       if (audioRef.current !== null && muted === false) {
         audioRef.current.play();
       }
-    
       formData.append("message", item);
       formData.append("image", image);
       formData.append("audio", record);
@@ -227,10 +227,6 @@ function Chat() {
   };
 
   return (
-    
-    
-    
-    
     <>
       <div>
         <div className="chat-row d-flex">

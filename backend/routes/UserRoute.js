@@ -8,19 +8,16 @@ const protect=require('../middleware/authMiddleware')
 const mongoose=require('mongoose')
 const multer = require('multer')
 const bcrypt=require('bcryptjs')
-// const imgconfig=multer.diskStorage({
-//     destination:(req,file,callback)=>{
-//         callback(null,'uploads')
-//     },
-//     filename:(req,file,callback)=>{
-//         const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9)
-//         callback(null,file.fieldname+'-'+uniqueSuffix)
-//     }
-// })
-const upload=multer({
-    storage:multer.memoryStorage(),
 
-})
+const storage= multer.diskStorage({
+    destination:(req,ref,cb)=>{
+        cb(null,'../frontend/public/')
+    },
+    filename:(req,ref,cb)=>{
+        cb(null,`${ref.originalname}`)
+    }
+    })
+const upload=multer({storage:storage})
 userRouter.post(
     '/login',  
     asyncHandler (async(req,res)=>{
@@ -57,12 +54,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                         audio
                     })
                     await newMessage.save()
-                    res.status(201).json(newMessage)
-                  
-             
-
-  
-            
+                    res.status(201).json(newMessage)           
             }
             catch(err){
                 res.status(400).json({error:'Unable to send a message', details:err.message})
@@ -70,8 +62,20 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
             }
             }))
 
+            // userRouter.put('/profile/:id', protect, upload.single('image'), asyncHandler (async (req,res)=>{
+            //     try{      
+            //     const user=await User.findById(req.params.id)  
 
-            userRouter.put('/profile/:id', protect, asyncHandler (async (req,res)=>{
+            //     await user.save()
+            //     res.status(200).json({success:true, user})
+            //     }
+            //     catch(err){
+            //     res.status(400)
+            //     throw new Error('Unable to change a photo')
+            //     }
+            // }))
+
+            userRouter.put('/profile/:id', protect, upload.single('image'), asyncHandler (async (req,res)=>{
                 try{      
                  const  {username, password}=req.body     
                  const user=await User.findById(req.params.id)                 
@@ -80,7 +84,10 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                  }
                    if(password){
                     user.password=password
-                   }                 
+                   }      
+                   if(req.file){
+                    user.image=req.file.path
+                   }           
                  await user.save()
                  res.status(200).json({success:true, user})
                 }
@@ -90,19 +97,7 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
                 }
              }))
             
-// userRouter.put('/profile/:id', protect, upload.single('image'), asyncHandler (async (req,res)=>{
-//                 try{      
-//                  const user=await User.findById(req.params.id)  
-//                  user.image=req.file.buffer.toString('base64')
-//                  console.log(user.image)
-//                  await user.save()
-//                  res.status(200).json({success:true, user})
-//                 }
-//                 catch(err){
-//                  res.status(400)
-//                  throw new Error('Unable to change a photo')
-//                 }
-//              }))
+
             
 userRouter.post('/auth',asyncHandler(async (req,res)=>{
 const {username,email,password}=req.body

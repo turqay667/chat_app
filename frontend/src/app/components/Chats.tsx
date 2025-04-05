@@ -4,7 +4,6 @@ import { useState, useContext} from "react";
 import { ThemeContext } from "../ThemeContext";
 import Settings from "./Settings";
 import Contacts from "./Contacts"
-import Image from "next/image";
 import type { Message } from "./Messages";
 import { AuthContext } from "../AuthContext";
 
@@ -71,13 +70,14 @@ if(chat){
                filteredUsers.map((item)=>{
                const userMessages=allMessages.filter((message:Message)=> message.sender===item._id && message.receiver===user?._id ||  message.sender===user?._id && message.receiver===item._id )
                const lastMessage=userMessages.slice(-1)[0]
+               console.log(item.image)
                return (        
                <div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(item)}  key={item._id}>
                  <div className="user position-relative" onClick={handleUser}>
                    <div className="d-flex align-items-center justify-content-between">                 
                      <div className="notifies d-flex pl-3 justify-content-between">                                     
                        <a className="position-relative">
-                         <Image src="/user-profile.png"  className="avatar"  alt="user" width={100} height={100}/>
+                         <img src={`${item.image}`}  className="avatar"  alt="user" width={100} height={100}/>
                        </a>              
                        <div className="d-flex flex-column justify-center">
                          { item.username===user?.username  ? 

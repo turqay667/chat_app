@@ -94,11 +94,7 @@ setLoading(false)
                      </p> 
                     {
                       message.sender===user?._id ? <span className="text-muted">✔</span> :  <span className="text-muted"></span> 
-                    }
-   
-   
-                                              
-                  
+                    }                
                      </div>
                 </div>    
             </div> 

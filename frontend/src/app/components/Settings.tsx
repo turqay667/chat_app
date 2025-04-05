@@ -18,7 +18,7 @@ const Settings=({setFilteredUsers}:Props)=>{
   const [edit,setEdit]=useState(false)
   const [password,setPassword]=useState(user?.password || "secret")
   // const [about,setAbout]=useState(user?.about || 'change your thoughts and you change your world')
-  // const [image,setImage]=useState(user?.image || "user-profile.png")
+  const [image,setImage]=useState(user?.image || "user-profile.png")
   const [username,setUsername]=useState(user?.username || "turqay") 
   const userId=user ? user._id : null
   const userRef=useRef<HTMLInputElement>(null)
@@ -26,35 +26,29 @@ const Settings=({setFilteredUsers}:Props)=>{
   // const aboutRef=useRef<HTMLTextAreaElement>(null)
 
 
-    // const handleImage = (e:React.ChangeEvent<HTMLInputElement>)=>{
-    //   e.preventDefault()
-    // const file = e.target.files?.[0]
-    // if(!file) return;
+    const handleImage = async(e:React.ChangeEvent<HTMLInputElement>)=>{
+      e.preventDefault()
+    const file = e.target.files?.[0]
+    if(!file) return;
+    const formData=new FormData()
+    formData.append('image', file)
+    setImage(URL.createObjectURL(file))
+    try{
+    await axios.put(`${apiUrl}/profile/${userId}`, formData, {
+        headers:{
+         Authorization:`Bearer ${token}`,
+        "Content-Type":"multipart/form-data",
+        }
+    })
+     window.localStorage.setItem('userInfo',JSON.stringify({...user, image:file.name}))
+     setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
+     item._id===userId ? {...item, image:file.name} : item))
+     setEdit(false)
+    }
     
-    // const reader= new FileReader()
-    // reader.onloadend=async()=>{
-    //   const imageBase64=reader.result as string
-    //   setImage(imageBase64)
-    // try{
-    // await axios.put(`${apiUrl}/profile/${userId}`, {image}, {
-    //     headers:{
-    //      Authorization:`Bearer ${token}`,
-    //     "Content-Type":"application/json",
-    //     }
-    // })
-
-    //  window.localStorage.setItem('userInfo',JSON.stringify({...user, image}))
-    //  setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
-    //  item._id===userId ? {...item, image} : item))
-    //  setEdit(false)
-    // }
-    
-    // catch(err){
-    //     console.log(err)
-    // }
-    // }
-    // reader.readAsDataURL(file)
-    // }
+    catch(err){
+        console.log(err)
+    } }
 
     const handleProfile=async(e:React.FormEvent)=>{
       e.preventDefault()
@@ -103,13 +97,12 @@ const Settings=({setFilteredUsers}:Props)=>{
               <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
                 <div className="profile-img d-flex justify-content-center">
                   <div className="position-relative">     
-                    {/* <Image src={image} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" />  */}
-
-                      {/* <label htmlFor="image">
+                    <img src={`..uploads/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
+                      <label htmlFor="image">
                       <input type="file" accept="image" name="image" id="image" onChange={handleImage}/>
                       <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}><CiEdit /></a>
                       {}
-                      </label> */}
+                      </label>
                   </div>
                 </div>
                 {/* <h5 className="text-center">{user.username}</h5>  */}
@@ -135,10 +128,13 @@ const Settings=({setFilteredUsers}:Props)=>{
                  }  
                 </div>
                 {
-                  edit ? <div className="d-flex mt-5 gap-3">
-                  <button type="submit" className="px-5 py-2 btn btn-dark text-white">Update</button> 
-                  <button  className="px-5 py-2 btn btn-danger text-white" onClick={handleCancel}>Cancel</button> 
-                  </div>  : <></>
+                  edit ? 
+                   <div className="d-flex mt-5 gap-3">
+                     <button type="submit" className="px-5 py-2 btn btn-dark text-white">Update</button> 
+                     <button  className="px-5 py-2 btn btn-danger text-white" onClick={handleCancel}>Cancel</button> 
+                   </div>  
+                  :
+                   <></>
                 }
               </div>
            </> ):<></>}

@@ -24,8 +24,7 @@ app.use(cors({
     origin:['http://localhost:3000', 'https://chat-app-bxnf.vercel.app']
     }));
 app.use('/api',userRouter)
-app.use('/uploads',express.static('uploads'))
-
+app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 
 const PORT=process.env.PORT || 1000;
 const io=socket(server, {
