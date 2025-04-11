@@ -46,7 +46,6 @@ function Chat() {
   const chunks = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // const {pending}=useFormState();
   useEffect(() => {
     const handleSize = () => {
       if (showSidebar && window.innerWidth <= 768) {
@@ -63,7 +62,7 @@ function Chat() {
         setOnlineUsers(users);
       });
     }
-  }, [user]);
+  }, [user, showSidebar]);
 
   useEffect(() => {
     fetch(`${apiUrl}/api/`)
@@ -285,26 +284,17 @@ console.log(selectedUser)
                                 <a className="btn rounded-circle text-white">
                                   <BsImage fontSize={28} />
                                 </a>
-                                <input
-                                  type="file"
-                                  id="files"
-                                  onChange={handleAttach}
-                                  accept="image/*"
-                                />
+                                <input type="file" id="files" onChange={handleAttach} accept="image/*"/>
                                 {}
                               </label>
                               <div className="dropup">
                                 <a
                                   className="btn rounded-circle text-white"
                                   data-bs-toggle="dropdown"
-                                  id="emojiMenu"
-                                >
+                                  id="emojiMenu">
                                   <BsEmojiSmile fontSize={28} />{" "}
                                 </a>
-                                <ul
-                                  className="dropdown-menu emoji-menu"
-                                  aria-labelledby="emojiMenu"
-                                >
+                                <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu">
                                   {emojii.map((emoji) => {
                                     return (
                                       <li
@@ -322,16 +312,10 @@ console.log(selectedUser)
                               </div>
                             </div>
                           </div>
-
-                          <div
-                            className={`${theme === "dark" ? "background-light text-mute": "background-dark text-muted"} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
+                          <div className={`${theme === "dark" ? "background-light text-mute": "background-dark text-muted"} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
                             {recording ? (
                               <div className="d-flex gap-2">
-                                <button
-                                  className="btn btn-danger"
-                                  aria-label="stop"
-                                  onClick={handleStop}
-                                >
+                                <button className="btn btn-danger" aria-label="stop" onClick={handleStop}>
                                   <FaRegStopCircle fontSize={24} />
                                 </button>
                                 <div className="btn d-flex justify-center align-items-center rounded">
@@ -369,11 +353,7 @@ console.log(selectedUser)
                             <button
                               type="submit"
                               className="pr-2.5 "
-                              aria-label="send"
-                            // disabled={pending}
-                            >
-                            
-                              {/* {pending ? "Sending...": "Send"}  */}
+                              aria-label="send">                         
                               <BsSend className="stopped text-2xl" />
                             </button>
                           </div>

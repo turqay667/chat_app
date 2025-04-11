@@ -96,7 +96,6 @@ export default function Home() {
                   <div>
                     <div className="pass-input d-flex justify-content-between">
                       <label className="">Password</label>
-                      {/* <a className="forget-password ">Forgot password?</a> */}
                     </div>
                     <div className="position-relative">
                       <i className="btn  position-absolute  ">

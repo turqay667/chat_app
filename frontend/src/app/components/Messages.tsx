@@ -86,9 +86,7 @@ setLoading(false)
                   <div className="d-flex gap-4">                   
                     <div className={colors}>{message.message}</div>                           
                   </div>
-                  <div className="d-flex justify-between gap-3">
-
-                
+                  <div className="d-flex justify-between gap-3"> 
                     <p className='d-flex justify-content-end'> 
                       {new Date(message.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
                      </p> 
