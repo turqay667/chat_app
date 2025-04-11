@@ -506,11 +506,11 @@ figure {
   padding: 2px;
   cursor: pointer;
 }
-.message .dropdown {
-  display: none;
+.message .dropdown { 
+  opacity: 0;
 }
 .message:hover .dropdown {
-  display: block;
+  opacity: 1;
 }
 .message .message-content {
   border-radius: 8px 8px 0px 8px;
