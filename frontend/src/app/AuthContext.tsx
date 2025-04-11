@@ -21,16 +21,20 @@ const AuthProvider=({children}:ContextProps)=>{
  
 const [user,setUser]=useState<User | null>(null);
 const [token,setToken]=useState<string>('')
+
 useEffect(()=>{
-    const storedUserInfo= JSON.parse(window.localStorage.getItem('userInfo') || '{}')
-    setUser(storedUserInfo.data)
-    setToken(storedUserInfo.data?.token || '')
+    const userrInfo= window.localStorage.getItem('userInfo')
+    if(userrInfo){
+        const userInfo=JSON.parse(userrInfo)
+        setUser(userInfo.data.token)
+        setToken(userInfo.data.token)
+    }
 },[])
 
 return(
-        <AuthContext value={{user,setUser, token, setToken}}>
+        <AuthContext.Provider value={{user,setUser, token, setToken}}>
             {children}
-            </AuthContext>  
+            </AuthContext.Provider>  
 )
 }
 export default AuthProvider;

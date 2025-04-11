@@ -1,4 +1,4 @@
-import { useState, useContext, useRef} from "react"
+import { useState, useContext, useRef, useEffect} from "react"
 import { ApiContext } from "../ApiContext"
 import { ThemeContext } from "../ThemeContext"
 import { CiEdit } from "react-icons/ci";
@@ -6,6 +6,7 @@ import axios from "axios";
 import type { User } from "./Chats";
 // import Image from "next/image";
 import { AuthContext } from "../AuthContext";
+;
 
 type Props={
   setFilteredUsers:React.Dispatch<React.SetStateAction<User[]>>
@@ -16,15 +17,20 @@ const Settings=({setFilteredUsers}:Props)=>{
   const {theme}=useContext(ThemeContext)
   const {user, token}=useContext(AuthContext)
   const [edit,setEdit]=useState(false)
-  const [password,setPassword]=useState(user?.password || "secret")
+  // const [password,setPassword]=useState(user?.password)
   // const [about,setAbout]=useState(user?.about || 'change your thoughts and you change your world')
-  const [image,setImage]=useState(user?.image || "user-profile.png")
-  const [username,setUsername]=useState(user?.username || "turqay") 
+  const [image,setImage]=useState(user?.image)
+  const [username,setUsername]=useState(user?.username) 
   const userId=user ? user._id : null
   const userRef=useRef<HTMLInputElement>(null)
   const passRef=useRef<HTMLInputElement>(null)
   // const aboutRef=useRef<HTMLTextAreaElement>(null)
-
+useEffect(()=>{
+if(user){
+  setUsername(user.username)
+  setImage(user.image)
+}
+},[user])
 
     const handleImage = async(e:React.ChangeEvent<HTMLInputElement>)=>{
       e.preventDefault()
@@ -34,17 +40,18 @@ const Settings=({setFilteredUsers}:Props)=>{
     formData.append('image', file)
 
     try{
- const result=  await axios.put(`${apiUrl}/profile/${userId}`, formData, {
+ const result  = await axios.put(`${apiUrl}/api/profile/${userId}`, formData, {
         headers:{
          Authorization:`Bearer ${token}`,
         "Content-Type":"multipart/form-data",
         }
     })
-     setImage(result.data.user.image)
-     console.log(result.data.user.image)
-     window.localStorage.setItem('userInfo',JSON.stringify({...user, image:file.name}))
+
+     const newImage=result.data.user.image
+     setImage(newImage)
+     window.localStorage.setItem('userInfo',JSON.stringify({...user, image:newImage}))
      setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
-     item._id===userId ? {...item, image:file.name} : item))
+     item._id===userId ? {...item, image:newImage} : item))
      setEdit(false)
     }
     
@@ -55,7 +62,7 @@ const Settings=({setFilteredUsers}:Props)=>{
     const handleProfile=async(e:React.FormEvent)=>{
       e.preventDefault()
       try{
-      await axios.put(`${apiUrl}/profile/${userId}`, {username}, {
+      await axios.put(`${apiUrl}/api/profile/${userId}`, {username}, {
           headers:{
           "Content-Type":"application/json",
           "Authorization":`Bearer ${token}`
@@ -82,7 +89,9 @@ const Settings=({setFilteredUsers}:Props)=>{
       const handleCancel=()=>{
         setEdit(false)
       }
+      console.log(user)
     return (
+ 
         <>
         <div className="sidebar-left tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
           <div className="header">
@@ -99,9 +108,10 @@ const Settings=({setFilteredUsers}:Props)=>{
               <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
                 <div className="profile-img d-flex justify-content-center">
                   <div className="position-relative">     
-                    <img src={`${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
+    
+                    <img src={`http://localhost:5000/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
                       <label htmlFor="image">
-                      <input type="file" accept="image" name="image" id="image" onChange={handleImage}/>
+                      <input type="file"  name="image" id="image" onChange={handleImage}/>
                       <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}><CiEdit /></a>
                       {}
                       </label>
@@ -122,13 +132,13 @@ const Settings=({setFilteredUsers}:Props)=>{
                   edit ?  <></> : <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={()=>handleEdit('')}><CiEdit   /></a>
                  }             
                 </div>
-                <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="password">Password</label>  
+                {/* <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="password">Password</label>  
                 <div className="d-flex justify-content-evenly align-items-center" >
-                  <input className="w-full"  ref={passRef}  value={password} type="password" readOnly={edit ? false : true}  onChange={(e)=>setPassword(e.target.value)} id="password"/>
+                  <input className="w-full"  ref={passRef}  type="password" readOnly={edit ? false : true}  onChange={(e)=>setPassword(e.target.value)} id="password"/>
                   {
                   edit ?  <></> : <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={()=>handleEdit("password")}><CiEdit   /></a>
                  }  
-                </div>
+                </div> */}
                 {
                   edit ? 
                    <div className="d-flex mt-5 gap-3">

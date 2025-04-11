@@ -7,7 +7,7 @@ type ApiContextType={
 export const ApiContext=createContext<ApiContextType>({
 apiUrl:'',
 })
-const apiUrl=process.env.NODE_ENV==='production' ? 'https://chat-app-64fc.onrender.com/api' : 'http://localhost:5000/api'
+const apiUrl=process.env.NODE_ENV==='production' ? 'https://chat-app-64fc.onrender.com' : 'http://localhost:5000'
 type ApiProviderProps={
   children:ReactNode
 }

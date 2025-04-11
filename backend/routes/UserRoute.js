@@ -10,11 +10,11 @@ const multer = require('multer')
 const bcrypt=require('bcryptjs')
 
 const storage= multer.diskStorage({
-    destination:(req,ref,cb)=>{
-        cb(null,'')
+    destination:(req,file,cb)=>{
+        cb(null,'uploads')
     },
-    filename:(req,ref,cb)=>{
-        cb(null,`${ref.originalname}`)
+    filename:(req,file,cb)=>{
+        cb(null,`${file.originalname}`)
     }
     })
 const upload=multer({storage:storage})

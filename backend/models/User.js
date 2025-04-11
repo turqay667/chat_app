@@ -26,7 +26,7 @@ const userSchema=moongose.Schema(
         // },
         image:{
             type:String,
-            default:'user-profile.png',
+            default:'uploads/user-profile.png',
             required:false,
         },
         role:{

@@ -60,7 +60,7 @@ const Contacts=({handleSearch, filteredUsers, blocked, setBlocked, selectedUser,
 
     const handleDelete= async ()=>{
       try{
-        await axios.delete(`${apiUrl}/users/${selectedUser?._id}`,
+        await axios.delete(`${apiUrl}/api/users/${selectedUser?._id}`,
           {
           headers:{
             "Content-Type":"application/json",

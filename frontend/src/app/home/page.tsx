@@ -66,7 +66,7 @@ function Chat() {
   }, [user]);
 
   useEffect(() => {
-    fetch(`${apiUrl}/`)
+    fetch(`${apiUrl}/api/`)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
@@ -77,19 +77,8 @@ function Chat() {
   }, []);
 
   useEffect(() => {
-    if (!selectedUser) return;
-    const fetching = async () => {
-      const response = await fetch(`${apiUrl}/messages/${selectedUser?._id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setMessages(data);
-    };
-
     const fetchingAll = async () => {
-      const response = await fetch(`${apiUrl}/messages/`, {
+      const response = await fetch(`${apiUrl}/api/messages/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,8 +86,19 @@ function Chat() {
       const data = await response.json();
       setAllMessages(data);
     };
-    fetching();
     fetchingAll();
+    if (!selectedUser) return;
+    const fetching = async () => {
+      const response = await fetch(`${apiUrl}/api/messages/${selectedUser?._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setMessages(data);
+    };
+    fetching();
+
     socket.on("message", (data) => {
       if (data.sender === selectedUser._id) {
         setMessages((prevMessage) => {
@@ -185,7 +185,7 @@ function Chat() {
       }
       try {
         const response = await axios.post(
-          `${apiUrl}/messages/${selectedUser?._id}`,
+          `${apiUrl}/api/messages/${selectedUser?._id}`,
           formData,
           {
             headers: {
@@ -225,7 +225,7 @@ function Chat() {
       "0"
     )}`;
   };
-
+console.log(selectedUser)
   return (
     <>
       <div>
@@ -251,19 +251,8 @@ function Chat() {
           )}
           {showChat === true ? (
             <>
-              <div
-                className={
-                  showSidebar
-                    ? `${
-                        theme === "dark" ? "chatDark" : "chatLight"
-                      } chat-body col`
-                    : `${
-                        theme === "dark" ? "chatDark" : "chatLight"
-                      } chat-body col-12`
-                }
-                id="chatbody"
-              >
-                {selectedUser && (
+              <div className={ `${theme === "dark" ? "chatDark" : "chatLight"} chat-body col-12}` } id="chatbody">
+                {selectedUser ? (
                   <>
                     <Header
                       theme={theme}
@@ -287,17 +276,8 @@ function Chat() {
                       />
                       {loading ? <></> : <></>}
                     </div>
-                    <div
-                      className={`${
-                        theme === "dark" ? "borderDark" : "borderLight"
-                      } msg-body p-3 p-lg-4`}
-                    >
-                      <form
-                        onSubmit={handleSubmit}
-                        className={
-                          theme === "dark" ? "form-dark" : "form-light"
-                        }
-                      >
+                    <div className={`${ theme === "dark" ? "borderDark" : "borderLight"} msg-body p-3 p-lg-4`}>
+                      <form onSubmit={handleSubmit} className={ theme === "dark" ? "form-dark" : "form-light"}>
                         <div className="d-flex align-items-center justify-center">
                           <div className="col-md-2 justify-content-center align-items-center icons">
                             <div className="d-flex justify-content-center align-items-center gap-2">
@@ -344,12 +324,7 @@ function Chat() {
                           </div>
 
                           <div
-                            className={`${
-                              theme === "dark"
-                                ? "background-light text-mute"
-                                : "background-dark text-muted"
-                            } d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}
-                          >
+                            className={`${theme === "dark" ? "background-light text-mute": "background-dark text-muted"} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
                             {recording ? (
                               <div className="d-flex gap-2">
                                 <button
@@ -407,16 +382,18 @@ function Chat() {
                     </div>
                   </>
                
-                )}
+                ) : <>
+                    <div className="starting">
+                    <h2 className="text-center text-white"> Select chat to start conversation</h2>
+                    </div>
+                
+                </>}
               </div>
             </>
           ) : (
             <>
            
-                {/* <div className="starting">
-                    <h2 className="text-center text-white"> Select chat to start conversation</h2>
-
-                    </div> */}
+            
             </>
           )}
         </div>

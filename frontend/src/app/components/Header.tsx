@@ -32,7 +32,7 @@ const handleMute=()=>{
 
 const handleDelete=async()=>{
   try{
-    await axios.delete(`${apiUrl}/messages/${selectedUser._id}`, {
+    await axios.delete(`${apiUrl}/api/messages/${selectedUser._id}`, {
      headers:{
        "Content-Type":"application/json",
        "Authorization":`Bearer ${token}`

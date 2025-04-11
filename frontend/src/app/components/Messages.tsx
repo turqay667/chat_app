@@ -44,7 +44,7 @@ setLoading(false)
 
   const handleDelete=async()=>{
     try{
-      await axios.delete(`${apiUrl}/messages/message/${selectedMessage}`, {
+      await axios.delete(`${apiUrl}/api/messages/message/${selectedMessage}`, {
        headers:{
          "Content-Type":"application/json",
          "Authorization":`Bearer ${token}`

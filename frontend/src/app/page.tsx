@@ -27,7 +27,7 @@ export default function Home() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${apiUrl}/auth/`,
+        `${apiUrl}/api/auth/`,
         { username, email, password },
         {
           headers: { "Content-Type": "application/json" },
