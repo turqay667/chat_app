@@ -53,7 +53,6 @@ setLoading(false)
        setMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
        setAllMessages((prevMessages)=>prevMessages.filter((message)=>message._id!==selectedMessage))
      }
-   
      catch(err){
        console.log(err)
      }

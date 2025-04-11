@@ -15,8 +15,7 @@ const Sidebar=()=>{
        localStorage.removeItem("userInfo")
        socket.disconnect()
         redirect("/login") 
-      }
-      
+      } 
     return (
         <>
         <div className="sidebar"  id="sidebar">

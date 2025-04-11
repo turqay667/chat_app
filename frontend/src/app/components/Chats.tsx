@@ -34,7 +34,6 @@ const Chats=({allMessages, selectedUser,setSelectedUser, setShowSidebar, blocked
 const {theme}=useContext(ThemeContext)
 const {user}=useContext(AuthContext)
 const [search, setSearch]=useState('')
-console.log(allMessages)
 const {apiUrl}=useContext(ApiContext)
 const handleSearch=()=>{
 if(search===''){

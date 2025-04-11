@@ -224,7 +224,7 @@ function Chat() {
       "0"
     )}`;
   };
-console.log(selectedUser)
+
   return (
     <>
       <div>
@@ -279,7 +279,7 @@ console.log(selectedUser)
                       <form onSubmit={handleSubmit} className={ theme === "dark" ? "form-dark" : "form-light"}>
                         <div className="d-flex align-items-center justify-center">
                           <div className="col-md-2 justify-content-center align-items-center icons">
-                            <div className="d-flex justify-content-center align-items-center gap-2">
+                            <div className="d-flex justify-content-center align-items-center">
                               <label htmlFor="files">
                                 <a className="btn rounded-circle text-white">
                                   <BsImage fontSize={28} />

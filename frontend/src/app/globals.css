@@ -186,12 +186,7 @@ select {
 .form-light .icons svg {
   color: #475569 !important;
 }
-.form-dark a {
-  background: rgba(54, 64, 74) !important;
-}
-.form-light .icons a {
-  background: #e2e8f0 !important;
-}
+
 .search-form {
   position: relative;
 }
