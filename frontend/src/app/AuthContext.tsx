@@ -26,8 +26,11 @@ useEffect(()=>{
     const userrInfo= window.localStorage.getItem('userInfo')
     if(userrInfo){
         const userInfo=JSON.parse(userrInfo)
-        setUser(userInfo.data)
-        setToken(userInfo.data.token || '')
+        if(userInfo?.data){
+            setUser(userInfo.data)
+            setToken(userInfo.data.token || '')
+        }
+ 
     }
   
 },[])

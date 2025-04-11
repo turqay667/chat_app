@@ -16,7 +16,7 @@ const Settings=({setFilteredUsers}:Props)=>{
   const {apiUrl}=useContext(ApiContext)
   const {theme}=useContext(ThemeContext)
   const {user, token}=useContext(AuthContext)
-  const [edit,setEdit]=useState(false)
+  const [edit,setEdit]=useState(true)
   // const [password,setPassword]=useState(user?.password)
   // const [about,setAbout]=useState(user?.about || 'change your thoughts and you change your world')
   const [image,setImage]=useState(user?.image)
@@ -78,7 +78,7 @@ if(user){
       }
       }
       const handleEdit=(field:string)=>{
-      setEdit(true)
+        setEdit(false)
         if(userRef.current){
           userRef.current.focus()          
         }   
@@ -87,7 +87,8 @@ if(user){
         }   
       }
       const handleCancel=()=>{
-        setEdit(false)
+        setEdit(true)
+        setUsername(user?.username)
       }
       console.log(user)
     return (
@@ -108,7 +109,6 @@ if(user){
               <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
                 <div className="profile-img d-flex justify-content-center">
                   <div className="position-relative">     
-    
                     <img src={`http://localhost:5000/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
                       <label htmlFor="image">
                       <input type="file"  name="image" id="image" onChange={handleImage}/>
@@ -117,36 +117,20 @@ if(user){
                       </label>
                   </div>
                 </div>
-                {/* <h5 className="text-center">{user.username}</h5>  */}
               </div>
               <div className='user-content'>
-                {/* <label className={ theme==='light' ? 'text-muted' : 'text-mute' } htmlFor="about">About</label>
-                <div className="d-flex justify-content-evenly align-items-center gap-5"> 
-                  <textarea className="w-full" id="about" ref={aboutRef}  value={about} rows={2}  cols={3}  onChange={(e)=>setAbout(e.target.value)} maxLength={50}/> 
-                  <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={()=>handleEdit()}><CiEdit   /></a>    
-                </div> */}
                 <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label>  
-                <div className="d-flex justify-content-evenly align-items-center" >
-                  <input className="w-full"  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)} readOnly={edit ? false : true} id="username"/>
-                 {
-                  edit ?  <></> : <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={()=>handleEdit('')}><CiEdit   /></a>
-                 }             
+                <div>
+                  <input className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2 mt-2`}  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)}  id="username" onKeyUp={()=>handleEdit('')}/>         
                 </div>
-                {/* <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="password">Password</label>  
-                <div className="d-flex justify-content-evenly align-items-center" >
-                  <input className="w-full"  ref={passRef}  type="password" readOnly={edit ? false : true}  onChange={(e)=>setPassword(e.target.value)} id="password"/>
-                  {
-                  edit ?  <></> : <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"} onClick={()=>handleEdit("password")}><CiEdit   /></a>
-                 }  
-                </div> */}
                 {
                   edit ? 
-                   <div className="d-flex mt-5 gap-3">
+                   <></>
+                  :
+                  <div className="d-flex mt-5 gap-3">
                      <button type="submit" className="px-5 py-2 btn btn-dark text-white">Update</button> 
                      <button  className="px-5 py-2 btn btn-danger text-white" onClick={handleCancel}>Cancel</button> 
                    </div>  
-                  :
-                   <></>
                 }
               </div>
            </> ):<></>}

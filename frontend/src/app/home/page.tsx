@@ -360,11 +360,10 @@ console.log(selectedUser)
                         </div>
                       </form>
                     </div>
-                  </>
-               
+                  </>              
                 ) : <>
                     <div className="starting">
-                    <h2 className="text-center text-white"> Select chat to start conversation</h2>
+                    <h2 className="text-center text-white"> Select a chat to start conversation</h2>
                     </div>
                 
                 </>}
