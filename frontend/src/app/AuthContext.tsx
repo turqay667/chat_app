@@ -27,8 +27,9 @@ useEffect(()=>{
     if(userrInfo){
         const userInfo=JSON.parse(userrInfo)
         setUser(userInfo.data.token)
-        setToken(userInfo.data.token)
+        setToken(userInfo.data.token || '')
     }
+    console.log(userrInfo)
 },[])
 
 return(
