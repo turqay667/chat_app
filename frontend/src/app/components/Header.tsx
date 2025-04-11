@@ -54,7 +54,7 @@ const handleBack=()=>{
         <div className={`${theme==='dark' ? 'borderDark' : 'borderLight'} chat-header  p-3 p-lg-4 d-flex align-items-center`} >
           <div className="col-md-4 col-9">
             <div className="chat-user">
-              <div className="d-flex justify-content-center align-items-center gap-1">
+              <div className="d-flex justify-content-center align-items-center gap-3">
                 <div className="d-block d-lg-none"><FaArrowLeft fontSize={24} onClick={handleBack}/></div>
                 <a className="position-relative">
                 <Image src="/user-profile.png" className="avatar" alt="user" width={60} height={60} priority={true}/>
