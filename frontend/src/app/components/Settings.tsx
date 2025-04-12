@@ -109,7 +109,7 @@ if(user){
               <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
                 <div className="profile-img d-flex justify-content-center">
                   <div className="position-relative">     
-                    <img src={`http://localhost:5000/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
+                    <img src={`${apiUrl}/${image}`} className={`${theme==="dark" ? 'border-lighted' :'border-grey'} rounded-circle avatar`} alt="user" width={100} height={100} loading="lazy" /> 
                       <label htmlFor="image">
                       <input type="file"  name="image" id="image" onChange={handleImage}/>
                       <a className={theme==='dark' ? 'btn btn_light' : "btn btn_dark"}><CiEdit /></a>
