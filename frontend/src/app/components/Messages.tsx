@@ -3,7 +3,6 @@ import { ApiContext } from "../ApiContext";
 import axios from "axios";
 import { BsTrash,BsThreeDotsVertical } from "react-icons/bs";
 import { BiSolidEdit } from "react-icons/bi";
-import Loading from "../Loading";
 import Image from "next/image";
 import type { User } from "./Chats";
 import { AuthContext } from "../AuthContext";
@@ -30,7 +29,6 @@ type MessageProps={
 
 const Messages = ({ user, theme,  messages, setMessages, setAllMessages}:MessageProps) => {
 
-  const [loading, setLoading]=useState(true)
   const {apiUrl} = useContext(ApiContext)
   const {token}=useContext(AuthContext)
   const [selectedMessage, setSelectedMessage] = useState<number>()
@@ -38,7 +36,6 @@ const Messages = ({ user, theme,  messages, setMessages, setAllMessages}:Message
 
 useEffect(()=>{
 setTimeout(()=>{
-setLoading(false)
 },1500)
   },[])
 
@@ -60,7 +57,6 @@ setLoading(false)
   return (
     <div className="messages">
     {
-      loading ? <Loading/> :
        <>
       {messages.length>0 ? (
        messages.map((message:Message) => {

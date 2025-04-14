@@ -37,7 +37,6 @@ function Chat() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [users, setUsers] = useState([]);
   const [allMessages, setAllMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const { apiUrl } = useContext(ApiContext);
   const { user, token } = useContext(AuthContext);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -71,7 +70,6 @@ function Chat() {
         setUsers(data);
         // setSelectedUser(data[0])
         setFilteredUsers(data);
-        setLoading(false);
       });
   }, []);
 
@@ -273,7 +271,6 @@ function Chat() {
                         onlineUsers={onlineUsers}
                         setAllMessages={setAllMessages}
                       />
-                      {loading ? <></> : <></>}
                     </div>
                     <div className={`${ theme === "dark" ? "borderDark" : "borderLight"} msg-body p-3 p-lg-4`}>
                       <form onSubmit={handleSubmit} className={ theme === "dark" ? "form-dark" : "form-light"}>

@@ -6,7 +6,6 @@ import axios from "axios";
 import type { User } from "./Chats";
 // import Image from "next/image";
 import { AuthContext } from "../AuthContext";
-;
 
 type Props={
   setFilteredUsers:React.Dispatch<React.SetStateAction<User[]>>
@@ -17,18 +16,16 @@ const Settings=({setFilteredUsers}:Props)=>{
   const {theme}=useContext(ThemeContext)
   const {user, token}=useContext(AuthContext)
   const [edit,setEdit]=useState(true)
-  // const [password,setPassword]=useState(user?.password)
   // const [about,setAbout]=useState(user?.about || 'change your thoughts and you change your world')
-  const [image,setImage]=useState(user?.image)
-  const [username,setUsername]=useState(user?.username) 
+  const [image,setImage]=useState(user?.image || '')
+  const [username,setUsername]=useState(user?.username || '') 
   const userId=user ? user._id : null
   const userRef=useRef<HTMLInputElement>(null)
-  const passRef=useRef<HTMLInputElement>(null)
   // const aboutRef=useRef<HTMLTextAreaElement>(null)
 useEffect(()=>{
 if(user){
-  setUsername(user.username)
-  setImage(user.image)
+  setUsername(user.username || '')
+  setImage(user.image || '')
 }
 },[user])
 
@@ -71,26 +68,24 @@ if(user){
         window.localStorage.setItem('userInfo',JSON.stringify({...user, username}))
         setFilteredUsers((prevUsers)=>prevUsers.map((item)=>
         item._id===userId ? {...item, username} : item))      
-         setEdit(false)  
+         setEdit(true)  
+         setUsername(username)
+         console.log(username)
       }      
       catch(err){
           console.log(err)
       }
       }
-      const handleEdit=(field:string)=>{
+      const handleEdit=()=>{
         setEdit(false)
         if(userRef.current){
           userRef.current.focus()          
         }   
-        if(field==="password" && passRef.current){
-         passRef.current.focus()          
-        }   
       }
       const handleCancel=()=>{
         setEdit(true)
-        setUsername(user?.username)
+        setUsername(user?.username || '')
       }
-      console.log(user)
     return (
  
         <>
@@ -104,7 +99,6 @@ if(user){
           </div>
         <div>
           <form onSubmit={handleProfile} id="prof">
-            {  user ? (           
              <>
               <div className={theme==='dark' ? 'user-profile border-secondary' : 'user-profile border-red'}>         
                 <div className="profile-img d-flex justify-content-center">
@@ -121,7 +115,7 @@ if(user){
               <div className='user-content'>
                 <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label>  
                 <div>
-                  <input className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2 mt-2`}  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)}  id="username" onKeyUp={()=>handleEdit('')}/>         
+                  <input className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2 mt-2`}  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)}  id="username" onKeyUp={()=>handleEdit()}/>         
                 </div>
                 {
                   edit ? 
@@ -129,11 +123,11 @@ if(user){
                   :
                   <div className="d-flex mt-5 gap-3">
                      <button type="submit" className="px-5 py-2 btn btn-dark text-white">Update</button> 
-                     <button  className="px-5 py-2 btn btn-danger text-white" onClick={handleCancel}>Cancel</button> 
+                     <button  type="button" className="px-5 py-2 btn btn-danger text-white" onClick={handleCancel}>Cancel</button> 
                    </div>  
                 }
               </div>
-           </> ):<></>}
+           </> 
           </form>
         </div> 
       </div>

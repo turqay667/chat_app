@@ -70,6 +70,7 @@ if(chat){
                filteredUsers.map((item)=>{
                const userMessages=allMessages.filter((message:Message)=> message.sender===item._id && message.receiver===user?._id ||  message.sender===user?._id && message.receiver===item._id )
                const lastMessage=userMessages.slice(-1)[0]
+               const lastMsg= lastMessage.image ? 'Image' : lastMessage.audio ? 'Audio' : lastMessage.message
                return (        
                <div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(item)}  key={item._id}>
                  <div className="user position-relative" onClick={handleUser}>
@@ -83,7 +84,7 @@ if(chat){
                          <h5 className="text-truncate">You</h5>      
                        : <h5 className="text-truncate">{item.username}</h5>  } 
                          <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
-                           { lastMessage?.message || ''}
+                  {lastMsg || ''}
                          </div>
                         </div>      
                       </div>             
