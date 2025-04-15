@@ -15,6 +15,7 @@ const Settings=({setFilteredUsers}:Props)=>{
   const {apiUrl}=useContext(ApiContext)
   const {theme}=useContext(ThemeContext)
   const {user, token}=useContext(AuthContext)
+  // const [newPassword, setNewPassword]=useState('')
   const [edit,setEdit]=useState(true)
   // const [about,setAbout]=useState(user?.about || 'change your thoughts and you change your world')
   const [image,setImage]=useState(user?.image || '')
@@ -112,10 +113,14 @@ if(user){
                 </div>
               </div>
               <div className='user-content'>
-                <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label>  
                 <div>
+                <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label> 
                   <input className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2 mt-2`}  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)}  id="username" onKeyUp={()=>handleEdit()}/>         
                 </div>
+                {/* <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">New password</label>  
+                <div>
+                  <input className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2 mt-2`}  ref={userRef}  value={newPassword}    onChange={(e)=>setUsername(e.target.value)}  id="username" onKeyUp={()=>handleEdit()}/>         
+                </div> */}
                 {
                   edit ? 
                    <></>

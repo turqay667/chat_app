@@ -87,7 +87,7 @@ if(chat){
                          <h5 className="text-truncate">You</h5>      
                        : <h5 className="text-truncate">{item.username}</h5>  } 
                        <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
-                        {lastMsg || ''}
+                        {lastMsg || 'No messages yet'}
                       </div>
                     </div>      
                   </div>             

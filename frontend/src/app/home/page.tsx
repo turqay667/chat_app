@@ -305,6 +305,7 @@ function Chat() {
                                 <input type="file" id="files" onChange={handleAttach} accept="image/*"/>
                                 {}
                               </label>
+                              
                               <div className="dropup">
                                 <a className="btn rounded-circle text-white" data-bs-toggle="dropdown" id="emojiMenu"> <BsEmojiSmile fontSize={28} />{" "}</a>
                                 <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu">
@@ -322,7 +323,6 @@ function Chat() {
                           </div>
                           <div className={`${theme === "dark" ? "background-light text-mute": "background-dark text-muted"} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
                               <>
-                              <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg" onChange={(e) => setItem(e.target.value)}/>
                               {attach  ? (
                               <p className="attached">Image</p>
                             ) : (
@@ -333,13 +333,12 @@ function Chat() {
                             ) : (
                              <></>
                             )} 
+                              <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg" onChange={(e) => setItem(e.target.value)}/>
+                        
                               <button type="button" className="position-relative" aria-label="audio">
                               <HiOutlineMicrophone onClick={handleAudio} className="text-3xl" id="record"/>
                               </button>
-                              </>      
-                                                   
-                          
-                                                 
+                              </>                                                                                                       
                             <audio src="beep.mp3" ref={audioRef}></audio>
                             <button type="submit" className="pr-2.5 " aria-label="send"> <BsSend className="stopped text-2xl" /></button>
                           </div>

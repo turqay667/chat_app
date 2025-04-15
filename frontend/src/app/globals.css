@@ -537,7 +537,6 @@ right: 2px;
 
 .message img {
   height: 100px;
-  width: 100% !important;
   max-width: 150px !important;
 }
 .contact-actions a svg {
