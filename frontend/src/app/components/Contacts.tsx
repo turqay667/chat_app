@@ -1,6 +1,6 @@
 import { BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { CgUnblock } from "react-icons/cg";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../ThemeContext";
 import axios from "axios"
 import { BiSearch, BiBlock } from "react-icons/bi";
@@ -13,7 +13,7 @@ import { AuthContext } from "../AuthContext";
 
 type Props={
   selectedUser:User | null,
-  handleSearch:()=>void
+  handleSearch:(e:React.FormEvent)=>void
   setSelectedUser:(selected:User)=>void
   blocked:boolean,
   setBlocked:(blocked:boolean)=>void,

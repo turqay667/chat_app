@@ -172,9 +172,6 @@ function Chat() {
     const emoji = e.target as HTMLButtonElement;
     setItem(emoji.value);
   };
-
-
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!item && !image && !record) return;
@@ -281,10 +278,8 @@ function Chat() {
                         setAllMessages={setAllMessages}
                       />
                     </div>
-                    <div className={`${ theme === "dark" ? "borderDark" : "borderLight"} msg-body p-3 p-lg-4`}>
-                
-                      <form onSubmit={handleSubmit} className={ theme === "dark" ? "form-dark" : "form-light"}>
-                     
+                    <div className={`${ theme === "dark" ? "borderDark" : "borderLight"} msg-body p-3 p-lg-4`}>               
+                      <form onSubmit={handleSubmit} className={ theme === "dark" ? "form-dark" : "form-light"}>                     
                         <div className="d-flex align-items-center justify-center">
                         {recording ? (
                           <>
@@ -296,7 +291,7 @@ function Chat() {
                              <button className="btn btn-primary" aria-label="stop" onClick={handleStop} >
                              <FaRegStopCircle fontSize={24} />
                              </button>
-                             <button className="btn btn-danger" onClick={handleCancel}><FaTrash fontSize={24}/></button>
+                             <button className="btn btn-danger"  aria-label="cancel" onClick={handleCancel}><FaTrash fontSize={24}/></button>
                            </div>
                           </>
                     ) : (
@@ -328,20 +323,21 @@ function Chat() {
                           <div className={`${theme === "dark" ? "background-light text-mute": "background-dark text-muted"} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
                               <>
                               <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg" onChange={(e) => setItem(e.target.value)}/>
-                              {attach || record ? (
-                              <p className="attached">Attached</p>
+                              {attach  ? (
+                              <p className="attached">Image</p>
                             ) : (
                              <></>
                             )}  
+                              {record ? (
+                              <p className="attached"> Audio</p>
+                            ) : (
+                             <></>
+                            )} 
                               <button type="button" className="position-relative" aria-label="audio">
                               <HiOutlineMicrophone onClick={handleAudio} className="text-3xl" id="record"/>
                               </button>
                               </>      
-                              {/* {record ? (
-                              <p className="attached">Attached Audio</p>
-                            ) : (
-                             <></>
-                            )}                         */}
+                                                   
                           
                                                  
                             <audio src="beep.mp3" ref={audioRef}></audio>

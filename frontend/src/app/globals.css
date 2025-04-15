@@ -516,6 +516,14 @@ figure {
   border-radius: 8px 8px 0px 8px;
   padding: 10px 15px;
   text-align: right;
+  align-items: center;
+  margin-bottom: inherit;
+}
+.message message-content a p{
+bottom: 5px;
+right: 2px;
+}
+.message .message-content p{
   margin-bottom: inherit;
 }
 .message-content .btn {
