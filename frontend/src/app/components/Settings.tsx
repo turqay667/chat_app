@@ -43,7 +43,6 @@ if(user){
         "Content-Type":"multipart/form-data",
         }
     })
-
      const newImage=result.data.user.image
      setImage(newImage)
      window.localStorage.setItem('userInfo',JSON.stringify({...user, image:newImage}))

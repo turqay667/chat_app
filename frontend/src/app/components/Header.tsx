@@ -64,8 +64,6 @@ const handleBack=()=>{
               <div>
                 {selectedUser?.username===user?.username ?   <h5>You</h5> : <h5>{selectedUser?.username}</h5>}
                 <div className="text-muted" id="typing">
-                
-                  
                   </div>  
               </div>
            </div>

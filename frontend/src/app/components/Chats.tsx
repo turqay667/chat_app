@@ -21,6 +21,7 @@ type Props={
     selectedUser:User | null,
     allMessages:Message[],
     filteredUsers:User[],
+    messageCount:number,
     setFilteredUsers:React.Dispatch<React.SetStateAction<User[]>>,
     setSelectedUser:(selected:User)=>void
     setShowSidebar:(showSidebar:boolean)=>void
@@ -30,12 +31,14 @@ type Props={
 }
 
 
-const Chats=({allMessages, selectedUser,setSelectedUser, setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setShowChat}:Props)=>{
+const Chats=({allMessages, selectedUser,setSelectedUser, messageCount, setShowSidebar, blocked, setBlocked , filteredUsers,setFilteredUsers, users, setShowChat}:Props)=>{
 const {theme}=useContext(ThemeContext)
 const {user}=useContext(AuthContext)
 const [search, setSearch]=useState('')
+
 const {apiUrl}=useContext(ApiContext)
-const handleSearch=()=>{
+const handleSearch=(e:React.FormEvent)=>{
+  e.preventDefault()
 if(search===''){
 setFilteredUsers(users)
 }
@@ -66,38 +69,38 @@ if(chat){
               </div>     
              <div className="sidebar-body">
                <div className="users">    
-               {
-               filteredUsers.map((item)=>{
-               const userMessages=allMessages.filter((message:Message)=> message.sender===item._id && message.receiver===user?._id ||  message.sender===user?._id && message.receiver===item._id )
-               const lastMessage=userMessages.slice(-1)[0]
-               const lastMsg= lastMessage.image ? 'Image' : lastMessage.audio ? 'Audio' : lastMessage.message
-               return (        
-               <div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(item)}  key={item._id}>
-                 <div className="user position-relative" onClick={handleUser}>
-                   <div className="d-flex align-items-center justify-content-between">                 
-                     <div className="notifies d-flex pl-3 justify-content-between">                                     
-                       <a className="position-relative">
-                         <img src={`${apiUrl}/${item.image}`}  className="avatar"  alt="user" width={100} height={100}/>
-                       </a>              
+                {
+                filteredUsers.map((item)=>{
+                const userMessages=allMessages.filter((message:Message)=> message.sender===item._id && message.receiver===user?._id ||  message.sender===user?._id && message.receiver===item._id )
+                const lastMessage=userMessages.slice(-1)[0]
+                const lastMsg= lastMessage?.image ? 'Image' : lastMessage?.audio ? 'Audio' : lastMessage?.message
+                return (        
+                <div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(item)}  key={item._id}>
+                  <div className="user position-relative" onClick={handleUser}>
+                    <div className="d-flex align-items-center justify-content-between">                 
+                      <div className="notifies d-flex pl-3 justify-content-between">                                     
+                        <a className="position-relative">
+                          <img src={`${apiUrl}/${item.image}`}  className="avatar"  alt="user" width={100} height={100}/>
+                        </a>              
                        <div className="d-flex flex-column justify-center">
                          { item.username===user?.username  ? 
                          <h5 className="text-truncate">You</h5>      
                        : <h5 className="text-truncate">{item.username}</h5>  } 
-                         <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
-                  {lastMsg || ''}
-                         </div>
-                        </div>      
-                      </div>             
+                       <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
+                        {lastMsg || ''}
+                      </div>
+                    </div>      
+                  </div>             
                     <div>
                       {
                        lastMessage ?  <h5 className="sented">{new Date(lastMessage.createdAt).toLocaleTimeString('en-US', { hour:"numeric",minute:"numeric"})}</h5> : ''
                       }
-  
-                      <div>
-                      </div>
-                    </div>
+                     <div>
+                      {messageCount>0  ? <span className="message-count d-none">{messageCount}</span> : ''}
                 </div>
-           </div>
+              </div>
+          </div>
+        </div>
          </div>
 )})
   }

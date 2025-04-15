@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
-import { FaRegStopCircle } from "react-icons/fa";
+import { FaRegStopCircle, FaTrash } from "react-icons/fa";
 import { ThemeContext } from "../ThemeContext";
 import axios from "axios";
 import Messages from "../components/Messages";
@@ -37,6 +37,7 @@ function Chat() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [users, setUsers] = useState([]);
   const [allMessages, setAllMessages] = useState<Message[]>([]);
+  const [messageCount, setMessageCount]=useState<number>(0)
   const { apiUrl } = useContext(ApiContext);
   const { user, token } = useContext(AuthContext);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -97,9 +98,11 @@ function Chat() {
     fetching();
 
     socket.on("message", (data) => {
+      setMessageCount((prevCount)=>(prevCount+1))
       if (data.sender === selectedUser._id) {
         setMessages((prevMessage) => {
           if (!prevMessage.some((item) => item._id === data._id)) {
+          
             return [...prevMessage, data];
           }
           return prevMessage;
@@ -111,6 +114,10 @@ function Chat() {
     };
   }, [selectedUser, token, apiUrl]);
 
+  const handleCancel=()=>{
+    setRecording(false)
+    setRecord('')
+  }
   const formData = new FormData();
   const handleAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -126,6 +133,7 @@ function Chat() {
   };
 
   const handleAudio = async () => {
+    setItem('');
     setRecording(true);
     try {
       setTimer(0);
@@ -237,6 +245,7 @@ function Chat() {
                 blocked={blocked}
                 setBlocked={setBlocked}
                 users={users}
+                messageCount={messageCount}
                 filteredUsers={filteredUsers}
                 setFilteredUsers={setFilteredUsers}
                 allMessages={allMessages}
@@ -273,10 +282,27 @@ function Chat() {
                       />
                     </div>
                     <div className={`${ theme === "dark" ? "borderDark" : "borderLight"} msg-body p-3 p-lg-4`}>
+                
                       <form onSubmit={handleSubmit} className={ theme === "dark" ? "form-dark" : "form-light"}>
+                     
                         <div className="d-flex align-items-center justify-center">
-                          <div className="col-md-2 justify-content-center align-items-center icons">
-                            <div className="d-flex justify-content-center align-items-center">
+                        {recording ? (
+                          <>
+                           <div className="d-flex gap-2 align-items-center">
+                           Recording ... 
+                           <div className="btn d-flex justify-center align-items-center rounded">
+                               {formatTime(timer)}
+                             </div>
+                             <button className="btn btn-primary" aria-label="stop" onClick={handleStop} >
+                             <FaRegStopCircle fontSize={24} />
+                             </button>
+                             <button className="btn btn-danger" onClick={handleCancel}><FaTrash fontSize={24}/></button>
+                           </div>
+                          </>
+                    ) : (
+                      <>
+                          <div className="col-md-2 justify-content-center align-items-center icons">                        
+                            <div className="d-flex justify-content-center align-items-center">        
                               <label htmlFor="files">
                                 <a className="btn rounded-circle text-white">
                                   <BsImage fontSize={28} />
@@ -285,91 +311,58 @@ function Chat() {
                                 {}
                               </label>
                               <div className="dropup">
-                                <a
-                                  className="btn rounded-circle text-white"
-                                  data-bs-toggle="dropdown"
-                                  id="emojiMenu">
-                                  <BsEmojiSmile fontSize={28} />{" "}
-                                </a>
+                                <a className="btn rounded-circle text-white" data-bs-toggle="dropdown" id="emojiMenu"> <BsEmojiSmile fontSize={28} />{" "}</a>
                                 <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu">
                                   {emojii.map((emoji) => {
-                                    return (
-                                      <li
-                                        className="dropdown-item" key={emoji.id}>
-                                        <button
-                                          className="btn"
-                                          type="button"
-                                          onClick={(e) => handleEmojis(e)} value={emoji.text} >
-                                          {emoji.text}
-                                        </button>
-                                      </li>
+                                  return (
+                                  <li className="dropdown-item" key={emoji.id}>
+                                  <button className="btn" type="button" onClick={(e) => handleEmojis(e)} value={emoji.text} > {emoji.text}</button>
+                                    </li>
                                     );
-                                  })}
-                                </ul>
-                              </div>
-                            </div>
+                                    })}
+                                  </ul>
+                                
+                              </div>                                            
+                            </div>                        
                           </div>
                           <div className={`${theme === "dark" ? "background-light text-mute": "background-dark text-muted"} d-flex col-md-9 align-items-center gap-2 py-2 px-4 rounded-lg`}>
-                            {recording ? (
-                              <div className="d-flex gap-2">
-                                <button className="btn btn-danger" aria-label="stop" onClick={handleStop}>
-                                  <FaRegStopCircle fontSize={24} />
-                                </button>
-                                <div className="btn d-flex justify-center align-items-center rounded">
-                                  {formatTime(timer)}
-                                </div>
-                              </div>
-                            ) : (
-                              <></>
-                            )}
-                            {attach ? (
+                              <>
+                              <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg" onChange={(e) => setItem(e.target.value)}/>
+                              {attach || record ? (
                               <p className="attached">Attached</p>
                             ) : (
-                              <div></div>
-                            )}
-                            <input
-                              type="text"
-                              value={item}
-                              className="w-full py-2 rounded-lg "
-                              placeholder="Write a message..."
-                              id="msg"
-                              onChange={(e) => setItem(e.target.value)}
-                            />
+                             <></>
+                            )}  
+                              <button type="button" className="position-relative" aria-label="audio">
+                              <HiOutlineMicrophone onClick={handleAudio} className="text-3xl" id="record"/>
+                              </button>
+                              </>      
+                              {/* {record ? (
+                              <p className="attached">Attached Audio</p>
+                            ) : (
+                             <></>
+                            )}                         */}
+                          
+                                                 
                             <audio src="beep.mp3" ref={audioRef}></audio>
-                            <button
-                              type="button"
-                              className="position-relative"
-                              aria-label="audio"
-                            >
-                              <HiOutlineMicrophone
-                                onClick={handleAudio}
-                                className="text-3xl"
-                                id="record"
-                              />
-                            </button>
-                            <button
-                              type="submit"
-                              className="pr-2.5 "
-                              aria-label="send">                         
-                              <BsSend className="stopped text-2xl" />
-                            </button>
+                            <button type="submit" className="pr-2.5 " aria-label="send"> <BsSend className="stopped text-2xl" /></button>
                           </div>
+                          </>)}
+                    
                         </div>
-                      </form>
+                
+                      </form>                    
                     </div>
                   </>              
                 ) : <>
                     <div className="starting">
-                    <h2 className="text-center text-white"> Select a chat to start conversation</h2>
-                    </div>
-                
+                      <h2 className="text-center text-white"> Select a chat to start conversation</h2>
+                    </div>                
                 </>}
               </div>
             </>
           ) : (
             <>
-           
-            
             </>
           )}
         </div>
