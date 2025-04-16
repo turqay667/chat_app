@@ -37,14 +37,19 @@ const {user}=useContext(AuthContext)
 const [search, setSearch]=useState('')
 
 const {apiUrl}=useContext(ApiContext)
+const chatUsers=users.filter((user:User)=>allMessages.some((message:Message)=>message.sender===user._id && message.receiver===user._id || message.sender===user?._id && message.receiver===user._id))
+
 const handleSearch=(e:React.FormEvent)=>{
   e.preventDefault()
 if(search===''){
 setFilteredUsers(users)
 }
-const filterUsers = users.filter((item:User)=>item?.username?.toLowerCase().includes(search.toLowerCase()))
+
+const filterUsers = chatUsers.filter((item:User)=>item?.username?.toLowerCase().includes(search.toLowerCase()))
 setFilteredUsers(filterUsers)
 }
+
+
 const handleUser=()=>{
 if(window.innerWidth<=768){
 setShowSidebar(false)
@@ -70,22 +75,22 @@ if(chat){
              <div className="sidebar-body">
                <div className="users">    
                 {
-                filteredUsers.map((item)=>{
-                const userMessages=allMessages.filter((message:Message)=> message.sender===item._id && message.receiver===user?._id ||  message.sender===user?._id && message.receiver===item._id )
+                chatUsers.map((item)=>{
+                const userMessages=allMessages.filter((message:Message)=> message.sender===item._id  ||   message.receiver===item._id )
                 const lastMessage=userMessages.slice(-1)[0]
-                const lastMsg= lastMessage?.image ? 'Image' : lastMessage?.audio ? 'Audio' : lastMessage?.message
+                const lastMsg= lastMessage?.image ? 'Image' : lastMessage?.audio ? 'Audio' : lastMessage?.message                              
                 return (        
                 <div className={theme==='dark' ? 'user-profile border-secondary bs-light' : 'user-profile border-red bs-dark'} onClick={()=> setSelectedUser(item)}  key={item._id}>
                   <div className="user position-relative" onClick={handleUser}>
+                  {item.username!==user?.username && ( 
+                    <>
                     <div className="d-flex align-items-center justify-content-between">                 
                       <div className="notifies d-flex pl-3 justify-content-between">                                     
                         <a className="position-relative">
                           <img src={`${apiUrl}/${item.image}`}  className="avatar"  alt="user" width={100} height={100}/>
                         </a>              
-                       <div className="d-flex flex-column justify-center">
-                         { item.username===user?.username  ? 
-                         <h5 className="text-truncate">You</h5>      
-                       : <h5 className="text-truncate">{item.username}</h5>  } 
+                       <div className="d-flex flex-column justify-center">                     
+                        <h5 className="text-truncate">{item.username}</h5>  
                        <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
                         {lastMsg || 'No messages yet'}
                       </div>
@@ -99,7 +104,11 @@ if(chat){
                       {messageCount>0  ? <span className="message-count d-none">{messageCount}</span> : ''}
                 </div>
               </div>
+       
           </div>
+           </>
+                  )
+                }
         </div>
          </div>
 )})
