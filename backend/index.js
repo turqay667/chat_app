@@ -56,7 +56,6 @@ socket.on("logged",(msg)=>{
 socket.on("join", (id, username)=>{
     if(!users.some((user)=>user._id===id)){
         users.push({ id, username, socketId:socket.id })
-        console.log(users)
     }
     io.emit('online', users)
 })

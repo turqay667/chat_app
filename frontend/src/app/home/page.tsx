@@ -62,6 +62,9 @@ function Chat() {
         setOnlineUsers(users);
       });
     }
+    return ()=>{
+      window.removeEventListener('resize', handleSize)
+    }
   }, [user, showSidebar]);
 
   useEffect(() => {
@@ -69,34 +72,31 @@ function Chat() {
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
-        // setSelectedUser(data[0])
         setFilteredUsers(data);
       });
-  }, []);
-
+  }, [apiUrl]);
+  const fetchingAll = async () => {
+    const response = await fetch(`${apiUrl}/api/messages/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    setAllMessages(data);
+  };
+  const fetching = async () => {
+    const response = await fetch(`${apiUrl}/api/messages/${selectedUser?._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    setMessages(data);
+  };
   useEffect(() => {
-    const fetchingAll = async () => {
-      const response = await fetch(`${apiUrl}/api/messages/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setAllMessages(data);
-    };
     fetchingAll();
     if (!selectedUser) return;
-    const fetching = async () => {
-      const response = await fetch(`${apiUrl}/api/messages/${selectedUser?._id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setMessages(data);
-    };
-    fetching();
-
+    fetching()
     socket.on("message", (data) => {
       setMessageCount((prevCount)=>(prevCount+1))
       if (data.sender === selectedUser._id) {
@@ -109,9 +109,16 @@ function Chat() {
         });
       }
     });
+   const interval= setInterval(()=>{
+      fetching()
+    },5000)
+  
     return () => {
       socket.off("message");
+      clearInterval(interval)
     };
+
+  
   }, [selectedUser, token, apiUrl]);
 
   const handleCancel=()=>{
@@ -174,6 +181,7 @@ function Chat() {
     const emoji = e.target as HTMLButtonElement;
     setItem((prev)=>prev+emoji.value);
   };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!item && !image && !record) return;
@@ -201,10 +209,10 @@ function Chat() {
           }
         );
         const data = response.data;
-
         setMessages((prevMessage) => [...prevMessage, data]);
         setAllMessages((prevMessage) => [...prevMessage, data]);
         socket.emit("message", formData);
+        fetching();
       } catch (err) {
         console.log(err);
       }
@@ -225,10 +233,7 @@ function Chat() {
   const formatTime = (time: number) => {
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2,"0")}`;
   };
 
   return (

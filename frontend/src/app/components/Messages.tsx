@@ -58,7 +58,8 @@ setTimeout(()=>{
     {
        <>
       {messages.length>0 ? (
-       messages.map((message:Message) => {
+         [...messages].sort((a:Message,b:Message)=>new Date(a.createdAt).getTime()-new Date(b.createdAt).getTime())
+    .map((message:Message) => {
        
   return (
             <div key={message._id}  className={`message ${message.sender===user?._id  ? "justify-content-end" : "justify-content-start"}`} onClick={()=>setSelectedMessage(message._id)}>                 
