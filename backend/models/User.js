@@ -1,17 +1,18 @@
-const moongose=require('mongoose')
+const mongose=require('mongoose')
 const bcrypt=require('bcryptjs')
-const userSchema=moongose.Schema(
+const userSchema=mongose.Schema(
 
     {
         username:{
             type:String,
             unique:true,
             maxlength:15,
-            required:false,
+            required:true,
         },
         email:{
             type:String,
-            required:false,
+            required:true,
+            unique:true,
         },
         password:{
          type:String,
@@ -38,8 +39,7 @@ const userSchema=moongose.Schema(
         type:String,
         default:'Available',
         required:true
-        },
-    
+        },   
         isBlocked:{
             type:Boolean,
             default:false
@@ -59,5 +59,5 @@ userSchema.pre('save',async function(next){
     this.password = await bcrypt.hash(this.password,salt)
 })
 
-const User=moongose.model("User",userSchema)
+const User=mongose.model("User",userSchema)
 module.exports=User;

@@ -5,7 +5,6 @@ const userRouter=express.Router()
 const asyncHandler=require('express-async-handler')
 const Message = require('../models/Messages')
 const protect=require('../middleware/authMiddleware')
-const mongoose=require('mongoose')
 const multer = require('multer')
 const bcrypt=require('bcryptjs')
 
@@ -100,35 +99,36 @@ if(user && (await bcrypt.compare(password, user?.password || ""))){
 
             
 userRouter.post('/auth',asyncHandler(async (req,res)=>{
-const {username,email,password}=req.body
-const userExist= await User.findOne({username})
+const {username, email, password}=req.body
+const userExist= await User.findOne({
+   $or:[{username},{email}]
+})
 if(userExist){
-    res.status(401).json({error:"User already exists"})
+    return res.status(401).json({error:"User already exists"})
 }
 let passwordRegex= /^(?=.*[!@._#+$^&*]).{8,}$/
 let emailRegex=/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/
+
 if(!emailRegex.test(email)){
-    res.status(401).json({error:"Invalid Email format"})
+    return res.status(401).json({error:"Invalid Email format"})
 }
 if(!passwordRegex.test(password)){
-    res.status(401).json({error:"Password should be at least 8 characters and include one special character"})
+    return res.status(401).json({error:"Password should be at least 8 characters and include one special character"})
 }
-
     const user = await User.create({
         username,
         email,
         password,
     })
+
     if(user){
     res.status(201).json({
         _id:user._id,
         username:user.username,
         email:user.email,
         image:user.image,
-        password:user.password,
         role:user.role,
         token:generateToken(user._id)
-
     })        
 }
 

@@ -44,7 +44,7 @@ const handleSearch=(e:React.FormEvent)=>{
 if(search===''){
 setFilteredUsers(users)
 }
-
+console.log(chatUsers)
 const filterUsers = chatUsers.filter((item:User)=>item?.username?.toLowerCase().includes(search.toLowerCase()))
 setFilteredUsers(filterUsers)
 }
@@ -75,7 +75,7 @@ if(chat){
              <div className="sidebar-body">
                <div className="users">    
                 {
-                chatUsers.map((item)=>{
+                filteredUsers.map((item)=>{
                 const userMessages=allMessages.filter((message:Message)=> message.sender===item._id  ||   message.receiver===item._id )
                 const lastMessage=userMessages.slice(-1)[0]
                 const lastMsg= lastMessage?.image ? 'Image' : lastMessage?.audio ? 'Audio' : lastMessage?.message                              

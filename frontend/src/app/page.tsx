@@ -80,7 +80,8 @@ export default function Home() {
                   </div>
 
                   <label>Email</label>
-                  <div className="mb-3 email-input position-relative">
+                   <div className="mb-3 email-input position-relative">
+         
                     <i className="btn  position-absolute ">
                       <BiEnvelope fontSize={18} />
                     </i>
@@ -92,7 +93,7 @@ export default function Home() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                     />
-                  </div>
+                  </div> 
                   <div>
                     <div className="pass-input d-flex justify-content-between">
                       <label className="">Password</label>

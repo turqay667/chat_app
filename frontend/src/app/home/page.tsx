@@ -118,8 +118,9 @@ function Chat() {
     setRecording(false)
     setRecord('')
   }
-  const formData = new FormData();
+
   const handleAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formData = new FormData();
     const file = e.target.files?.[0];
     setAttach(file);
     if (file) {
@@ -168,9 +169,10 @@ function Chat() {
       mediaStream.current?.getTracks().forEach((track) => track.stop());
     }
   };
+
   const handleEmojis = (e: React.MouseEvent<HTMLButtonElement>) => {
     const emoji = e.target as HTMLButtonElement;
-    setItem(emoji.value);
+    setItem((prev)=>prev+emoji.value);
   };
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -179,6 +181,7 @@ function Chat() {
       if (audioRef.current !== null && muted === false) {
         audioRef.current.play();
       }
+      const formData = new FormData();
       formData.append("message", item);
       formData.append("image", image);
       formData.append("audio", record);
