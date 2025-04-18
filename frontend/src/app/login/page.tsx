@@ -42,6 +42,7 @@ const Login = () => {
       setUser(response.data);
       setToken(response.data.token);
       toast.success("Successfully logged");
+      socket.emit('join',username)
       socket.emit('online', console.log(`${username} online`))
       setTimeout(() => {
         setLogged(true);
@@ -65,21 +66,14 @@ const Login = () => {
                   <div className="card authentication">
                     <div className="title text-center">
                       <h2 className="text-center ">Sign in</h2>
-                      <p className="">Sign in to continue to Chatpro</p>
+                      <p className="">Sign in to continue</p>
                     </div>
                     <label>Username</label>
                     <div className="mb-3 position-relative">
                       <i className="btn  position-absolute ">
                         <BiUser fontSize={18} />
                       </i>
-                      <input
-                        type="text"
-                        placeholder="Enter Username"
-                        className="rounded-lg w-full focus:bg-none"
-                        name="username"
-                        onChange={(e) => setUsername(e.target.value)}
-                        maxLength={20}
-                      />
+                      <input type="text" placeholder="Enter Username" className="rounded-lg w-full focus:bg-none" name="username" onChange={(e) => setUsername(e.target.value)} maxLength={20}/>
                     </div>
                     <div>
                       <div className="pass-input d-flex justify-content-between pt-2">
@@ -89,26 +83,13 @@ const Login = () => {
                         <i className="btn position-absolute  ">
                           <CiLock fontSize={20} />
                         </i>
-                        <input
-                          type={hide ? "password" : "text"}
-                          placeholder="Enter Password"
-                          className="px-3 py-1.5 rounded-lg w-full"
-                          name="password"
-                          onChange={(e) => setPassword(e.target.value)}
-                          minLength={8}
-                        />
+                        <input type={hide ? "password" : "text"} placeholder="Enter Password" className="px-3 py-1.5 rounded-lg w-full"  name="password" onChange={(e) => setPassword(e.target.value)} minLength={8}/>
                         {hide ? (
-                          <i
-                            className="btn hide "
-                            onClick={() => setHide(false)}
-                          >
+                          <i className="btn hide" onClick={() => setHide(false)}>
                             <FaEyeSlash />
                           </i>
                         ) : (
-                          <i
-                            className="btn hide "
-                            onClick={() => setHide(true)}
-                          >
+                          <i className="btn hide" onClick={() => setHide(true)}>
                             <FaEye />
                           </i>
                         )}
@@ -124,8 +105,7 @@ const Login = () => {
                     error ? ( <p className="text-red-500"> Invalid username or password</p>) : <></>
                   }
                   </div>
-                  </div>
-                 
+                  </div>                
                 </form>
               </div>
             </div>

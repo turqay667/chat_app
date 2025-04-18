@@ -12,6 +12,7 @@ import type { User } from "./Chats";
 
 type Props={
   theme:string,
+  typing:boolean,
   selectedUser:User,
   onlineUsers:User[],
   setMessages:React.Dispatch<React.SetStateAction<Message[]>>,
@@ -21,7 +22,7 @@ type Props={
   setMuted:(muted:boolean)=>void,
 }
 
-const Header=({theme,selectedUser, onlineUsers, setMessages, setShowSidebar, setShowChat, muted, setMuted}:Props)=>{
+const Header=({theme,selectedUser, onlineUsers, setMessages, setShowSidebar, setShowChat, muted, setMuted, typing}:Props)=>{
   
 const {apiUrl, }=useContext(ApiContext)
 const {token,user}=useContext(AuthContext)
@@ -65,6 +66,7 @@ const handleBack=()=>{
               <div>
                 {selectedUser?.username===user?.username ?   <h5>You</h5> : <h5>{selectedUser?.username}</h5>}
                 <div className="text-muted" id="typing">
+                  {typing && <span>...Typing</span> }
                   </div>  
               </div>
            </div>

@@ -31,7 +31,7 @@ const Messages = ({ user, theme,  messages, setMessages, setAllMessages}:Message
   const {apiUrl} = useContext(ApiContext)
   const {token}=useContext(AuthContext)
   const [selectedMessage, setSelectedMessage] = useState<number>()
-  const colors = theme ==='dark' ? 'text-white' :'text-dark'
+  const colors = theme ==='dark' ? 'text-white message-text' :'text-dark message-text'
 
 useEffect(()=>{
 setTimeout(()=>{
@@ -79,7 +79,7 @@ setTimeout(()=>{
                 <div className="d-flex gap-4">                      
                   {message.audio && <><audio src={message.audio}  preload="metadata"  controls  id="records"></audio></>             }
                   {message.message && <div className={colors}>{message.message}</div>  }                                                        
-                  {!message.image && <p className='d-flex justify-content-end pt-1'>  {new Date(message.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}</p>    }
+                  {!message.image && <p className='d-flex justify-content-end align-items-end pt-1'>  {new Date(message.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}</p>    }
                 </div>  
                     {/* {
                       message.sender===user?._id ? <span className="text-muted pt-1"><BsCheck fontSize={24}/></span> :  <span className="text-muted"></span> 

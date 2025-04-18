@@ -24,6 +24,7 @@ function Chat() {
   const { theme } = useContext(ThemeContext);
   const [attach, setAttach] = useState<File | undefined>(undefined);
   const [image, setImage] = useState("");
+  const [typing,setTyping]=useState(false)
   const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [item, setItem] = useState("");
@@ -109,12 +110,24 @@ function Chat() {
         });
       }
     });
+    socket.on('typing', ( data)=>{
+      if(data.sender===selectedUser?._id && data.receiver===user?._id){
+        setTyping(true)
+        setTimeout(()=>{
+          setTyping(false)
+        },3000)
+      }
+      })
+
+   
    const interval= setInterval(()=>{
       fetching()
+      
+      
     },5000)
-  
     return () => {
       socket.off("message");
+      socket.off('typing')
       clearInterval(interval)
     };
 
@@ -125,7 +138,6 @@ function Chat() {
     setRecording(false)
     setRecord('')
   }
-
   const handleAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
     const file = e.target.files?.[0];
@@ -185,6 +197,7 @@ function Chat() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!item && !image && !record) return;
+    setTyping(false)
     if (blocked === false) {
       if (audioRef.current !== null && muted === false) {
         audioRef.current.play();
@@ -236,6 +249,12 @@ function Chat() {
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2,"0")}`;
   };
 
+  const handleTyping=(e:React.KeyboardEvent<HTMLInputElement>)=>{
+    socket.emit("typing", {receiver: selectedUser?._id, sender:user?._id})
+    if(e.key==="Enter"){
+      setTyping(false)
+    }
+  }
   return (
     <>
       <div>
@@ -272,6 +291,7 @@ function Chat() {
                       selectedUser={selectedUser}
                       setMessages={setMessages}
                       onlineUsers={onlineUsers}
+                      typing={typing}
                       setShowSidebar={setShowSidebar}
                       setShowChat={setShowChat}
                    
@@ -312,8 +332,7 @@ function Chat() {
                                 </a>
                                 <input type="file" id="files" onChange={handleAttach} accept="image/*"/>
                                 {}
-                              </label>
-                              
+                              </label>                             
                               <div className="dropup">
                                 <a className="btn rounded-circle text-white" data-bs-toggle="dropdown" id="emojiMenu"> <BsEmojiSmile fontSize={28} />{" "}</a>
                                 <ul className="dropdown-menu emoji-menu" aria-labelledby="emojiMenu">
@@ -324,8 +343,7 @@ function Chat() {
                                     </li>
                                     );
                                     })}
-                                  </ul>
-                                
+                                  </ul>                                
                               </div>                                            
                             </div>                        
                           </div>
@@ -341,8 +359,7 @@ function Chat() {
                             ) : (
                              <></>
                             )} 
-                              <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg" onChange={(e) => setItem(e.target.value)}/>
-                        
+                              <input type="text" value={item} className="w-full py-2 rounded-lg " placeholder="Write a message..." id="msg" onChange={(e) => setItem(e.target.value)} onKeyDown={handleTyping}/>                        
                               <button type="button" className="position-relative" aria-label="audio">
                               <HiOutlineMicrophone onClick={handleAudio} className="text-3xl" id="record"/>
                               </button>
@@ -350,10 +367,8 @@ function Chat() {
                             <audio src="beep.mp3" ref={audioRef}></audio>
                             <button type="submit" className="pr-2.5 " aria-label="send"> <BsSend className="stopped text-2xl" /></button>
                           </div>
-                          </>)}
-                    
-                        </div>
-                
+                          </>)}                   
+                        </div>                
                       </form>                    
                     </div>
                   </>              

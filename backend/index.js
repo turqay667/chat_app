@@ -49,10 +49,12 @@ socket.on('connect', (username)=>{
 socket.on("logged",(msg)=>{
     console.log(msg+ 'is online')
 })
-// socket.on('typing', (data)=>{
-// console.log("user is typing " + data)
-// })
 
+socket.on('typing', (data)=>{
+socket.broadcast.emit('typing', data)
+//     const receiverSocket=users[data.receiver]
+//    io.to(receiverSocket).emit('typing', data)
+})
 socket.on("join", (id, username)=>{
     if(!users.some((user)=>user._id===id)){
         users.push({ id, username, socketId:socket.id })

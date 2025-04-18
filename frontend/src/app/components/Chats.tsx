@@ -91,7 +91,7 @@ if(chat){
                         </a>              
                        <div className="d-flex flex-column justify-center">                     
                         <h5 className="text-truncate">{item.username}</h5>  
-                       <div className={theme==='dark' ? 'text-mute' :'text-dark'}>
+                       <div className='overflow-hidden text-ellipsis last-message'>
                         {lastMsg || 'No messages yet'}
                       </div>
                     </div>      

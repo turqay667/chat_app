@@ -117,10 +117,6 @@ if(user){
                 <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">Name</label> 
                   <input className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2 mt-2`}  ref={userRef}  value={username}    onChange={(e)=>setUsername(e.target.value)}  id="username" onKeyUp={()=>handleEdit()}/>         
                 </div>
-                {/* <label className={theme==='light' ? 'text-muted' : 'text-mute'} htmlFor="username">New password</label>  
-                <div>
-                  <input className={`${theme==='dark' ? 'background-light' : 'background-dark'} w-full  px-4 py-2 mt-2`}  ref={userRef}  value={newPassword}    onChange={(e)=>setUsername(e.target.value)}  id="username" onKeyUp={()=>handleEdit()}/>         
-                </div> */}
                 {
                   edit ? 
                    <></>

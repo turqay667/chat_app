@@ -506,6 +506,15 @@ figure {
   padding: 2px;
   cursor: pointer;
 }
+.message-text{
+  white-space: wrap;
+  word-break: break-all;
+  max-width: 200px;
+}
+
+.last-message{
+  width: 100px;
+}
 .message .dropdown { 
   opacity: 0;
 }
