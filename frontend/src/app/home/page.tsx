@@ -51,6 +51,7 @@ function Chat() {
     const handleSize = () => {
       if (showSidebar && window.innerWidth <= 768) {
         setShowChat(false);
+        console.log('tree')
       } else {
         setShowChat(true);
       }
@@ -121,9 +122,7 @@ function Chat() {
 
    
    const interval= setInterval(()=>{
-      fetching()
-      
-      
+      fetching()     
     },5000)
     return () => {
       socket.off("message");
@@ -281,7 +280,7 @@ function Chat() {
           )}
           {showChat === true ? (
             <>
-              <div className={ `${theme === "dark" ? "chatDark" : "chatLight"} chat-body col-12}` } id="chatbody">
+              <div className={ `${theme === "dark" ? "chatDark" : "chatLight"} chat-body`} id="chatbody">
                 {selectedUser ? (
                   <>
                     <Header

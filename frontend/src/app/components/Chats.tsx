@@ -92,7 +92,7 @@ if(chat){
                        <div className="d-flex flex-column justify-center">                     
                         <h5 className="text-truncate">{item.username}</h5>  
                        <div className='overflow-hidden text-ellipsis last-message'>
-                        {lastMsg || 'No messages yet'}
+                        {lastMsg || 'Loading...'}
                       </div>
                     </div>      
                   </div>             
